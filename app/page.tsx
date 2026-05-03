@@ -239,9 +239,11 @@ export default function Home() {
       <footer style={{ padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 13, background: '#14202b', color: 'rgba(232,241,245,0.6)' }}>
         <div>© 2026 Niela · Meditación personalizada</div>
         <div style={{ display: 'flex', gap: 24 }}>
-          <a style={{ color: 'rgba(232,241,245,0.6)', cursor: 'pointer' }}>Instagram</a>
-          <a style={{ color: 'rgba(232,241,245,0.6)', cursor: 'pointer' }}>TikTok</a>
-          <a style={{ color: 'rgba(232,241,245,0.6)', cursor: 'pointer' }}>Privacidad</a>
+          <a href="https://instagram.com/niela.app" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(232,241,245,0.6)', textDecoration: 'none' }}>Instagram</a>
+          <a href="https://tiktok.com/@niela.app" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(232,241,245,0.6)', textDecoration: 'none' }}>TikTok</a>
+          <a href="/legal/terminos" style={{ color: 'rgba(232,241,245,0.6)', textDecoration: 'none' }}>Términos</a>
+          <a href="/legal/privacidad" style={{ color: 'rgba(232,241,245,0.6)', textDecoration: 'none' }}>Privacidad</a>
+          <a href="/legal/cookies" style={{ color: 'rgba(232,241,245,0.6)', textDecoration: 'none' }}>Cookies</a>
         </div>
       </footer>
 
