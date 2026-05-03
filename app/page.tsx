@@ -57,7 +57,7 @@ export default function Home() {
       </nav>
 
       {/* Hero */}
-      <section style={{ padding: '40px 48px 80px', position: 'relative', zIndex: 5, display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 32, alignItems: 'center', minHeight: 580 }}>
+      <section style={{ padding: '40px 48px 80px', position: 'relative', zIndex: 5, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, alignItems: 'center', minHeight: 580 }}>
         {/* Columna izquierda */}
         <div style={{ position: 'relative', zIndex: 5 }}>
           <div style={{ display: 'inline-block', padding: '6px 14px', background: 'rgba(166,200,220,0.35)', borderRadius: 999, fontSize: 12, color: '#2c4a5e', marginBottom: 24, fontWeight: 500, backdropFilter: 'blur(8px)' }}>
@@ -105,8 +105,8 @@ export default function Home() {
           <div className="hero-sphere" />
 
           {/* iPhone mockup */}
-          <div style={{ position: 'relative', zIndex: 5, width: 230, height: 470, background: '#1f2d3a', borderRadius: 38, padding: 8, boxShadow: '0 30px 60px rgba(31,45,58,0.25), 0 10px 30px rgba(31,45,58,0.15)' }}>
-            <div style={{ background: 'linear-gradient(180deg, #e8f1f5 0%, #f0ebe0 100%)', borderRadius: 30, height: '100%', padding: '18px 16px', display: 'flex', flexDirection: 'column', gap: 12, overflow: 'hidden', position: 'relative' }}>
+          <div style={{ position: 'relative', zIndex: 5, width: 290, height: 580, background: '#1f2d3a', borderRadius: 44, padding: 10, boxShadow: '0 30px 60px rgba(31,45,58,0.25), 0 10px 30px rgba(31,45,58,0.15)' }}>
+            <div style={{ background: 'linear-gradient(180deg, #e8f1f5 0%, #f0ebe0 100%)', borderRadius: 34, height: '100%', padding: '18px 16px', display: 'flex', flexDirection: 'column', gap: 12, overflow: 'hidden', position: 'relative' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ fontSize: 9, color: '#2c3e50', fontWeight: 500 }}>9:41</span>
                 <div style={{ width: 14, height: 7, border: '1px solid #2c3e50', borderRadius: 2, position: 'relative' }}>
@@ -263,19 +263,19 @@ export default function Home() {
           100% { transform: scale(4); opacity: 0; }
         }
         .ring-big {
-          position: absolute; top: 50%; left: 50%; width: 460px; height: 460px;
+          position: absolute; top: 50%; left: 50%; width: 540px; height: 540px;
           border: 1px solid rgba(166,200,220,0.4); border-radius: 50%;
           animation: rotate 80s linear infinite; pointer-events: none;
           transform: translate(-50%, -50%);
         }
         .ring-small {
-          position: absolute; top: 50%; left: 50%; width: 360px; height: 360px;
+          position: absolute; top: 50%; left: 50%; width: 420px; height: 420px;
           border: 1px solid rgba(180,210,180,0.4); border-radius: 50%;
           animation: rotate 60s linear infinite reverse; pointer-events: none;
           transform: translate(-50%, -50%);
         }
         .hero-sphere {
-          position: absolute; top: 50%; left: 50%; width: 280px; height: 280px;
+          position: absolute; top: 50%; left: 50%; width: 340px; height: 340px;
           border-radius: 50%;
           background: radial-gradient(circle at 30% 30%, rgba(212,184,150,0.5) 0%, rgba(166,200,220,0.55) 50%, rgba(180,210,180,0.45) 100%);
           animation: heroFloat 10s ease-in-out infinite;
