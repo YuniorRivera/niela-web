@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { joinWaitlist } from "@/lib/waitlist";
 
-export default function WaitlistForm() {
+export default function WaitlistForm({ dark = false }: { dark?: boolean }) {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ text: string; type: "success" | "warn" | "error" } | null>(null);
@@ -31,9 +31,9 @@ export default function WaitlistForm() {
   }
 
   const colorMap = {
-    success: "text-[var(--accent-green)] font-medium",
-    warn: "text-[var(--accent-amber)] font-medium",
-    error: "text-red-500 font-medium",
+    success: dark ? "text-[var(--accent-green)] font-medium" : "text-[var(--accent-green)] font-medium",
+    warn: dark ? "text-[var(--accent-amber)] font-medium" : "text-[var(--accent-amber)] font-medium",
+    error: "text-red-400 font-medium",
   };
 
   return (
@@ -45,12 +45,20 @@ export default function WaitlistForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="tu@email.com"
-          className="flex-1 px-4 py-3 rounded-xl border border-[var(--accent-blue)] bg-white/70 text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-blue)] text-sm"
+          className={`flex-1 px-4 py-3 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent-blue)] ${
+            dark
+              ? "border-white/20 bg-white/10 text-white placeholder-white/40"
+              : "border-[var(--accent-blue)] bg-white/70 text-[var(--text-primary)] placeholder-[var(--text-secondary)]"
+          }`}
         />
         <button
           type="submit"
           disabled={loading}
-          className="px-5 py-3 rounded-xl bg-[var(--primary)] text-white text-sm font-medium hover:bg-[var(--primary)]/90 transition disabled:opacity-60"
+          className={`px-5 py-3 rounded-xl text-sm font-medium transition disabled:opacity-60 ${
+            dark
+              ? "bg-[var(--accent-blue)] text-[var(--primary)] hover:bg-[var(--accent-blue)]/90"
+              : "bg-[var(--primary)] text-white hover:bg-[var(--primary)]/90"
+          }`}
         >
           {loading ? "..." : "Unirme"}
         </button>
