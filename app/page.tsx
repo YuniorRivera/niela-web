@@ -57,7 +57,7 @@ export default function Home() {
       </nav>
 
       {/* Hero */}
-      <section style={{ padding: '40px 48px 80px', position: 'relative', zIndex: 5, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, alignItems: 'center', minHeight: 580, justifyContent: 'center', maxWidth: 1200, margin: '0 auto' }}>
+      <section className="hero-grid" style={{ padding: '40px 48px 80px', position: 'relative', zIndex: 5, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, alignItems: 'center', minHeight: 580, justifyContent: 'center', maxWidth: 1200, margin: '0 auto' }}>
         {/* Columna izquierda */}
         <div style={{ position: 'relative', zIndex: 5, alignSelf: 'center' }}>
           <div style={{ display: 'inline-block', padding: '6px 14px', background: 'rgba(166,200,220,0.35)', borderRadius: 999, fontSize: 12, color: '#2c4a5e', marginBottom: 24, fontWeight: 500, backdropFilter: 'blur(8px)' }}>
@@ -105,7 +105,7 @@ export default function Home() {
           <div className="hero-sphere" />
 
           {/* iPhone mockup */}
-          <div style={{ position: 'relative', zIndex: 5, width: 290, height: 580, background: '#1f2d3a', borderRadius: 44, padding: 10, boxShadow: '0 30px 60px rgba(31,45,58,0.25), 0 10px 30px rgba(31,45,58,0.15)' }}>
+          <div style={{ position: 'relative', zIndex: 5, width: 290, height: 580, background: '#1f2d3a', borderRadius: 44, padding: 10, boxShadow: '0 30px 60px rgba(31,45,58,0.25), 0 10px 30px rgba(31,45,58,0.15)', margin: '0 auto' }}>
             <div style={{ background: 'linear-gradient(180deg, #e8f1f5 0%, #f0ebe0 100%)', borderRadius: 34, height: '100%', padding: '18px 16px', display: 'flex', flexDirection: 'column', gap: 12, overflow: 'hidden', position: 'relative' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ fontSize: 9, color: '#2c3e50', fontWeight: 500 }}>9:41</span>
@@ -183,7 +183,7 @@ export default function Home() {
           <p style={{ fontSize: 13, color: '#4a6b80', textTransform: 'uppercase', letterSpacing: '2px', margin: '0 0 12px' }}>Cómo funciona</p>
           <h2 style={{ fontSize: 36, fontWeight: 500, color: '#1f2d3a', margin: 0, letterSpacing: '-0.5px' }}>Tres pasos hacia tu calma</h2>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, maxWidth: 920, margin: '0 auto' }}>
+        <div className="how-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, maxWidth: 920, margin: '0 auto' }}>
           {[
             { num: '01', bg: '#a6c8dc', text: '#1f3a4d', title: 'Cuéntame qué sientes', desc: 'Ansiedad, insomnio, duelo, gratitud. Lo que necesites trabajar hoy.', ripple: 'ripple-blue' },
             { num: '02', bg: '#b8c9a8', text: '#2d3d24', title: 'Elige tu tradición', desc: 'Zen, andina, sufí, cristiana, tibetana, islámica o laica. Mezcla hasta tres.', ripple: 'ripple-green' },
@@ -300,8 +300,11 @@ export default function Home() {
         .ripple-green { background: rgba(184,201,168,0.6); animation: ripple 3s ease-out infinite; }
         .ripple-amber { background: rgba(212,184,150,0.6); animation: ripple 3s ease-out infinite; }
         @media (max-width: 768px) {
-          section[style*="grid-template-columns: 1.1fr 1fr"] { grid-template-columns: 1fr !important; }
-          h1 { font-size: 38px !important; }
+          .hero-grid { grid-template-columns: 1fr !important; padding: 24px 20px 48px !important; gap: 40px !important; }
+          .hero-grid h1 { font-size: 36px !important; }
+          .how-grid { grid-template-columns: 1fr !important; }
+          nav { padding: 16px 20px !important; }
+          nav > div:last-child a { display: none !important; }
         }
       `}</style>
     </main>
