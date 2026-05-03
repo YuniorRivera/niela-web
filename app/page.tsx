@@ -57,9 +57,9 @@ export default function Home() {
       </nav>
 
       {/* Hero */}
-      <section style={{ padding: '40px 48px 80px', position: 'relative', zIndex: 5, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, alignItems: 'center', minHeight: 580 }}>
+      <section style={{ padding: '40px 48px 80px', position: 'relative', zIndex: 5, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, alignItems: 'center', minHeight: 580, justifyContent: 'center', maxWidth: 1200, margin: '0 auto' }}>
         {/* Columna izquierda */}
-        <div style={{ position: 'relative', zIndex: 5 }}>
+        <div style={{ position: 'relative', zIndex: 5, alignSelf: 'center' }}>
           <div style={{ display: 'inline-block', padding: '6px 14px', background: 'rgba(166,200,220,0.35)', borderRadius: 999, fontSize: 12, color: '#2c4a5e', marginBottom: 24, fontWeight: 500, backdropFilter: 'blur(8px)' }}>
             ✦ {count} personas en lista de espera
           </div>
