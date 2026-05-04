@@ -14,7 +14,7 @@ export default function LegalLayout({ children }: { children: React.ReactNode })
           <a href="/legal/cookies" style={{ color: '#5a6f7d', textDecoration: 'none' }}>Cookies</a>
         </div>
       </nav>
-      <main style={{ maxWidth: 780, margin: '0 auto', padding: '56px 40px 80px' }}>
+      <main style={{ maxWidth: 720, margin: '0 auto', padding: '80px 24px 80px' }}>
         {children}
       </main>
       <footer style={{ padding: '24px 40px', borderTop: '1px solid rgba(44,62,80,0.1)', textAlign: 'center', fontSize: 13, color: '#5a6f7d' }}>

@@ -6,6 +6,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://medita-app-productio
 
 export default function Home() {
   const [email, setEmail] = useState('')
+  const [accepted, setAccepted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [count, setCount] = useState<number>(327)
@@ -72,12 +73,21 @@ export default function Home() {
           <p style={{ fontSize: 15, lineHeight: 1.6, color: '#5a6f7d', margin: '0 0 32px' }}>
             Adaptada a tu tradición espiritual: zen, andina, sufí, tibetana, cristiana, islámica o laica.
           </p>
-          <form onSubmit={submit} style={{ display: 'flex', gap: 10, alignItems: 'center', maxWidth: 440, marginBottom: 12 }}>
+          <form onSubmit={submit} style={{ display: 'flex', gap: 10, alignItems: 'center', maxWidth: 440, marginBottom: 10 }}>
             <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="tu@email.com" style={{ flex: 1, padding: '13px 18px', borderRadius: 999, border: '1px solid rgba(44,62,80,0.2)', background: 'rgba(255,255,255,0.7)', fontSize: 14, color: '#2c3e50', backdropFilter: 'blur(8px)', outline: 'none' }} />
-            <button type="submit" disabled={submitting} style={{ background: '#2c3e50', color: '#f0ebe0', border: 'none', padding: '13px 24px', borderRadius: 999, fontSize: 14, fontWeight: 500, cursor: 'pointer', whiteSpace: 'nowrap', opacity: submitting ? 0.6 : 1 }}>{submitting ? '...' : 'Avísame →'}</button>
+            <button type="submit" disabled={submitting || !accepted} style={{ background: '#2c3e50', color: '#f0ebe0', border: 'none', padding: '13px 24px', borderRadius: 999, fontSize: 14, fontWeight: 500, cursor: submitting || !accepted ? 'not-allowed' : 'pointer', whiteSpace: 'nowrap', opacity: submitting || !accepted ? 0.45 : 1 }}>{submitting ? '...' : 'Avísame →'}</button>
           </form>
-          {status === 'success' && <p style={{ fontSize: 12, color: '#3d5538', margin: 0 }}>¡Listo! Te avisamos cuando lancemos.</p>}
-          {status === 'error' && <p style={{ fontSize: 12, color: '#a44', margin: 0 }}>No pudimos conectar. Intenta de nuevo.</p>}
+          <label style={{ display: 'flex', alignItems: 'flex-start', gap: 8, maxWidth: 440, marginBottom: 10, cursor: 'pointer' }}>
+            <input type="checkbox" checked={accepted} onChange={e => setAccepted(e.target.checked)} style={{ marginTop: 2, accentColor: '#2c3e50', flexShrink: 0 }} />
+            <span style={{ fontSize: 11, color: '#5a6f7d', lineHeight: 1.5 }}>
+              Al unirme acepto los{' '}
+              <a href="/legal/terminos" style={{ color: '#4a6b80' }}>Términos</a>
+              {' '}y la{' '}
+              <a href="/legal/privacidad" style={{ color: '#4a6b80' }}>Política de Privacidad</a>
+            </span>
+          </label>
+          {status === 'success' && <p style={{ fontSize: 12, color: '#3d5538', margin: '0 0 16px' }}>¡Listo! Te avisamos cuando lancemos.</p>}
+          {status === 'error' && <p style={{ fontSize: 12, color: '#a44', margin: '0 0 16px' }}>No pudimos conectar. Intenta de nuevo.</p>}
           {status === 'idle' && <p style={{ fontSize: 12, color: '#6b7c8a', margin: '0 0 16px' }}>Sin spam. Aviso una sola vez al lanzar.</p>}
 
           <a href="/demo" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '10px 20px', borderRadius: 999, border: '1px solid rgba(44,62,80,0.25)', background: 'rgba(255,255,255,0.5)', color: '#2c3e50', fontSize: 13, fontWeight: 500, textDecoration: 'none', backdropFilter: 'blur(8px)', marginBottom: 20 }}>
@@ -233,10 +243,19 @@ export default function Home() {
       <section style={{ padding: '100px 48px', background: 'linear-gradient(135deg, #1f2d3a 0%, #2c4a5e 100%)', position: 'relative', zIndex: 5, textAlign: 'center' }}>
         <h2 style={{ fontSize: 40, fontWeight: 500, color: '#e8f1f5', margin: '0 0 16px', letterSpacing: '-0.5px' }}>Pronto en tu bolsillo</h2>
         <p style={{ fontSize: 16, color: 'rgba(232,241,245,0.7)', margin: '0 auto 36px', maxWidth: 480 }}>Únete a la lista de espera y recibe acceso anticipado cuando lancemos en App Store y Google Play.</p>
-        <form onSubmit={submit} style={{ display: 'flex', gap: 12, justifyContent: 'center', maxWidth: 480, margin: '0 auto' }}>
+        <form onSubmit={submit} style={{ display: 'flex', gap: 12, justifyContent: 'center', maxWidth: 480, margin: '0 auto 12px' }}>
           <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="tu@email.com" style={{ flex: 1, padding: '14px 20px', borderRadius: 999, border: '1px solid rgba(232,241,245,0.2)', background: 'rgba(232,241,245,0.1)', fontSize: 14, color: '#e8f1f5', outline: 'none' }} />
-          <button type="submit" disabled={submitting} style={{ background: '#e8f1f5', color: '#1f2d3a', border: 'none', padding: '14px 28px', borderRadius: 999, fontSize: 14, fontWeight: 500, cursor: 'pointer', opacity: submitting ? 0.6 : 1 }}>{submitting ? '...' : 'Únete ahora'}</button>
+          <button type="submit" disabled={submitting || !accepted} style={{ background: '#e8f1f5', color: '#1f2d3a', border: 'none', padding: '14px 28px', borderRadius: 999, fontSize: 14, fontWeight: 500, cursor: submitting || !accepted ? 'not-allowed' : 'pointer', opacity: submitting || !accepted ? 0.45 : 1 }}>{submitting ? '...' : 'Únete ahora'}</button>
         </form>
+        <label style={{ display: 'inline-flex', alignItems: 'flex-start', gap: 8, maxWidth: 480, cursor: 'pointer' }}>
+          <input type="checkbox" checked={accepted} onChange={e => setAccepted(e.target.checked)} style={{ marginTop: 2, accentColor: '#a6c8dc', flexShrink: 0 }} />
+          <span style={{ fontSize: 11, color: 'rgba(232,241,245,0.55)', lineHeight: 1.5 }}>
+            Al unirme acepto los{' '}
+            <a href="/legal/terminos" style={{ color: '#a6c8dc' }}>Términos</a>
+            {' '}y la{' '}
+            <a href="/legal/privacidad" style={{ color: '#a6c8dc' }}>Política de Privacidad</a>
+          </span>
+        </label>
       </section>
 
       {/* Footer */}
