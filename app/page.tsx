@@ -78,7 +78,11 @@ export default function Home() {
           </form>
           {status === 'success' && <p style={{ fontSize: 12, color: '#3d5538', margin: 0 }}>¡Listo! Te avisamos cuando lancemos.</p>}
           {status === 'error' && <p style={{ fontSize: 12, color: '#a44', margin: 0 }}>No pudimos conectar. Intenta de nuevo.</p>}
-          {status === 'idle' && <p style={{ fontSize: 12, color: '#6b7c8a', margin: '0 0 24px' }}>Sin spam. Aviso una sola vez al lanzar.</p>}
+          {status === 'idle' && <p style={{ fontSize: 12, color: '#6b7c8a', margin: '0 0 16px' }}>Sin spam. Aviso una sola vez al lanzar.</p>}
+
+          <a href="/demo" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '10px 20px', borderRadius: 999, border: '1px solid rgba(44,62,80,0.25)', background: 'rgba(255,255,255,0.5)', color: '#2c3e50', fontSize: 13, fontWeight: 500, textDecoration: 'none', backdropFilter: 'blur(8px)', marginBottom: 20 }}>
+            ✦ Probar gratis sin registro
+          </a>
 
           <div style={{ display: 'flex', gap: 18, alignItems: 'center', paddingTop: 18, borderTop: '1px solid rgba(44,62,80,0.1)', flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
