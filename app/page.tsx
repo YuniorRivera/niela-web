@@ -50,9 +50,9 @@ export default function Home() {
           <span style={{ fontSize: 18, fontWeight: 500, color: '#2c3e50', letterSpacing: '0.5px' }}>niela</span>
         </div>
         <div style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
-          <a style={{ fontSize: 14, color: '#5a6f7d', cursor: 'pointer' }}>Cómo funciona</a>
-          <a style={{ fontSize: 14, color: '#5a6f7d', cursor: 'pointer' }}>Tradiciones</a>
-          <a style={{ fontSize: 14, color: '#5a6f7d', cursor: 'pointer' }}>Precio</a>
+          <a href="#como-funciona" style={{ fontSize: 14, color: '#5a6f7d', cursor: 'pointer', textDecoration: 'none' }}>Cómo funciona</a>
+          <a href="#tradiciones" style={{ fontSize: 14, color: '#5a6f7d', cursor: 'pointer', textDecoration: 'none' }}>Tradiciones</a>
+          <a href="#precio" style={{ fontSize: 14, color: '#5a6f7d', cursor: 'pointer', textDecoration: 'none' }}>Precio</a>
           <button style={{ background: '#2c3e50', color: '#f0ebe0', border: 'none', padding: '10px 20px', borderRadius: 999, fontSize: 13, fontWeight: 500, cursor: 'pointer' }}>Pronto disponible</button>
         </div>
       </nav>
@@ -192,7 +192,7 @@ export default function Home() {
       </section>
 
       {/* Cómo funciona */}
-      <section style={{ padding: '80px 48px', background: 'rgba(255,255,255,0.3)', position: 'relative', zIndex: 5 }}>
+      <section id="como-funciona" style={{ padding: '80px 48px', background: 'rgba(255,255,255,0.3)', position: 'relative', zIndex: 5 }}>
         <div style={{ textAlign: 'center', marginBottom: 56 }}>
           <p style={{ fontSize: 13, color: '#4a6b80', textTransform: 'uppercase', letterSpacing: '2px', margin: '0 0 12px' }}>Cómo funciona</p>
           <h2 style={{ fontSize: 36, fontWeight: 500, color: '#1f2d3a', margin: 0, letterSpacing: '-0.5px' }}>Tres pasos hacia tu calma</h2>
@@ -218,7 +218,7 @@ export default function Home() {
       </section>
 
       {/* Tradiciones */}
-      <section style={{ padding: '80px 48px', position: 'relative', zIndex: 5 }}>
+      <section id="tradiciones" style={{ padding: '80px 48px', position: 'relative', zIndex: 5 }}>
         <div style={{ textAlign: 'center', marginBottom: 48 }}>
           <p style={{ fontSize: 13, color: '#4a6b80', textTransform: 'uppercase', letterSpacing: '2px', margin: '0 0 12px' }}>Tradiciones</p>
           <h2 style={{ fontSize: 36, fontWeight: 500, color: '#1f2d3a', margin: '0 0 12px', letterSpacing: '-0.5px' }}>Siete caminos, una práctica</h2>
@@ -240,7 +240,7 @@ export default function Home() {
       </section>
 
       {/* CTA final */}
-      <section style={{ padding: '100px 48px', background: 'linear-gradient(135deg, #1f2d3a 0%, #2c4a5e 100%)', position: 'relative', zIndex: 5, textAlign: 'center' }}>
+      <section id="precio" style={{ padding: '100px 48px', background: 'linear-gradient(135deg, #1f2d3a 0%, #2c4a5e 100%)', position: 'relative', zIndex: 5, textAlign: 'center' }}>
         <h2 style={{ fontSize: 40, fontWeight: 500, color: '#e8f1f5', margin: '0 0 16px', letterSpacing: '-0.5px' }}>Pronto en tu bolsillo</h2>
         <p style={{ fontSize: 16, color: 'rgba(232,241,245,0.7)', margin: '0 auto 36px', maxWidth: 480 }}>Únete a la lista de espera y recibe acceso anticipado cuando lancemos en App Store y Google Play.</p>
         <form onSubmit={submit} style={{ display: 'flex', gap: 12, justifyContent: 'center', maxWidth: 480, margin: '0 auto 12px' }}>
