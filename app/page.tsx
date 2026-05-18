@@ -124,7 +124,6 @@ export default function Home() {
   const [sec2Ref, sec2In] = useInView(0.15)
   const [sec3Ref, sec3In] = useInView(0.1)
   const [sec4Ref, sec4In] = useInView(0.1)
-  const [sec5Ref, sec5In] = useInView(0.1)
   const [sec6Ref, sec6In] = useInView(0.1)
   const [sec7Ref, sec7In] = useInView(0.1)
   const [sec8Ref, sec8In] = useInView(0.1)
@@ -343,38 +342,6 @@ export default function Home() {
                 <p style={{ fontSize: 14, lineHeight: 1.65, color: 'rgba(232,241,245,0.6)', margin: 0 }}>{feat.desc}</p>
               </div>
               <PhoneMockup label={feat.label} />
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ══ SECCIÓN 5: TESTIMONIOS ══ */}
-      <section
-        ref={sec5Ref as React.RefObject<HTMLElement>}
-        style={{ padding: '100px 64px', background: 'linear-gradient(180deg, #1a2635 0%, #1f2d3a 100%)' }}
-      >
-        <div style={{ textAlign: 'center', marginBottom: 64 }}>
-          <p style={{ fontSize: 12, color: '#a6c8dc', textTransform: 'uppercase', letterSpacing: '3px', margin: '0 0 16px', fontWeight: 600 }}>Testimonios</p>
-          <h2 className={`fade-up${sec5In ? ' in-view' : ''}`} style={{ fontSize: 44, fontWeight: 500, color: '#e8f1f5', margin: 0, letterSpacing: '-1px' }}>Lo que dicen nuestros primeros usuarios</h2>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 20, maxWidth: 1040, margin: '0 auto', overflowX: 'auto' }}>
-          {[
-            { emoji: '🧘‍♀️', stars: 5, text: 'Niela me permite meditar con mi tradición zen sin sentirme fuera de lugar. Es la primera app que realmente me entiende.', name: 'Laura M.', meta: '34 · Madrid · Zen' },
-            { emoji: '🙏', stars: 5, text: 'Tengo raíces en la tradición cristiana contemplativa y nunca encontré una app que lo respetara. Niela lo hace.', name: 'Diego R.', meta: '41 · Buenos Aires · Cristiana' },
-            { emoji: '🪷', stars: 5, text: 'La IA genera sesiones que suenan como si un maestro budista me hablara directamente. Increíble.', name: 'Ana K.', meta: '28 · Ciudad de México · Budista' },
-          ].map((t, i) => (
-            <div
-              key={t.name}
-              className={`fade-up stagger-${i + 1 as 1|2|3}${sec5In ? ' in-view' : ''}`}
-              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(166,200,220,0.1)', borderRadius: 24, padding: '32px 28px', display: 'flex', flexDirection: 'column', gap: 20 }}
-            >
-              <div style={{ fontSize: 36 }}>{t.emoji}</div>
-              <div style={{ color: '#d4b896', fontSize: 16, letterSpacing: 2 }}>{'★'.repeat(t.stars)}</div>
-              <p style={{ fontSize: 15, lineHeight: 1.65, color: 'rgba(232,241,245,0.8)', margin: 0, fontStyle: 'italic' }}>&quot;{t.text}&quot;</p>
-              <div>
-                <p style={{ fontSize: 14, fontWeight: 600, color: '#e8f1f5', margin: '0 0 2px' }}>{t.name}</p>
-                <p style={{ fontSize: 12, color: 'rgba(166,200,220,0.6)', margin: 0 }}>{t.meta}</p>
-              </div>
             </div>
           ))}
         </div>
