@@ -374,21 +374,24 @@ export default function Home() {
               background: ci === 1 ? 'rgba(166,200,220,0.04)' : 'transparent',
               borderBottom: last ? 'none' : '1px solid rgba(166,200,220,0.06)',
             });
-            const rows: { label: string; niela: string; calm: string; headspace: React.ReactNode; price?: boolean }[] = [
+            const partial = (
+              <span style={{ fontSize: 13, color: 'rgba(232,241,245,0.4)', fontWeight: 400 }}>Parcial</span>
+            );
+            const rows: { label: string; niela: React.ReactNode; calm: React.ReactNode; headspace: React.ReactNode }[] = [
               { label: 'Personalización por tradición', niela: '✓', calm: '✗', headspace: '✗' },
               { label: 'Sesiones generadas por IA',     niela: '✓', calm: '✗', headspace: (
                 <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
                   <span>✓</span>
-                  <span style={{ fontSize: 10, color: 'rgba(232,241,245,0.3)', fontWeight: 400 }}>(Ebb, solo EN)</span>
+                  <span style={{ fontSize: 10, color: 'rgba(232,241,245,0.3)', fontWeight: 400 }}>Ebb · solo EN</span>
                 </span>
               )},
               { label: 'Multi-tradición',               niela: '✓', calm: '✗', headspace: '✗' },
+              { label: 'Contenido nativo en español',   niela: '✓', calm: partial, headspace: partial },
               { label: 'Sin plantillas genéricas',      niela: '✓', calm: '✗', headspace: '✗' },
-              { label: 'Plan anual',                    niela: '€49', calm: '$79.99', headspace: '$69.99', price: true },
             ];
             return rows.map((row, ri) => (
               <div key={ri} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr' }}>
-                <div style={{ ...cellStyle(0, ri === rows.length - 1), ...(row.price ? { fontWeight: 600 } : {}) }}>{row.label}</div>
+                <div style={cellStyle(0, ri === rows.length - 1)}>{row.label}</div>
                 <div style={cellStyle(1, ri === rows.length - 1)}>{row.niela}</div>
                 <div style={cellStyle(2, ri === rows.length - 1)}>{row.calm}</div>
                 <div style={cellStyle(3, ri === rows.length - 1)}>{row.headspace}</div>
@@ -397,7 +400,7 @@ export default function Home() {
           })()}
         </div>
         <p style={{ textAlign: 'center', fontSize: 11, color: 'rgba(232,241,245,0.25)', marginTop: 20, fontStyle: 'italic' }}>
-          Precios oficiales de Calm y Headspace al 18 de mayo de 2026. Headspace Ebb disponible solo en inglés según anuncio oficial de Headspace Health (octubre 2024).
+          Comparación basada en información pública al 18 de mayo de 2026. Headspace Ebb (AI companion) disponible solo en inglés según anuncio oficial de Headspace Health, octubre 2024.
         </p>
       </section>
 
