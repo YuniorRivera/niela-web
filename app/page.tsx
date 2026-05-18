@@ -364,21 +364,41 @@ export default function Home() {
               <div key={h} style={{ padding: '18px 24px', fontSize: 13, fontWeight: 600, color: i === 1 ? '#a6c8dc' : 'rgba(232,241,245,0.5)', textAlign: i === 0 ? 'left' : 'center', background: i === 1 ? 'rgba(166,200,220,0.06)' : 'transparent' }}>{h}</div>
             ))}
           </div>
-          {[
-            ['Personalización por tradición', '✓', '✗', '✗'],
-            ['Sesiones generadas por IA',     '✓', '✗', '✗'],
-            ['Multi-tradición',               '✓', '✗', '✗'],
-            ['Sin plantillas genéricas',      '✓', '✗', '✗'],
-            ['Precio justo',                  '✓', '★★', '★★'],
-          ].map((row, ri) => (
-            <div key={ri} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', borderBottom: ri < 4 ? '1px solid rgba(166,200,220,0.06)' : 'none' }}>
-              {row.map((cell, ci) => (
-                <div key={ci} style={{ padding: '16px 24px', fontSize: 14, textAlign: ci === 0 ? 'left' : 'center', color: ci === 1 ? '#b8c9a8' : ci === 0 ? 'rgba(232,241,245,0.75)' : 'rgba(232,241,245,0.35)', fontWeight: ci === 1 ? 600 : 400, background: ci === 1 ? 'rgba(166,200,220,0.04)' : 'transparent' }}>{cell}</div>
-              ))}
-            </div>
-          ))}
+          {(() => {
+            const cellStyle = (ci: number, last: boolean) => ({
+              padding: '16px 24px',
+              fontSize: 14,
+              textAlign: (ci === 0 ? 'left' : 'center') as React.CSSProperties['textAlign'],
+              color: ci === 1 ? '#b8c9a8' : ci === 0 ? 'rgba(232,241,245,0.75)' : 'rgba(232,241,245,0.35)',
+              fontWeight: ci === 1 ? 600 : 400,
+              background: ci === 1 ? 'rgba(166,200,220,0.04)' : 'transparent',
+              borderBottom: last ? 'none' : '1px solid rgba(166,200,220,0.06)',
+            });
+            const rows: { label: string; niela: string; calm: string; headspace: React.ReactNode; price?: boolean }[] = [
+              { label: 'Personalización por tradición', niela: '✓', calm: '✗', headspace: '✗' },
+              { label: 'Sesiones generadas por IA',     niela: '✓', calm: '✗', headspace: (
+                <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+                  <span>✓</span>
+                  <span style={{ fontSize: 10, color: 'rgba(232,241,245,0.3)', fontWeight: 400 }}>(Ebb, solo EN)</span>
+                </span>
+              )},
+              { label: 'Multi-tradición',               niela: '✓', calm: '✗', headspace: '✗' },
+              { label: 'Sin plantillas genéricas',      niela: '✓', calm: '✗', headspace: '✗' },
+              { label: 'Plan anual',                    niela: '€49', calm: '$79.99', headspace: '$69.99', price: true },
+            ];
+            return rows.map((row, ri) => (
+              <div key={ri} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr' }}>
+                <div style={{ ...cellStyle(0, ri === rows.length - 1), ...(row.price ? { fontWeight: 600 } : {}) }}>{row.label}</div>
+                <div style={cellStyle(1, ri === rows.length - 1)}>{row.niela}</div>
+                <div style={cellStyle(2, ri === rows.length - 1)}>{row.calm}</div>
+                <div style={cellStyle(3, ri === rows.length - 1)}>{row.headspace}</div>
+              </div>
+            ));
+          })()}
         </div>
-        <p style={{ textAlign: 'center', fontSize: 11, color: 'rgba(232,241,245,0.25)', marginTop: 20, fontStyle: 'italic' }}>Comparación basada en información pública, mayo 2026</p>
+        <p style={{ textAlign: 'center', fontSize: 11, color: 'rgba(232,241,245,0.25)', marginTop: 20, fontStyle: 'italic' }}>
+          Precios oficiales de Calm y Headspace al 18 de mayo de 2026. Headspace Ebb disponible solo en inglés según anuncio oficial de Headspace Health (octubre 2024).
+        </p>
       </section>
 
       {/* ══ SECCIÓN 7: POR QUÉ NIELA EXISTE ══ */}
