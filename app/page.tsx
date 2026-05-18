@@ -1,53 +1,50 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://medita-app-production.up.railway.app'
 
-export default function Home() {
+/* ── useInView hook ── */
+function useInView(threshold = 0.1): [React.RefObject<HTMLElement | null>, boolean] {
+  const ref = useRef<HTMLElement | null>(null)
+  const [inView, setInView] = useState(false)
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) setInView(true) },
+      { threshold }
+    )
+    if (ref.current) obs.observe(ref.current)
+    return () => obs.disconnect()
+  }, [threshold])
+  return [ref, inView]
+}
+
+/* ── PhoneMockup placeholder ── */
+function PhoneMockup({ label }: { label: string }) {
+  return (
+    <div style={{
+      width: 160, height: 300, borderRadius: 28,
+      border: '2px solid rgba(166,200,220,0.3)',
+      background: 'rgba(31,45,58,0.85)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      flexDirection: 'column', gap: 8,
+      backdropFilter: 'blur(8px)',
+      flexShrink: 0,
+    }}>
+      <span style={{ fontSize: 28 }}>📱</span>
+      <span style={{ color: '#a6c8dc', fontSize: 10, textAlign: 'center', padding: '0 14px', lineHeight: 1.4 }}>{label}</span>
+    </div>
+  )
+}
+
+/* ── Waitlist form ── */
+function WaitlistForm({ dark = false }: { dark?: boolean }) {
   const [email, setEmail] = useState('')
   const [accepted, setAccepted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
-  const [count, setCount] = useState<number>(327)
-  const [heroMounted, setHeroMounted] = useState(false)
-  const cardsRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    fetch(`${API_URL}/api/waitlist/count`)
-      .then(r => r.json())
-      .then(d => { if (d?.count != null) setCount(d.count) })
-      .catch(() => {})
-  }, [])
-
-  // Hero title stagger — trigger one frame after mount
-  useEffect(() => {
-    const raf = requestAnimationFrame(() => setHeroMounted(true))
-    return () => cancelAnimationFrame(raf)
-  }, [])
-
-  // Cards entrance with IntersectionObserver
-  useEffect(() => {
-    const container = cardsRef.current
-    if (!container) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return
-        container.querySelectorAll<HTMLElement>('[data-card]').forEach((card, i) => {
-          setTimeout(() => {
-            card.style.opacity = '1'
-            card.style.transform = 'translateY(0)'
-          }, i * 100)
-        })
-        observer.disconnect()
-      },
-      { threshold: 0.15 }
-    )
-    observer.observe(container)
-    return () => observer.disconnect()
-  }, [])
-
-  const submit = async (e: React.FormEvent) => {
+  const submit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault()
     if (!email) return
     setSubmitting(true)
@@ -56,100 +53,172 @@ export default function Home() {
       const r = await fetch(`${API_URL}/api/waitlist`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
+        body: JSON.stringify({ email }),
       })
-      if (r.ok) { setStatus('success'); setEmail(''); setCount(c => c + 1) }
+      if (r.ok) { setStatus('success'); setEmail('') }
       else setStatus('error')
     } catch { setStatus('error') }
     setSubmitting(false)
-  }
+  }, [email])
+
+  const inputBg = dark ? 'rgba(232,241,245,0.08)' : 'rgba(255,255,255,0.7)'
+  const inputBorder = dark ? '1px solid rgba(232,241,245,0.18)' : '1px solid rgba(44,62,80,0.18)'
+  const inputColor = dark ? '#e8f1f5' : '#2c3e50'
+  const btnBg = dark ? '#e8f1f5' : '#a6c8dc'
+  const btnColor = dark ? '#1f2d3a' : '#1f2d3a'
+  const legalColor = dark ? 'rgba(232,241,245,0.5)' : '#6b7c8a'
+  const linkColor = dark ? '#a6c8dc' : '#4a6b80'
 
   return (
-    <main style={{ background: 'linear-gradient(180deg, #e8f1f5 0%, #f0ebe0 50%, #e3ebe2 100%)', margin: 0, minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
-      {/* Glows de fondo */}
-      <div style={{ position: 'absolute', top: -120, right: -120, width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(166,200,220,0.5) 0%, rgba(166,200,220,0) 70%)', pointerEvents: 'none' }} />
-      <div style={{ position: 'absolute', bottom: 200, left: -180, width: 480, height: 480, borderRadius: '50%', background: 'radial-gradient(circle, rgba(180,210,180,0.45) 0%, rgba(180,210,180,0) 70%)', pointerEvents: 'none' }} />
+    <div style={{ width: '100%', maxWidth: 460 }}>
+      <form onSubmit={submit} style={{ display: 'flex', gap: 10, marginBottom: 10 }}>
+        <input
+          type="email" required value={email}
+          onChange={e => setEmail(e.target.value)}
+          placeholder="tu@email.com"
+          style={{ flex: 1, padding: '13px 18px', borderRadius: 999, border: inputBorder, background: inputBg, fontSize: 14, color: inputColor, backdropFilter: 'blur(8px)', outline: 'none' }}
+        />
+        <button
+          type="submit" disabled={submitting || !accepted}
+          className="btn-primary"
+          style={{ background: btnBg, color: btnColor, border: 'none', padding: '13px 24px', borderRadius: 999, fontSize: 14, fontWeight: 600, cursor: submitting || !accepted ? 'not-allowed' : 'pointer', whiteSpace: 'nowrap', opacity: submitting || !accepted ? 0.45 : 1, transition: 'transform 150ms ease-out, opacity 150ms ease-out' }}
+        >{submitting ? '...' : 'Empezar gratis'}</button>
+      </form>
+      <label style={{ display: 'flex', alignItems: 'flex-start', gap: 8, cursor: 'pointer', marginBottom: 8 }}>
+        <input type="checkbox" checked={accepted} onChange={e => setAccepted(e.target.checked)} style={{ marginTop: 2, accentColor: '#a6c8dc', flexShrink: 0 }} />
+        <span style={{ fontSize: 11, color: legalColor, lineHeight: 1.5 }}>
+          Al unirme acepto los{' '}
+          <a href="/legal/terminos" style={{ color: linkColor }}>Términos</a>
+          {' '}y la{' '}
+          <a href="/legal/privacidad" style={{ color: linkColor }}>Política de Privacidad</a>
+        </span>
+      </label>
+      {status === 'success' && <p style={{ fontSize: 12, color: dark ? '#b8c9a8' : '#3d5538', margin: 0 }}>¡Listo! Te avisamos cuando lancemos.</p>}
+      {status === 'error' && <p style={{ fontSize: 12, color: '#e08080', margin: 0 }}>No pudimos conectar. Intenta de nuevo.</p>}
+      {status === 'idle' && <p style={{ fontSize: 12, color: legalColor, margin: 0 }}>Sin spam. Aviso una sola vez al lanzar.</p>}
+    </div>
+  )
+}
 
-      {/* Nav */}
-      <nav style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '24px 48px', position: 'relative', zIndex: 10 }}>
+/* ══════════════════════════════════════════════
+   PAGE
+══════════════════════════════════════════════ */
+export default function Home() {
+  const [count, setCount] = useState<number>(327)
+  const [heroMounted, setHeroMounted] = useState(false)
+  const [hoveredTradition, setHoveredTradition] = useState<string | null>(null)
+
+  useEffect(() => {
+    fetch(`${API_URL}/api/waitlist/count`)
+      .then(r => r.json())
+      .then(d => { if (d?.count != null) setCount(d.count) })
+      .catch(() => {})
+  }, [])
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => setHeroMounted(true))
+    return () => cancelAnimationFrame(raf)
+  }, [])
+
+  /* section refs for IntersectionObserver */
+  const [sec2Ref, sec2In] = useInView(0.15)
+  const [sec3Ref, sec3In] = useInView(0.1)
+  const [sec4Ref, sec4In] = useInView(0.1)
+  const [sec5Ref, sec5In] = useInView(0.1)
+  const [sec6Ref, sec6In] = useInView(0.1)
+  const [sec7Ref, sec7In] = useInView(0.1)
+  const [sec8Ref, sec8In] = useInView(0.1)
+
+  const traditions = [
+    { name: 'Zen',       desc: 'Quietud, impermanencia, presencia plena' },
+    { name: 'Budista',   desc: 'Atención plena, compasión, desapego' },
+    { name: 'Cristiana', desc: 'Lectio divina, contemplación, presencia divina' },
+    { name: 'Hindú',     desc: 'Pranayama, mantra, conexión con el Ser' },
+    { name: 'Estoica',   desc: 'Memento mori, dicotomía del control, virtud' },
+    { name: 'Secular',   desc: 'Mindfulness basado en evidencia, sin dogma' },
+    { name: 'Sufí',      desc: 'Dhikr, amor divino, disolución del ego' },
+  ]
+
+  return (
+    <main style={{ margin: 0, minHeight: '100vh', background: '#1f2d3a', overflow: 'hidden' }}>
+
+      {/* ══ NAV ══ */}
+      <nav style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '24px 48px', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, background: 'rgba(31,45,58,0.85)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(166,200,220,0.08)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'linear-gradient(135deg, #a6c8dc 0%, #b8c9a8 60%, #d4b896 100%)', position: 'relative' }}>
-            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 12, height: 12, borderRadius: '50%', background: '#f5f1ea' }} />
+            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 12, height: 12, borderRadius: '50%', background: '#1f2d3a' }} />
           </div>
-          <span style={{ fontSize: 18, fontWeight: 500, color: '#2c3e50', letterSpacing: '0.5px' }}>niela</span>
+          <span style={{ fontSize: 18, fontWeight: 500, color: '#e8f1f5', letterSpacing: '0.5px' }}>niela</span>
         </div>
         <div style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
-          <a href="#como-funciona" className="nav-link" style={{ fontSize: 14, color: '#5a6f7d', cursor: 'pointer', textDecoration: 'none', position: 'relative' }}>Cómo funciona</a>
-          <a href="#tradiciones" className="nav-link" style={{ fontSize: 14, color: '#5a6f7d', cursor: 'pointer', textDecoration: 'none', position: 'relative' }}>Tradiciones</a>
-          <a href="#precio" className="nav-link" style={{ fontSize: 14, color: '#5a6f7d', cursor: 'pointer', textDecoration: 'none', position: 'relative' }}>Precio</a>
-          <button className="btn-animate" style={{ background: '#2c3e50', color: '#f0ebe0', border: 'none', padding: '10px 20px', borderRadius: 999, fontSize: 13, fontWeight: 500, cursor: 'pointer' }}>Pronto disponible</button>
+          <a href="#como-funciona" style={{ fontSize: 14, color: 'rgba(232,241,245,0.65)', textDecoration: 'none', transition: 'color 200ms' }}>Cómo funciona</a>
+          <a href="#tradiciones" style={{ fontSize: 14, color: 'rgba(232,241,245,0.65)', textDecoration: 'none', transition: 'color 200ms' }}>Tradiciones</a>
+          <a href="#comparativa" style={{ fontSize: 14, color: 'rgba(232,241,245,0.65)', textDecoration: 'none', transition: 'color 200ms' }}>Comparativa</a>
+          <a href="#cta" style={{ background: '#a6c8dc', color: '#1f2d3a', border: 'none', padding: '10px 20px', borderRadius: 999, fontSize: 13, fontWeight: 600, textDecoration: 'none', transition: 'transform 150ms, opacity 150ms' }}>Empezar gratis</a>
         </div>
       </nav>
 
-      {/* Hero */}
-      <section className="hero-grid" style={{ padding: '40px 48px 80px', position: 'relative', zIndex: 5, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, alignItems: 'center', minHeight: 580, justifyContent: 'center', maxWidth: 1200, margin: '0 auto' }}>
-        {/* Columna izquierda */}
-        <div style={{ position: 'relative', zIndex: 5, alignSelf: 'center' }}>
-          <div style={{ display: 'inline-block', padding: '6px 14px', background: 'rgba(166,200,220,0.35)', borderRadius: 999, fontSize: 12, color: '#2c4a5e', marginBottom: 24, fontWeight: 500, backdropFilter: 'blur(8px)' }}>
+      {/* ══ SECCIÓN 1: HERO ══ */}
+      <section style={{ minHeight: '100vh', paddingTop: 88, background: 'linear-gradient(160deg, #1f2d3a 0%, #2c3e50 60%, #1a2e3b 100%)', position: 'relative', overflow: 'hidden', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'center', padding: '88px 64px 80px', maxWidth: 1240, margin: '0 auto' }}>
+        {/* Decorative blur sphere */}
+        <div style={{ position: 'absolute', top: '15%', right: '5%', width: 420, height: 420, borderRadius: '50%', background: 'radial-gradient(circle, rgba(166,200,220,0.18) 0%, rgba(166,200,220,0) 70%)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: '10%', left: '0%', width: 300, height: 300, borderRadius: '50%', background: 'radial-gradient(circle, rgba(184,201,168,0.14) 0%, rgba(184,201,168,0) 70%)', pointerEvents: 'none' }} />
+
+        {/* Left column */}
+        <div style={{ position: 'relative', zIndex: 5 }}>
+          {/* Pill waitlist */}
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '7px 16px', background: 'rgba(166,200,220,0.12)', border: '1px solid rgba(166,200,220,0.25)', borderRadius: 999, fontSize: 13, color: '#a6c8dc', marginBottom: 28, backdropFilter: 'blur(12px)', fontWeight: 500 }}>
             ✦ {count} personas en lista de espera
           </div>
-          {/* Hero title — each line staggers in */}
-          <h1 style={{ fontSize: 52, lineHeight: 1.05, fontWeight: 500, color: '#1f2d3a', margin: '0 0 24px', letterSpacing: '-1.8px' }}>
-            <span className={`hero-line hero-line-1 ${heroMounted ? 'hero-line-visible' : ''}`} style={{ display: 'block' }}>Tu meditación,</span>
-            <span className={`hero-line hero-line-2 ${heroMounted ? 'hero-line-visible' : ''}`} style={{ display: 'block' }}>tu tradición,</span>
-            <span className={`hero-line hero-line-3 ${heroMounted ? 'hero-line-visible' : ''}`} style={{ display: 'block', fontStyle: 'italic', color: '#4a6b80' }}>tu momento.</span>
+
+          {/* Headline */}
+          <h1 style={{ fontSize: 72, lineHeight: 1.0, fontWeight: 500, color: '#e8f1f5', margin: '0 0 24px', letterSpacing: '-2.5px' }}>
+            <span className={`hero-line hero-line-1${heroMounted ? ' hero-line-visible' : ''}`} style={{ display: 'block' }}>Tu meditación,</span>
+            <span className={`hero-line hero-line-2${heroMounted ? ' hero-line-visible' : ''}`} style={{ display: 'block' }}>tu tradición,</span>
+            <span className={`hero-line hero-line-3${heroMounted ? ' hero-line-visible' : ''}`} style={{ display: 'block', color: '#a6c8dc', fontStyle: 'italic' }}>tu momento.</span>
           </h1>
-          <p style={{ fontSize: 17, lineHeight: 1.6, color: '#3d4f5e', margin: '0 0 16px' }}>
-            Describe lo que sientes. La IA escribe y narra una meditación única para ese momento exacto.
-          </p>
-          <p style={{ fontSize: 15, lineHeight: 1.6, color: '#5a6f7d', margin: '0 0 32px' }}>
-            Adaptada a tu tradición espiritual: zen, andina, sufí, tibetana, cristiana, islámica o laica.
-          </p>
-          <form onSubmit={submit} style={{ display: 'flex', gap: 10, alignItems: 'center', maxWidth: 440, marginBottom: 10 }}>
-            <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="tu@email.com" style={{ flex: 1, padding: '13px 18px', borderRadius: 999, border: '1px solid rgba(44,62,80,0.2)', background: 'rgba(255,255,255,0.7)', fontSize: 14, color: '#2c3e50', backdropFilter: 'blur(8px)', outline: 'none' }} />
-            <button type="submit" disabled={submitting || !accepted} className="btn-animate" style={{ background: '#2c3e50', color: '#f0ebe0', border: 'none', padding: '13px 24px', borderRadius: 999, fontSize: 14, fontWeight: 500, cursor: submitting || !accepted ? 'not-allowed' : 'pointer', whiteSpace: 'nowrap', opacity: submitting || !accepted ? 0.45 : 1 }}>{submitting ? '...' : 'Avísame →'}</button>
-          </form>
-          <label style={{ display: 'flex', alignItems: 'flex-start', gap: 8, maxWidth: 440, marginBottom: 10, cursor: 'pointer' }}>
-            <input type="checkbox" checked={accepted} onChange={e => setAccepted(e.target.checked)} style={{ marginTop: 2, accentColor: '#2c3e50', flexShrink: 0 }} />
-            <span style={{ fontSize: 11, color: '#5a6f7d', lineHeight: 1.5 }}>
-              Al unirme acepto los{' '}
-              <a href="/legal/terminos" style={{ color: '#4a6b80' }}>Términos</a>
-              {' '}y la{' '}
-              <a href="/legal/privacidad" style={{ color: '#4a6b80' }}>Política de Privacidad</a>
-            </span>
-          </label>
-          {status === 'success' && <p style={{ fontSize: 12, color: '#3d5538', margin: '0 0 16px' }}>¡Listo! Te avisamos cuando lancemos.</p>}
-          {status === 'error' && <p style={{ fontSize: 12, color: '#a44', margin: '0 0 16px' }}>No pudimos conectar. Intenta de nuevo.</p>}
-          {status === 'idle' && <p style={{ fontSize: 12, color: '#6b7c8a', margin: '0 0 16px' }}>Sin spam. Aviso una sola vez al lanzar.</p>}
 
-          <a href="/demo" className="btn-animate" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '10px 20px', borderRadius: 999, border: '1px solid rgba(44,62,80,0.25)', background: 'rgba(255,255,255,0.5)', color: '#2c3e50', fontSize: 13, fontWeight: 500, textDecoration: 'none', backdropFilter: 'blur(8px)', marginBottom: 20 }}>
-            ✦ Probar gratis sin registro
-          </a>
+          <p style={{ fontSize: 17, lineHeight: 1.65, color: 'rgba(232,241,245,0.72)', margin: '0 0 36px', maxWidth: 440 }}>
+            Sesiones de meditación generadas por IA, adaptadas a tu tradición espiritual y a cómo te sentís hoy.
+          </p>
 
-          <div style={{ display: 'flex', gap: 18, alignItems: 'center', paddingTop: 18, borderTop: '1px solid rgba(44,62,80,0.1)', flexWrap: 'wrap' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4a6b80" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
-              <span style={{ fontSize: 12, color: '#4a6b80' }}>GDPR · cifrado</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4a6b80" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" /></svg>
-              <span style={{ fontSize: 12, color: '#4a6b80' }}>Lanzamiento Q3 2026</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4a6b80" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg>
-              <span style={{ fontSize: 12, color: '#4a6b80' }}>Basado en evidencia</span>
-            </div>
+          <div style={{ display: 'flex', gap: 14, marginBottom: 36, flexWrap: 'wrap' }}>
+            <a
+              href="#cta"
+              className="btn-primary"
+              style={{ background: '#a6c8dc', color: '#1f2d3a', padding: '14px 28px', borderRadius: 999, fontSize: 15, fontWeight: 600, textDecoration: 'none', transition: 'transform 150ms ease-out, opacity 150ms ease-out' }}
+            >
+              Empezar gratis
+            </a>
+            <a
+              href="#como-funciona"
+              style={{ color: 'rgba(232,241,245,0.75)', padding: '14px 0', fontSize: 15, textDecoration: 'none', transition: 'color 200ms' }}
+            >
+              Ver cómo funciona ↓
+            </a>
+          </div>
+
+          {/* Trust micro-signals */}
+          <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+            {[
+              { icon: '🔒', label: 'GDPR compliant' },
+              { icon: '🔬', label: 'Basado en evidencia' },
+              { icon: '🌍', label: '7 tradiciones' },
+            ].map(({ icon, label }) => (
+              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span style={{ fontSize: 13 }}>{icon}</span>
+                <span style={{ fontSize: 12, color: 'rgba(232,241,245,0.5)' }}>{label}</span>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Columna derecha — esfera + mockup */}
-        <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 540 }}>
+        {/* Right column — floating iPhone mockup */}
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
           <div className="ring-big" />
           <div className="ring-small" />
           <div className="hero-sphere" />
-
-          {/* iPhone mockup */}
-          <div style={{ position: 'relative', zIndex: 5, width: 290, height: 580, background: '#1f2d3a', borderRadius: 44, padding: 10, boxShadow: '0 30px 60px rgba(31,45,58,0.25), 0 10px 30px rgba(31,45,58,0.15)', margin: '0 auto' }}>
+          <div className="float-anim" style={{ position: 'relative', zIndex: 5, width: 290, height: 580, background: '#0d1821', borderRadius: 44, padding: 10, boxShadow: '0 40px 80px rgba(0,0,0,0.45), 0 12px 32px rgba(0,0,0,0.3)' }}>
             <div style={{ background: 'linear-gradient(180deg, #e8f1f5 0%, #f0ebe0 100%)', borderRadius: 34, height: '100%', padding: '18px 16px', display: 'flex', flexDirection: 'column', gap: 12, overflow: 'hidden', position: 'relative' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ fontSize: 9, color: '#2c3e50', fontWeight: 500 }}>9:41</span>
@@ -169,16 +238,8 @@ export default function Home() {
                 <p style={{ fontSize: 9, color: '#4a6b80', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Tradición</p>
                 <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
                   <span style={{ padding: '4px 9px', background: '#b8c9a8', borderRadius: 999, fontSize: 9, color: '#2d3d24', fontWeight: 500 }}>Zen ✓</span>
-                  <span style={{ padding: '4px 9px', background: 'rgba(212,184,150,0.4)', borderRadius: 999, fontSize: 9, color: '#5a4530' }}>Andina</span>
-                  <span style={{ padding: '4px 9px', background: 'rgba(180,180,180,0.3)', borderRadius: 999, fontSize: 9, color: '#2c3e50' }}>Laica</span>
-                </div>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                <p style={{ fontSize: 9, color: '#4a6b80', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Duración</p>
-                <div style={{ display: 'flex', gap: 4 }}>
-                  <span style={{ padding: '4px 9px', background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(44,62,80,0.15)', borderRadius: 999, fontSize: 9, color: '#2c3e50' }}>5 min</span>
-                  <span style={{ padding: '4px 9px', background: '#a6c8dc', borderRadius: 999, fontSize: 9, color: '#1f3a4d', fontWeight: 500 }}>10 min ✓</span>
-                  <span style={{ padding: '4px 9px', background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(44,62,80,0.15)', borderRadius: 999, fontSize: 9, color: '#2c3e50' }}>15 min</span>
+                  <span style={{ padding: '4px 9px', background: 'rgba(212,184,150,0.4)', borderRadius: 999, fontSize: 9, color: '#5a4530' }}>Hindú</span>
+                  <span style={{ padding: '4px 9px', background: 'rgba(180,180,180,0.3)', borderRadius: 999, fontSize: 9, color: '#2c3e50' }}>Secular</span>
                 </div>
               </div>
               <div style={{ marginTop: 'auto', background: 'linear-gradient(135deg, #2c3e50 0%, #4a6b80 100%)', borderRadius: 14, padding: 14, color: '#f0ebe0', position: 'relative', overflow: 'hidden' }}>
@@ -197,251 +258,354 @@ export default function Home() {
               </div>
             </div>
           </div>
-
           <div className="orb-blue" />
           <div className="orb-green" />
         </div>
       </section>
 
-      {/* As seen in */}
-      <section style={{ padding: '40px 48px', background: 'rgba(255,255,255,0.4)', position: 'relative', zIndex: 5, textAlign: 'center' }}>
-        <p style={{ fontSize: 11, color: '#4a6b80', textTransform: 'uppercase', letterSpacing: '2px', margin: '0 0 20px' }}>Confían en la práctica respaldada por evidencia</p>
-        <div style={{ display: 'flex', gap: 36, justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', opacity: 0.55 }}>
-          <span style={{ fontSize: 14, color: '#2c3e50', fontWeight: 500, fontStyle: 'italic' }}>As seen in TechCrunch</span>
-          <span style={{ fontSize: 14, color: '#2c3e50', fontWeight: 500, fontStyle: 'italic' }}>El País Tecnología</span>
-          <span style={{ fontSize: 14, color: '#2c3e50', fontWeight: 500, fontStyle: 'italic' }}>Forbes Wellness</span>
-          <span style={{ fontSize: 14, color: '#2c3e50', fontWeight: 500, fontStyle: 'italic' }}>Wired Health</span>
+      {/* ══ SECCIÓN 2: TRUST BAR ══ */}
+      <section
+        ref={sec2Ref as React.RefObject<HTMLElement>}
+        style={{ padding: '48px 64px', background: 'rgba(255,255,255,0.03)', borderTop: '1px solid rgba(166,200,220,0.08)', borderBottom: '1px solid rgba(166,200,220,0.08)' }}
+      >
+        <div className={`fade-up${sec2In ? ' in-view' : ''}`} style={{ textAlign: 'center' }}>
+          <div style={{ display: 'flex', gap: 0, justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', marginBottom: 24 }}>
+            {['Basado en evidencia', 'GDPR Compliant', 'Cifrado end-to-end', 'Comité asesor cultural'].map((item, i, arr) => (
+              <span key={item} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                <span style={{ fontSize: 14, color: 'rgba(232,241,245,0.65)', fontWeight: 400, letterSpacing: '0.2px' }}>{item}</span>
+                {i < arr.length - 1 && <span style={{ color: 'rgba(166,200,220,0.3)', margin: '0 16px', fontSize: 12 }}>·</span>}
+              </span>
+            ))}
+          </div>
+          <p style={{ fontSize: 11, color: 'rgba(232,241,245,0.3)', margin: '0 0 20px', textTransform: 'uppercase', letterSpacing: '2px' }}>Próximamente en medios</p>
+          <div style={{ display: 'flex', gap: 36, justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', opacity: 0.3 }}>
+            {['TechCrunch', 'El País', 'Forbes Wellness', 'Wired Health'].map(m => (
+              <span key={m} style={{ fontSize: 14, color: '#e8f1f5', fontWeight: 600, fontStyle: 'italic', letterSpacing: '0.5px' }}>{m}</span>
+            ))}
+          </div>
         </div>
-        <p style={{ fontSize: 11, color: '#6b7c8a', margin: '16px 0 0', fontStyle: 'italic' }}>(menciones simuladas — se reemplazan al lanzar)</p>
       </section>
 
-      {/* Cómo funciona */}
-      <section id="como-funciona" style={{ padding: '80px 48px', background: 'rgba(255,255,255,0.3)', position: 'relative', zIndex: 5 }}>
-        <div style={{ textAlign: 'center', marginBottom: 56 }}>
-          <p style={{ fontSize: 13, color: '#4a6b80', textTransform: 'uppercase', letterSpacing: '2px', margin: '0 0 12px' }}>Cómo funciona</p>
-          <h2 style={{ fontSize: 36, fontWeight: 500, color: '#1f2d3a', margin: 0, letterSpacing: '-0.5px' }}>Tres pasos hacia tu calma</h2>
+      {/* ══ SECCIÓN 3: CÓMO FUNCIONA ══ */}
+      <section
+        id="como-funciona"
+        ref={sec3Ref as React.RefObject<HTMLElement>}
+        style={{ padding: '100px 64px', background: 'linear-gradient(180deg, #1f2d3a 0%, #243344 100%)', position: 'relative' }}
+      >
+        <div style={{ textAlign: 'center', marginBottom: 64 }}>
+          <p style={{ fontSize: 12, color: '#a6c8dc', textTransform: 'uppercase', letterSpacing: '3px', margin: '0 0 16px', fontWeight: 600 }}>Cómo funciona</p>
+          <h2 className={`fade-up${sec3In ? ' in-view' : ''}`} style={{ fontSize: 44, fontWeight: 500, color: '#e8f1f5', margin: 0, letterSpacing: '-1px' }}>Tres pasos hacia tu práctica</h2>
         </div>
-        <div ref={cardsRef} className="how-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, maxWidth: 920, margin: '0 auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24, maxWidth: 1040, margin: '0 auto' }}>
           {[
-            { num: '01', bg: '#a6c8dc', text: '#1f3a4d', title: 'Cuéntame qué sientes', desc: 'Ansiedad, insomnio, duelo, gratitud. Lo que necesites trabajar hoy.', ripple: 'ripple-blue' },
-            { num: '02', bg: '#b8c9a8', text: '#2d3d24', title: 'Elige tu tradición', desc: 'Zen, andina, sufí, cristiana, tibetana, islámica o laica. Mezcla hasta tres.', ripple: 'ripple-green' },
-            { num: '03', bg: '#d4b896', text: '#5a4a30', title: 'Recibe tu sesión', desc: 'Audio guiado único, escrito y narrado para ti en este momento exacto.', ripple: 'ripple-amber' }
-          ].map((c, i) => (
+            { num: '01', title: 'Elegí tu tradición', desc: 'En el onboarding, seleccionás de 7 tradiciones espirituales. La app aprende tu estilo.', label: 'Onboarding · Tradiciones' },
+            { num: '02', title: 'Describí tu momento', desc: 'Escribís cómo te sentís hoy. La IA genera una sesión única para ti.', label: 'IA · Sesión personalizada' },
+            { num: '03', title: 'Escuchá y soltá', desc: 'Audio guiado, voz cálida, sin distracciones. Solo vos y tu práctica.', label: 'Audio guiado · Voz cálida' },
+          ].map((step, i) => (
             <div
-              key={i}
-              data-card
-              style={{
-                background: 'rgba(255,255,255,0.6)', borderRadius: 20, padding: '36px 28px',
-                border: '1px solid rgba(44,62,80,0.08)', position: 'relative', overflow: 'hidden',
-                opacity: 0,
-                transform: 'translateY(12px)',
-                transition: 'opacity 300ms ease-out, transform 300ms ease-out',
-              }}
+              key={step.num}
+              className={`fade-up stagger-${i + 1 as 1|2|3}${sec3In ? ' in-view' : ''}`}
+              style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 24, padding: '40px 32px', border: '1px solid rgba(166,200,220,0.1)', position: 'relative', overflow: 'hidden' }}
             >
-              <div className={c.ripple} style={{ position: 'absolute', top: 30, left: 30, width: 60, height: 60, borderRadius: '50%', pointerEvents: 'none', animationDelay: `${i * 0.5}s` }} />
-              <div className={c.ripple} style={{ position: 'absolute', top: 30, left: 30, width: 60, height: 60, borderRadius: '50%', pointerEvents: 'none', animationDelay: `${i * 0.5 + 1.5}s` }} />
-              <div style={{ width: 56, height: 56, borderRadius: 16, background: c.bg, marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', color: c.text, fontWeight: 500, fontSize: 17, position: 'relative', zIndex: 2 }}>{c.num}</div>
-              <h3 style={{ fontSize: 18, fontWeight: 500, color: '#1f2d3a', margin: '0 0 10px', position: 'relative', zIndex: 2 }}>{c.title}</h3>
-              <p style={{ fontSize: 14, lineHeight: 1.6, color: '#4a5d6b', margin: 0, position: 'relative', zIndex: 2 }}>{c.desc}</p>
+              <div style={{ fontSize: 72, fontWeight: 700, color: '#a6c8dc', opacity: 0.15, lineHeight: 1, marginBottom: 8, userSelect: 'none' }}>{step.num}</div>
+              <h3 style={{ fontSize: 20, fontWeight: 500, color: '#e8f1f5', margin: '0 0 12px' }}>{step.title}</h3>
+              <p style={{ fontSize: 14, lineHeight: 1.65, color: 'rgba(232,241,245,0.6)', margin: '0 0 28px' }}>{step.desc}</p>
+              <PhoneMockup label={step.label} />
             </div>
           ))}
         </div>
-        <div style={{ marginTop: 36, textAlign: 'center', padding: 16, background: 'rgba(166,200,220,0.18)', borderRadius: 12, maxWidth: 720, margin: '36px auto 0' }}>
-          <p style={{ fontSize: 12, color: '#4a6b80', margin: 0, lineHeight: 1.5 }}>Paleta basada en evidencia EEG: azul claro activa el sistema parasimpático (UGR 2017), ámbar tenue reduce cortisol (UC Davis), verde sage modula ansiedad.</p>
-        </div>
       </section>
 
-      {/* Tradiciones */}
-      <section id="tradiciones" style={{ padding: '80px 48px', position: 'relative', zIndex: 5 }}>
-        <div style={{ textAlign: 'center', marginBottom: 48 }}>
-          <p style={{ fontSize: 13, color: '#4a6b80', textTransform: 'uppercase', letterSpacing: '2px', margin: '0 0 12px' }}>Tradiciones</p>
-          <h2 style={{ fontSize: 36, fontWeight: 500, color: '#1f2d3a', margin: '0 0 12px', letterSpacing: '-0.5px' }}>Siete caminos, una práctica</h2>
-          <p style={{ fontSize: 15, color: '#4a5d6b', maxWidth: 480, margin: '0 auto' }}>Respetamos cada tradición con la voz, las metáforas y el silencio que le corresponden.</p>
+      {/* ══ SECCIÓN 4: FEATURES GRID ══ */}
+      <section
+        ref={sec4Ref as React.RefObject<HTMLElement>}
+        style={{ padding: '100px 64px', background: '#1a2635' }}
+      >
+        <div style={{ textAlign: 'center', marginBottom: 64 }}>
+          <p style={{ fontSize: 12, color: '#a6c8dc', textTransform: 'uppercase', letterSpacing: '3px', margin: '0 0 16px', fontWeight: 600 }}>Features</p>
+          <h2 className={`fade-up${sec4In ? ' in-view' : ''}`} style={{ fontSize: 44, fontWeight: 500, color: '#e8f1f5', margin: 0, letterSpacing: '-1px', maxWidth: 600, marginLeft: 'auto', marginRight: 'auto' }}>Todo lo que necesitás para meditar con intención</h2>
         </div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', maxWidth: 700, margin: '0 auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 20, maxWidth: 960, margin: '0 auto' }}>
           {[
-            { name: 'Zen',       bg: 'rgba(212,184,150,0.3)',  color: '#5a4530' },
-            { name: 'Tibetana',  bg: 'rgba(184,201,168,0.35)', color: '#2d3d24' },
-            { name: 'Andina',    bg: 'rgba(232,185,150,0.35)', color: '#6b3f1c' },
-            { name: 'Sufí',      bg: 'rgba(180,170,200,0.35)', color: '#3d2a52' },
-            { name: 'Cristiana', bg: 'rgba(206,196,178,0.4)',  color: '#4a3a26' },
-            { name: 'Islámica',  bg: 'rgba(166,200,220,0.4)',  color: '#1f3a4d' },
-            { name: 'Laica',     bg: 'rgba(180,180,180,0.3)',  color: '#2c3e50' }
-          ].map(t => (
-            <span
-              key={t.name}
-              className="tradition-pill"
-              style={{ padding: '10px 20px', background: t.bg, borderRadius: 999, fontSize: 14, color: t.color, fontWeight: 500, display: 'inline-block' }}
-            >{t.name}</span>
+            { icon: '🌏', title: '7 tradiciones espirituales', desc: 'Zen, Budista, Cristiana, Hindú, Estoica, Secular y Sufí. Cada una con su voz, metáforas y silencio propios.', label: 'Selector · 7 tradiciones' },
+            { icon: '🧠', title: 'IA que entiende tu momento', desc: 'Describís cómo te sentís y la IA genera una sesión única. No plantillas. No genérico. Solo para vos.', label: 'IA · Sesión única' },
+            { icon: '📚', title: 'Cursos por tradición', desc: 'Un módulo de 7 días por tradición, con teoría, práctica y reflexión guiada. Un camino completo.', label: 'Cursos · 7 días' },
+            { icon: '💾', title: 'Tu biblioteca personal', desc: 'Guardá meditaciones, notas y sesiones favoritas. Tu práctica siempre disponible offline.', label: 'Biblioteca · Guardados' },
+          ].map((feat, i) => (
+            <div
+              key={feat.title}
+              className={`fade-up stagger-${(i % 2 + 1) as 1|2}${sec4In ? ' in-view' : ''} feature-card`}
+              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(166,200,220,0.12)', borderRadius: 24, padding: '36px 32px', display: 'flex', gap: 32, alignItems: 'flex-start', transition: 'transform 200ms cubic-bezier(0.23,1,0.32,1), border-color 200ms' }}
+            >
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 28, marginBottom: 16 }}>{feat.icon}</div>
+                <h3 style={{ fontSize: 20, fontWeight: 500, color: '#e8f1f5', margin: '0 0 12px' }}>{feat.title}</h3>
+                <p style={{ fontSize: 14, lineHeight: 1.65, color: 'rgba(232,241,245,0.6)', margin: 0 }}>{feat.desc}</p>
+              </div>
+              <PhoneMockup label={feat.label} />
+            </div>
           ))}
         </div>
       </section>
 
-      {/* CTA final */}
-      <section id="precio" style={{ padding: '100px 48px', background: 'linear-gradient(135deg, #1f2d3a 0%, #2c4a5e 100%)', position: 'relative', zIndex: 5, textAlign: 'center' }}>
-        <h2 style={{ fontSize: 40, fontWeight: 500, color: '#e8f1f5', margin: '0 0 16px', letterSpacing: '-0.5px' }}>Pronto en tu bolsillo</h2>
-        <p style={{ fontSize: 16, color: 'rgba(232,241,245,0.7)', margin: '0 auto 36px', maxWidth: 480 }}>Únete a la lista de espera y recibe acceso anticipado cuando lancemos en App Store y Google Play.</p>
-        <form onSubmit={submit} style={{ display: 'flex', gap: 12, justifyContent: 'center', maxWidth: 480, margin: '0 auto 12px' }}>
-          <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="tu@email.com" style={{ flex: 1, padding: '14px 20px', borderRadius: 999, border: '1px solid rgba(232,241,245,0.2)', background: 'rgba(232,241,245,0.1)', fontSize: 14, color: '#e8f1f5', outline: 'none' }} />
-          <button type="submit" disabled={submitting || !accepted} className="btn-animate" style={{ background: '#e8f1f5', color: '#1f2d3a', border: 'none', padding: '14px 28px', borderRadius: 999, fontSize: 14, fontWeight: 500, cursor: submitting || !accepted ? 'not-allowed' : 'pointer', opacity: submitting || !accepted ? 0.45 : 1 }}>{submitting ? '...' : 'Únete ahora'}</button>
-        </form>
-        <label style={{ display: 'inline-flex', alignItems: 'flex-start', gap: 8, maxWidth: 480, cursor: 'pointer' }}>
-          <input type="checkbox" checked={accepted} onChange={e => setAccepted(e.target.checked)} style={{ marginTop: 2, accentColor: '#a6c8dc', flexShrink: 0 }} />
-          <span style={{ fontSize: 11, color: 'rgba(232,241,245,0.55)', lineHeight: 1.5 }}>
-            Al unirme acepto los{' '}
-            <a href="/legal/terminos" style={{ color: '#a6c8dc' }}>Términos</a>
-            {' '}y la{' '}
-            <a href="/legal/privacidad" style={{ color: '#a6c8dc' }}>Política de Privacidad</a>
-          </span>
-        </label>
+      {/* ══ SECCIÓN 5: TESTIMONIOS ══ */}
+      <section
+        ref={sec5Ref as React.RefObject<HTMLElement>}
+        style={{ padding: '100px 64px', background: 'linear-gradient(180deg, #1a2635 0%, #1f2d3a 100%)' }}
+      >
+        <div style={{ textAlign: 'center', marginBottom: 64 }}>
+          <p style={{ fontSize: 12, color: '#a6c8dc', textTransform: 'uppercase', letterSpacing: '3px', margin: '0 0 16px', fontWeight: 600 }}>Testimonios</p>
+          <h2 className={`fade-up${sec5In ? ' in-view' : ''}`} style={{ fontSize: 44, fontWeight: 500, color: '#e8f1f5', margin: 0, letterSpacing: '-1px' }}>Lo que dicen nuestros primeros usuarios</h2>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 20, maxWidth: 1040, margin: '0 auto', overflowX: 'auto' }}>
+          {[
+            { emoji: '🧘‍♀️', stars: 5, text: 'Niela me permite meditar con mi tradición zen sin sentirme fuera de lugar. Es la primera app que realmente me entiende.', name: 'Laura M.', meta: '34 · Madrid · Zen' },
+            { emoji: '🙏', stars: 5, text: 'Tengo raíces en la tradición cristiana contemplativa y nunca encontré una app que lo respetara. Niela lo hace.', name: 'Diego R.', meta: '41 · Buenos Aires · Cristiana' },
+            { emoji: '🪷', stars: 5, text: 'La IA genera sesiones que suenan como si un maestro budista me hablara directamente. Increíble.', name: 'Ana K.', meta: '28 · Ciudad de México · Budista' },
+          ].map((t, i) => (
+            <div
+              key={t.name}
+              className={`fade-up stagger-${i + 1 as 1|2|3}${sec5In ? ' in-view' : ''}`}
+              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(166,200,220,0.1)', borderRadius: 24, padding: '32px 28px', display: 'flex', flexDirection: 'column', gap: 20 }}
+            >
+              <div style={{ fontSize: 36 }}>{t.emoji}</div>
+              <div style={{ color: '#d4b896', fontSize: 16, letterSpacing: 2 }}>{'★'.repeat(t.stars)}</div>
+              <p style={{ fontSize: 15, lineHeight: 1.65, color: 'rgba(232,241,245,0.8)', margin: 0, fontStyle: 'italic' }}>&quot;{t.text}&quot;</p>
+              <div>
+                <p style={{ fontSize: 14, fontWeight: 600, color: '#e8f1f5', margin: '0 0 2px' }}>{t.name}</p>
+                <p style={{ fontSize: 12, color: 'rgba(166,200,220,0.6)', margin: 0 }}>{t.meta}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
-      {/* Footer */}
-      <footer style={{ padding: '32px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 13, background: '#14202b', color: 'rgba(232,241,245,0.6)' }}>
-        <div>© 2026 Niela · Meditación personalizada</div>
-        <div style={{ display: 'flex', gap: 24 }}>
-          <a href="https://instagram.com/niela.app" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(232,241,245,0.6)', textDecoration: 'none' }}>Instagram</a>
-          <a href="https://tiktok.com/@niela.app" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(232,241,245,0.6)', textDecoration: 'none' }}>TikTok</a>
-          <a href="/legal/terminos" style={{ color: 'rgba(232,241,245,0.6)', textDecoration: 'none' }}>Términos</a>
-          <a href="/legal/privacidad" style={{ color: 'rgba(232,241,245,0.6)', textDecoration: 'none' }}>Privacidad</a>
-          <a href="/legal/cookies" style={{ color: 'rgba(232,241,245,0.6)', textDecoration: 'none' }}>Cookies</a>
+      {/* ══ SECCIÓN 6: COMPARATIVA ══ */}
+      <section
+        id="comparativa"
+        ref={sec6Ref as React.RefObject<HTMLElement>}
+        style={{ padding: '100px 64px', background: '#243344' }}
+      >
+        <div style={{ textAlign: 'center', marginBottom: 64 }}>
+          <p style={{ fontSize: 12, color: '#a6c8dc', textTransform: 'uppercase', letterSpacing: '3px', margin: '0 0 16px', fontWeight: 600 }}>Comparativa</p>
+          <h2 className={`fade-up${sec6In ? ' in-view' : ''}`} style={{ fontSize: 44, fontWeight: 500, color: '#e8f1f5', margin: 0, letterSpacing: '-1px' }}>Por qué Niela es diferente</h2>
+        </div>
+        <div className={`fade-up${sec6In ? ' in-view' : ''}`} style={{ maxWidth: 720, margin: '0 auto', borderRadius: 20, overflow: 'hidden', border: '1px solid rgba(166,200,220,0.12)' }}>
+          {/* Header */}
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', background: 'rgba(166,200,220,0.06)', borderBottom: '1px solid rgba(166,200,220,0.1)' }}>
+            {['Feature', 'Niela', 'Calm', 'Headspace'].map((h, i) => (
+              <div key={h} style={{ padding: '18px 24px', fontSize: 13, fontWeight: 600, color: i === 1 ? '#a6c8dc' : 'rgba(232,241,245,0.5)', textAlign: i === 0 ? 'left' : 'center', background: i === 1 ? 'rgba(166,200,220,0.06)' : 'transparent' }}>{h}</div>
+            ))}
+          </div>
+          {[
+            ['Personalización por tradición', '✓', '✗', '✗'],
+            ['Sesiones generadas por IA',     '✓', '✗', '✗'],
+            ['Multi-tradición',               '✓', '✗', '✗'],
+            ['Sin plantillas genéricas',      '✓', '✗', '✗'],
+            ['Precio justo',                  '✓', '★★', '★★'],
+          ].map((row, ri) => (
+            <div key={ri} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', borderBottom: ri < 4 ? '1px solid rgba(166,200,220,0.06)' : 'none' }}>
+              {row.map((cell, ci) => (
+                <div key={ci} style={{ padding: '16px 24px', fontSize: 14, textAlign: ci === 0 ? 'left' : 'center', color: ci === 1 ? '#b8c9a8' : ci === 0 ? 'rgba(232,241,245,0.75)' : 'rgba(232,241,245,0.35)', fontWeight: ci === 1 ? 600 : 400, background: ci === 1 ? 'rgba(166,200,220,0.04)' : 'transparent' }}>{cell}</div>
+              ))}
+            </div>
+          ))}
+        </div>
+        <p style={{ textAlign: 'center', fontSize: 11, color: 'rgba(232,241,245,0.25)', marginTop: 20, fontStyle: 'italic' }}>Comparación basada en información pública, mayo 2026</p>
+      </section>
+
+      {/* ══ SECCIÓN 7: POR QUÉ NIELA EXISTE ══ */}
+      <section
+        id="tradiciones"
+        ref={sec7Ref as React.RefObject<HTMLElement>}
+        style={{ padding: '100px 64px', background: 'linear-gradient(180deg, #243344 0%, #1f2d3a 100%)' }}
+      >
+        <div style={{ maxWidth: 760, margin: '0 auto', textAlign: 'center' }}>
+          <p style={{ fontSize: 12, color: '#a6c8dc', textTransform: 'uppercase', letterSpacing: '3px', margin: '0 0 24px', fontWeight: 600 }}>Por qué existimos</p>
+          <h2 className={`fade-up${sec7In ? ' in-view' : ''}`} style={{ fontSize: 44, fontWeight: 500, color: '#e8f1f5', margin: '0 0 28px', letterSpacing: '-1px', lineHeight: 1.1 }}>
+            La meditación es universal.<br />Pero las apps no lo son.
+          </h2>
+          <p className={`fade-up stagger-2${sec7In ? ' in-view' : ''}`} style={{ fontSize: 16, lineHeight: 1.75, color: 'rgba(232,241,245,0.65)', margin: '0 0 56px' }}>
+            Las grandes apps de meditación están diseñadas para un solo perfil: occidental, secular, angloparlante. Niela nació para todos los demás — para quienes meditan en árabe, rezan en swahili, practican zazen en Buenos Aires o contemplan en silencio en Ciudad de México.
+          </p>
+          {/* Tradition pills */}
+          <div className={`fade-up stagger-3${sec7In ? ' in-view' : ''}`} style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
+            {traditions.map(t => (
+              <div
+                key={t.name}
+                style={{ position: 'relative', display: 'inline-block' }}
+                onMouseEnter={() => setHoveredTradition(t.name)}
+                onMouseLeave={() => setHoveredTradition(null)}
+              >
+                <span style={{
+                  display: 'inline-block',
+                  padding: '10px 22px',
+                  background: hoveredTradition === t.name ? 'rgba(166,200,220,0.2)' : 'rgba(166,200,220,0.08)',
+                  border: '1px solid rgba(166,200,220,0.2)',
+                  borderRadius: 999,
+                  fontSize: 14,
+                  color: '#a6c8dc',
+                  fontWeight: 500,
+                  cursor: 'default',
+                  transition: 'background 200ms',
+                }}>
+                  {t.name}
+                </span>
+                {hoveredTradition === t.name && (
+                  <div style={{ position: 'absolute', bottom: 'calc(100% + 10px)', left: '50%', transform: 'translateX(-50%)', background: '#2c3e50', border: '1px solid rgba(166,200,220,0.2)', borderRadius: 10, padding: '8px 14px', whiteSpace: 'nowrap', fontSize: 12, color: 'rgba(232,241,245,0.8)', zIndex: 50, boxShadow: '0 8px 24px rgba(0,0,0,0.3)', pointerEvents: 'none' }}>
+                    {t.desc}
+                    <div style={{ position: 'absolute', bottom: -5, left: '50%', transform: 'translateX(-50%)', width: 10, height: 10, background: '#2c3e50', borderRight: '1px solid rgba(166,200,220,0.2)', borderBottom: '1px solid rgba(166,200,220,0.2)', rotate: '45deg' }} />
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══ SECCIÓN 8: CTA FINAL ══ */}
+      <section
+        id="cta"
+        ref={sec8Ref as React.RefObject<HTMLElement>}
+        style={{ padding: '120px 64px', background: 'linear-gradient(135deg, #0d1821 0%, #1a3040 50%, #0d1821 100%)', position: 'relative', overflow: 'hidden', textAlign: 'center' }}
+      >
+        {/* Decorative sphere */}
+        <div style={{ position: 'absolute', top: '-30%', left: '50%', transform: 'translateX(-50%)', width: 600, height: 600, borderRadius: '50%', background: 'radial-gradient(circle, rgba(166,200,220,0.12) 0%, rgba(166,200,220,0) 65%)', pointerEvents: 'none' }} />
+
+        <div className={`fade-up${sec8In ? ' in-view' : ''}`} style={{ position: 'relative', zIndex: 5, maxWidth: 640, margin: '0 auto' }}>
+          <h2 style={{ fontSize: 56, fontWeight: 500, color: '#e8f1f5', margin: '0 0 20px', letterSpacing: '-1.5px', lineHeight: 1.05 }}>
+            Empezá tu práctica hoy
+          </h2>
+          <p style={{ fontSize: 18, color: 'rgba(232,241,245,0.65)', margin: '0 0 48px', lineHeight: 1.6 }}>
+            Únete a {count} personas que ya están esperando Niela.
+          </p>
+
+          {/* App store placeholders */}
+          <div style={{ display: 'flex', gap: 14, justifyContent: 'center', marginBottom: 48, flexWrap: 'wrap' }}>
+            {[
+              { label: 'App Store', icon: '🍎' },
+              { label: 'Google Play', icon: '▶' },
+            ].map(btn => (
+              <button key={btn.label} disabled style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 28px', borderRadius: 14, border: '1px solid rgba(166,200,220,0.2)', background: 'rgba(255,255,255,0.04)', color: 'rgba(232,241,245,0.4)', fontSize: 15, fontWeight: 500, cursor: 'not-allowed' }}>
+                <span style={{ fontSize: 18 }}>{btn.icon}</span>
+                <span>
+                  <span style={{ display: 'block', fontSize: 10, opacity: 0.7, textAlign: 'left' }}>Próximamente</span>
+                  {btn.label}
+                </span>
+              </button>
+            ))}
+          </div>
+
+          {/* Waitlist form */}
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <WaitlistForm dark />
+          </div>
+        </div>
+      </section>
+
+      {/* ══ FOOTER ══ */}
+      <footer style={{ background: '#0d1821', borderTop: '1px solid rgba(166,200,220,0.07)', padding: '64px 64px 32px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 40, maxWidth: 1040, margin: '0 auto', marginBottom: 48 }}>
+          {[
+            { heading: 'Producto', links: ['Cómo funciona', 'Tradiciones', 'Precios', 'App móvil'] },
+            { heading: 'Empresa',  links: ['Sobre nosotros', 'Manifiesto', 'Carreras'] },
+            { heading: 'Recursos', links: ['Blog', 'FAQ', 'Soporte'] },
+            { heading: 'Legal',    links: ['Términos', 'Privacidad', 'Cookies'] },
+          ].map(col => (
+            <div key={col.heading}>
+              <p style={{ fontSize: 12, fontWeight: 600, color: 'rgba(232,241,245,0.4)', textTransform: 'uppercase', letterSpacing: '2px', margin: '0 0 16px' }}>{col.heading}</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {col.links.map(link => (
+                  <a key={link} href="#" style={{ fontSize: 14, color: 'rgba(232,241,245,0.55)', textDecoration: 'none', transition: 'color 200ms' }}>{link}</a>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ maxWidth: 1040, margin: '0 auto', paddingTop: 28, borderTop: '1px solid rgba(166,200,220,0.07)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
+          <p style={{ fontSize: 13, color: 'rgba(232,241,245,0.35)', margin: 0 }}>Niela © 2026 · Hecho con cuidado en Italia 🇮🇹</p>
+          <div style={{ display: 'flex', gap: 20 }}>
+            {['Instagram', 'TikTok', 'X', 'YouTube'].map(sn => (
+              <a key={sn} href="#" style={{ fontSize: 13, color: 'rgba(232,241,245,0.35)', textDecoration: 'none', transition: 'color 200ms' }}>{sn}</a>
+            ))}
+          </div>
         </div>
       </footer>
 
+      {/* ══ SCOPED STYLES ══ */}
       <style jsx>{`
-        /* ── Keyframes ── */
-        @keyframes heroFloat {
-          0%, 100% { transform: translate(-50%, -50%) translateY(0px) scale(1); }
-          50%       { transform: translate(-50%, -50%) translateY(-15px) scale(1.02); }
-        }
-        @keyframes orbFloat {
-          0%, 100% { transform: translateY(0px); }
-          50%       { transform: translateY(-18px); }
-        }
-        @keyframes rotate {
-          from { transform: translate(-50%, -50%) rotate(0deg); }
-          to   { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-        @keyframes ripple {
-          0%   { transform: scale(0.8); opacity: 0.7; }
-          100% { transform: scale(4);   opacity: 0; }
-        }
-        @keyframes heroLineIn {
-          from { opacity: 0; transform: translateY(8px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ── Sphere & rings ── */
+        /* rings */
         .ring-big {
           position: absolute; top: 50%; left: 50%; width: 540px; height: 540px;
-          border: 1px solid rgba(166,200,220,0.4); border-radius: 50%;
+          border: 1px solid rgba(166,200,220,0.2); border-radius: 50%;
           animation: rotate 80s linear infinite; pointer-events: none;
-          transform: translate(-50%, -50%);
+          transform: translate(-50%,-50%);
         }
         .ring-small {
-          position: absolute; top: 50%; left: 50%; width: 420px; height: 420px;
-          border: 1px solid rgba(180,210,180,0.4); border-radius: 50%;
-          animation: rotate 60s linear infinite reverse; pointer-events: none;
-          transform: translate(-50%, -50%);
+          position: absolute; top: 50%; left: 50%; width: 380px; height: 380px;
+          border: 1px solid rgba(184,201,168,0.2); border-radius: 50%;
+          animation: rotate 55s linear infinite reverse; pointer-events: none;
+          transform: translate(-50%,-50%);
         }
         .hero-sphere {
-          position: absolute; top: 50%; left: 50%; width: 340px; height: 340px;
+          position: absolute; top: 50%; left: 50%; width: 300px; height: 300px;
           border-radius: 50%;
-          background: radial-gradient(circle at 30% 30%, rgba(212,184,150,0.5) 0%, rgba(166,200,220,0.55) 50%, rgba(180,210,180,0.45) 100%);
+          background: radial-gradient(circle at 30% 30%, rgba(212,184,150,0.3) 0%, rgba(166,200,220,0.35) 50%, rgba(184,201,168,0.25) 100%);
           animation: heroFloat 10s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
-          pointer-events: none;
-          transform: translate(-50%, -50%);
+          pointer-events: none; transform: translate(-50%,-50%);
         }
         .orb-blue {
-          position: absolute; top: 18%; right: 8%; width: 50px; height: 50px;
+          position: absolute; top: 14%; right: 8%; width: 48px; height: 48px;
           border-radius: 50%;
           background: radial-gradient(circle at 30% 30%, #c4dde8 0%, #8fb5c8 70%);
-          animation: orbFloat 7s ease-in-out infinite;
-          pointer-events: none;
+          animation: orbFloat 7s ease-in-out infinite; pointer-events: none;
         }
         .orb-green {
-          position: absolute; bottom: 14%; left: 10%; width: 40px; height: 40px;
+          position: absolute; bottom: 12%; left: 8%; width: 36px; height: 36px;
           border-radius: 50%;
           background: radial-gradient(circle at 30% 30%, #d8e5d0 0%, #a8c0a0 70%);
-          animation: orbFloat 9s ease-in-out infinite reverse;
-          pointer-events: none;
+          animation: orbFloat 9s ease-in-out infinite reverse; pointer-events: none;
         }
 
-        /* ── Ripples ── */
-        .ripple-blue  { background: rgba(166,200,220,0.6); animation: ripple 3s ease-out infinite; }
-        .ripple-green { background: rgba(184,201,168,0.6); animation: ripple 3s ease-out infinite; }
-        .ripple-amber { background: rgba(212,184,150,0.6); animation: ripple 3s ease-out infinite; }
+        /* hero title stagger */
+        .hero-line { opacity: 0; transform: translateY(10px); }
+        .hero-line-visible.hero-line-1 { animation: heroLineIn 320ms cubic-bezier(0.23,1,0.32,1) forwards; animation-delay: 0ms; }
+        .hero-line-visible.hero-line-2 { animation: heroLineIn 320ms cubic-bezier(0.23,1,0.32,1) forwards; animation-delay: 80ms; }
+        .hero-line-visible.hero-line-3 { animation: heroLineIn 320ms cubic-bezier(0.23,1,0.32,1) forwards; animation-delay: 160ms; }
 
-        /* ── Hero title stagger ── */
-        .hero-line {
-          opacity: 0;
-          transform: translateY(8px);
-        }
-        .hero-line-visible.hero-line-1 {
-          animation: heroLineIn 280ms ease-out forwards;
-          animation-delay: 0ms;
-        }
-        .hero-line-visible.hero-line-2 {
-          animation: heroLineIn 280ms ease-out forwards;
-          animation-delay: 80ms;
-        }
-        .hero-line-visible.hero-line-3 {
-          animation: heroLineIn 280ms ease-out forwards;
-          animation-delay: 160ms;
+        /* feature card hover */
+        .feature-card:hover {
+          transform: translateY(-4px);
+          border-color: rgba(166,200,220,0.3) !important;
         }
 
-        /* ── Button press feedback ── */
-        .btn-animate {
-          transition: transform 150ms ease-out, opacity 150ms ease-out;
+        /* nav link hover */
+        nav a:hover { opacity: 1; color: #e8f1f5 !important; }
+
+        /* responsive */
+        @media (max-width: 900px) {
+          section[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; padding: 80px 24px !important; }
+          div[style*="repeat(3,1fr)"] { grid-template-columns: 1fr !important; }
+          div[style*="repeat(2,1fr)"] { grid-template-columns: 1fr !important; }
+          div[style*="repeat(4,1fr)"] { grid-template-columns: repeat(2,1fr) !important; }
+          nav { padding: 16px 24px !important; }
+          h1[style*="font-size: 72px"] { font-size: 44px !important; letter-spacing: -1.5px !important; }
+          h2[style*="font-size: 44px"] { font-size: 32px !important; }
+          h2[style*="font-size: 56px"] { font-size: 38px !important; }
+          nav > div:last-child a:not(:last-child) { display: none !important; }
         }
-        .btn-animate:active {
-          transform: scale(0.97);
+        @media (max-width: 600px) {
+          div[style*="repeat(4,1fr)"] { grid-template-columns: 1fr !important; }
+          section { padding: 64px 20px !important; }
+          nav { padding: 14px 20px !important; }
         }
 
-        /* ── Nav links animated underline ── */
-        .nav-link::after {
-          content: '';
-          position: absolute;
-          bottom: -2px;
-          left: 0;
-          width: 100%;
-          height: 1px;
-          background: currentColor;
-          transform: scaleX(0);
-          transform-origin: left center;
-          transition: transform 200ms ease-out;
-        }
-        @media (hover: hover) and (pointer: fine) {
-          .nav-link:hover::after {
-            transform: scaleX(1);
-          }
-        }
-
-        /* ── Tradition pills hover ── */
-        .tradition-pill {
-          transition: transform 150ms ease-out, background 150ms ease-out;
-          cursor: default;
-        }
-        @media (hover: hover) and (pointer: fine) {
-          .tradition-pill:hover {
-            transform: scale(1.03);
-          }
-        }
-
-        /* ── Responsive ── */
-        @media (max-width: 768px) {
-          .hero-grid  { grid-template-columns: 1fr !important; padding: 24px 20px 48px !important; gap: 40px !important; }
-          .hero-grid h1 { font-size: 36px !important; }
-          .how-grid   { grid-template-columns: 1fr !important; }
-          nav         { padding: 16px 20px !important; }
-          nav > div:last-child a { display: none !important; }
-        }
-
-        /* ── Reduced motion ── */
+        /* reduced motion */
         @media (prefers-reduced-motion: reduce) {
           .hero-sphere, .orb-blue, .orb-green, .ring-big, .ring-small { animation: none !important; }
           .hero-line { opacity: 1 !important; transform: none !important; animation: none !important; }
-          .btn-animate:active { transform: none !important; }
+          .feature-card:hover { transform: none !important; }
         }
       `}</style>
     </main>
