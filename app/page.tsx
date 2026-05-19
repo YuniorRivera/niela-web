@@ -39,12 +39,52 @@ function PhoneMockup({ label }: { label: string }) {
   )
 }
 
-/* ── Waitlist form ── */
-function WaitlistForm({ dark = false }: { dark?: boolean }) {
+/* ── 5.5 SuccessState with viral share ── */
+function SuccessState({ position, email = '' }: { position: number; email?: string }) {
+  const [copied, setCopied] = useState(false)
+
+  const hashEmail = (e: string) => {
+    let hash = 0
+    for (let i = 0; i < e.length; i++) hash = ((hash << 5) - hash) + e.charCodeAt(i)
+    return Math.abs(hash).toString(16).slice(0, 8)
+  }
+
+  const refUrl = `https://niela.app?ref=${hashEmail(email)}`
+  const shareText = `Me anoté en la lista de espera de Niela, una app de meditación con IA en español. ¿Te sumás?`
+  const waUrl = `https://wa.me/?text=${encodeURIComponent(shareText + ' ' + refUrl)}`
+  const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(refUrl)}`
+
+  const copyLink = async () => {
+    await navigator.clipboard.writeText(refUrl)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  return (
+    <div style={{ textAlign: 'center', padding: '8px 0' }}>
+      <div style={{ fontSize: 28, marginBottom: 8 }}>✨</div>
+      <p style={{ fontSize: 17, fontWeight: 600, color: '#e8f1f5', margin: '0 0 4px' }}>Estás en la lista</p>
+      <p style={{ fontSize: 13, color: '#a6c8dc', margin: '0 0 20px' }}>Posición #{position}</p>
+      <p style={{ fontSize: 13, color: 'rgba(232,241,245,0.6)', margin: '0 0 16px' }}>Invitá amigos y subí en la lista. Por cada amigo que se una, subís 5 posiciones.</p>
+      <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap' }}>
+        <a href={waUrl} target="_blank" rel="noopener" style={{ padding: '10px 16px', borderRadius: 12, background: '#25D366', color: '#fff', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}>💬 WhatsApp</a>
+        <a href={twitterUrl} target="_blank" rel="noopener" style={{ padding: '10px 16px', borderRadius: 12, background: '#000', color: '#fff', fontSize: 13, fontWeight: 600, textDecoration: 'none', border: '1px solid #333' }}>𝕏 Twitter</a>
+        <button onClick={copyLink} style={{ padding: '10px 16px', borderRadius: 12, background: 'rgba(166,200,220,0.15)', color: '#a6c8dc', fontSize: 13, fontWeight: 600, border: '1px solid rgba(166,200,220,0.3)', cursor: 'pointer' }}>
+          {copied ? '✓ Copiado' : '🔗 Copiar link'}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+/* ── Waitlist form (original, bottom CTA) ── */
+function WaitlistForm({ dark = false, onSuccess }: { dark?: boolean; onSuccess?: (position: number) => void }) {
   const [email, setEmail] = useState('')
   const [accepted, setAccepted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [position, setPosition] = useState(0)
+  const [submittedEmail, setSubmittedEmail] = useState('')
 
   const submit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault()
@@ -57,11 +97,20 @@ function WaitlistForm({ dark = false }: { dark?: boolean }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       })
-      if (r.ok) { setStatus('success'); setEmail('') }
-      else setStatus('error')
+      const data = await r.json()
+      if (r.ok || r.status === 409) {
+        setPosition(data.position ?? 0)
+        setSubmittedEmail(email)
+        setStatus('success')
+        setEmail('')
+        sessionStorage.setItem('emailSubmitted', '1')
+        if (onSuccess) onSuccess(data.position ?? 0)
+      } else {
+        setStatus('error')
+      }
     } catch { setStatus('error') }
     setSubmitting(false)
-  }, [email])
+  }, [email, onSuccess])
 
   const inputBg = dark ? 'rgba(232,241,245,0.08)' : 'rgba(255,255,255,0.7)'
   const inputBorder = dark ? '1px solid rgba(232,241,245,0.18)' : '1px solid rgba(44,62,80,0.18)'
@@ -70,6 +119,10 @@ function WaitlistForm({ dark = false }: { dark?: boolean }) {
   const btnColor = dark ? '#1f2d3a' : '#1f2d3a'
   const legalColor = dark ? 'rgba(232,241,245,0.5)' : '#6b7c8a'
   const linkColor = dark ? '#a6c8dc' : '#4a6b80'
+
+  if (status === 'success') {
+    return <SuccessState position={position} email={submittedEmail} />
+  }
 
   return (
     <div style={{ width: '100%', maxWidth: 460 }}>
@@ -95,7 +148,6 @@ function WaitlistForm({ dark = false }: { dark?: boolean }) {
           <a href="/legal/privacidad" style={{ color: linkColor }}>Política de Privacidad</a>
         </span>
       </label>
-      {status === 'success' && <p style={{ fontSize: 12, color: dark ? '#b8c9a8' : '#3d5538', margin: 0 }}>¡Listo! Te avisamos cuando lancemos.</p>}
       {status === 'error' && <p style={{ fontSize: 12, color: '#e08080', margin: 0 }}>No pudimos conectar. Intenta de nuevo.</p>}
       {status === 'idle' && <p style={{ fontSize: 12, color: legalColor, margin: 0 }}>Sin spam. Aviso una sola vez al lanzar.</p>}
     </div>
@@ -110,9 +162,32 @@ export default function Home() {
   const [heroMounted, setHeroMounted] = useState(false)
   const [hoveredTradition, setHoveredTradition] = useState<string | null>(null)
 
+  // 5.2 Hero form states
+  const [heroEmail, setHeroEmail] = useState('')
+  const [heroSubmitted, setHeroSubmitted] = useState(false)
+  const [heroLoading, setHeroLoading] = useState(false)
+  const [heroPosition, setHeroPosition] = useState(0)
+  const [lastSubmittedEmail, setLastSubmittedEmail] = useState('')
+
+  // 5.4 Exit-intent states
+  const [exitModalOpen, setExitModalOpen] = useState(false)
+  const [exitEmail, setExitEmail] = useState('')
+  const [exitSubmitted, setExitSubmitted] = useState(false)
+  const [exitLoading, setExitLoading] = useState(false)
+  const [exitPosition, setExitPosition] = useState(0)
+
+  // 5.3 Sticky CTA states
+  const [stickyVisible, setStickyVisible] = useState(false)
+  const [stickyModalOpen, setStickyModalOpen] = useState(false)
+  const [stickyEmail, setStickyEmail] = useState('')
+  const [stickySubmitted, setStickySubmitted] = useState(false)
+  const [stickyLoading, setStickyLoading] = useState(false)
+  const [stickyPosition, setStickyPosition] = useState(0)
+
+  // 5.1 Fetch real count from DB
   useEffect(() => {
     fetch(`${API_URL}/api/waitlist/count`)
-      .then(r => r.json())
+      .then(r => r.ok ? r.json() : null)
       .then(d => { if (d?.count != null) setCount(d.count) })
       .catch(() => {})
   }, [])
@@ -121,6 +196,95 @@ export default function Home() {
     const raf = requestAnimationFrame(() => setHeroMounted(true))
     return () => cancelAnimationFrame(raf)
   }, [])
+
+  // 5.3 Scroll listener for sticky CTA
+  useEffect(() => {
+    let ticking = false
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setStickyVisible(window.scrollY > window.innerHeight * 0.3)
+          ticking = false
+        })
+        ticking = true
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  // 5.4 Exit-intent listener (desktop only)
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    if (window.innerWidth < 768) return
+    if (sessionStorage.getItem('exitShown')) return
+
+    const handler = (e: MouseEvent) => {
+      if (e.clientY < 10) {
+        if (sessionStorage.getItem('emailSubmitted')) return
+        sessionStorage.setItem('exitShown', '1')
+        setExitModalOpen(true)
+        document.removeEventListener('mouseleave', handler)
+      }
+    }
+    document.addEventListener('mouseleave', handler)
+    return () => document.removeEventListener('mouseleave', handler)
+  }, [])
+
+  // Generic email submit handler
+  const handleEmailSubmit = useCallback(async (
+    email: string,
+    onSuccess: (position: number) => void,
+    setLoading: (b: boolean) => void
+  ) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) return
+    setLoading(true)
+    try {
+      const res = await fetch(`${API_URL}/api/waitlist`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+      const data = await res.json()
+      if (res.ok || res.status === 409) {
+        if (data.position != null) {
+          setCount(data.position)
+        }
+        setLastSubmittedEmail(email)
+        sessionStorage.setItem('emailSubmitted', '1')
+        onSuccess(data.position ?? count)
+      }
+    } catch {}
+    finally { setLoading(false) }
+  }, [count])
+
+  const handleHeroSubmit = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault()
+    await handleEmailSubmit(
+      heroEmail,
+      (position) => { setHeroPosition(position); setHeroSubmitted(true) },
+      setHeroLoading
+    )
+  }, [heroEmail, handleEmailSubmit])
+
+  const handleExitSubmit = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault()
+    await handleEmailSubmit(
+      exitEmail,
+      (position) => { setExitPosition(position); setExitSubmitted(true) },
+      setExitLoading
+    )
+  }, [exitEmail, handleEmailSubmit])
+
+  const handleStickySubmit = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault()
+    await handleEmailSubmit(
+      stickyEmail,
+      (position) => { setStickyPosition(position); setStickySubmitted(true) },
+      setStickyLoading
+    )
+  }, [stickyEmail, handleEmailSubmit])
 
   /* section refs for IntersectionObserver */
   const [sec2Ref, sec2In] = useInView(0.15)
@@ -176,21 +340,57 @@ export default function Home() {
             <span className={`hero-line hero-line-3${heroMounted ? ' hero-line-visible' : ''}`} style={{ display: 'block', color: '#a6c8dc', fontStyle: 'italic' }}>tu momento.</span>
           </h1>
 
-          <p style={{ fontSize: 17, lineHeight: 1.65, color: 'rgba(232,241,245,0.72)', margin: '0 0 36px', maxWidth: 440 }}>
+          <p style={{ fontSize: 17, lineHeight: 1.65, color: 'rgba(232,241,245,0.72)', margin: '0 0 24px', maxWidth: 440 }}>
             Sesiones de meditación generadas por IA, adaptadas a tu tradición espiritual y a cómo te sentís hoy.
           </p>
+
+          {/* 5.2 Hero email form */}
+          {!heroSubmitted ? (
+            <form onSubmit={handleHeroSubmit} style={{ display: 'flex', gap: 8, marginBottom: 8, maxWidth: 440 }}>
+              <input
+                type="email"
+                value={heroEmail}
+                onChange={e => setHeroEmail(e.target.value)}
+                placeholder="tu@email.com"
+                required
+                style={{
+                  flex: 1,
+                  padding: '12px 16px',
+                  borderRadius: 12,
+                  border: '1px solid rgba(166,200,220,0.3)',
+                  background: 'rgba(255,255,255,0.06)',
+                  color: '#e8f1f5',
+                  fontSize: 15,
+                  outline: 'none',
+                }}
+              />
+              <button type="submit" disabled={heroLoading} style={{
+                padding: '12px 20px',
+                borderRadius: 12,
+                border: 'none',
+                background: '#a6c8dc',
+                color: '#1f2d3a',
+                fontWeight: 700,
+                fontSize: 14,
+                cursor: heroLoading ? 'not-allowed' : 'pointer',
+                whiteSpace: 'nowrap',
+                opacity: heroLoading ? 0.6 : 1,
+              }}>
+                {heroLoading ? '...' : 'Unirme gratis'}
+              </button>
+            </form>
+          ) : (
+            <div style={{ marginBottom: 8, maxWidth: 440 }}>
+              <SuccessState position={heroPosition} email={lastSubmittedEmail} />
+            </div>
+          )}
+          <p style={{ fontSize: 12, color: 'rgba(232,241,245,0.4)', margin: '0 0 24px' }}>Sin spam. Aviso cuando lancemos.</p>
 
           <div style={{ display: 'flex', gap: 14, marginBottom: 36, flexWrap: 'wrap' }}>
             <a
               href="#cta"
               className="btn-primary"
-              style={{ background: '#a6c8dc', color: '#1f2d3a', padding: '14px 28px', borderRadius: 999, fontSize: 15, fontWeight: 600, textDecoration: 'none', transition: 'transform 150ms ease-out, opacity 150ms ease-out' }}
-            >
-              Empezar gratis
-            </a>
-            <a
-              href="#como-funciona"
-              style={{ color: 'rgba(232,241,245,0.75)', padding: '14px 0', fontSize: 15, textDecoration: 'none', transition: 'color 200ms' }}
+              style={{ background: 'rgba(166,200,220,0.15)', color: '#a6c8dc', padding: '14px 28px', borderRadius: 999, fontSize: 15, fontWeight: 600, textDecoration: 'none', transition: 'transform 150ms ease-out, opacity 150ms ease-out', border: '1px solid rgba(166,200,220,0.3)' }}
             >
               Ver cómo funciona ↓
             </a>
@@ -489,7 +689,7 @@ export default function Home() {
 
           {/* Waitlist form */}
           <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <WaitlistForm dark />
+            <WaitlistForm dark onSuccess={(pos) => setCount(pos)} />
           </div>
         </div>
       </section>
@@ -523,6 +723,74 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* ══ 5.3 STICKY MOBILE CTA ══ */}
+      {stickyVisible && (
+        <div className="sticky-mobile-cta" style={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: 60,
+          background: 'rgba(31,45,58,0.92)',
+          backdropFilter: 'blur(16px)',
+          borderTop: '1px solid rgba(166,200,220,0.12)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '0 20px',
+          zIndex: 200,
+        }}>
+          <span style={{ fontSize: 13, color: 'rgba(232,241,245,0.6)' }}>{count} personas ya esperan</span>
+          <button onClick={() => setStickyModalOpen(true)} style={{ background: '#a6c8dc', color: '#1f2d3a', border: 'none', borderRadius: 999, padding: '10px 20px', fontWeight: 700, fontSize: 14, cursor: 'pointer' }}>
+            Únete gratis
+          </button>
+        </div>
+      )}
+
+      {/* ══ 5.3 STICKY MODAL ══ */}
+      {stickyModalOpen && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)', zIndex: 300, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}
+          onClick={() => setStickyModalOpen(false)}>
+          <div onClick={e => e.stopPropagation()} style={{ background: '#2c3e50', borderRadius: '24px 24px 0 0', padding: '32px 28px 40px', width: '100%', maxWidth: 480, position: 'relative', border: '1px solid rgba(166,200,220,0.15)', borderBottom: 'none' }}>
+            <button onClick={() => setStickyModalOpen(false)} style={{ position: 'absolute', top: 16, right: 16, background: 'none', border: 'none', color: '#5a6f7d', fontSize: 20, cursor: 'pointer' }}>✕</button>
+            <h3 style={{ fontSize: 22, fontWeight: 600, color: '#e8f1f5', margin: '0 0 8px' }}>Únete a la lista de espera</h3>
+            <p style={{ fontSize: 14, color: 'rgba(232,241,245,0.65)', margin: '0 0 20px' }}>Gratis. Sin spam. Avisamos cuando lancemos.</p>
+            {!stickySubmitted ? (
+              <form onSubmit={handleStickySubmit} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <input type="email" value={stickyEmail} onChange={e => setStickyEmail(e.target.value)} placeholder="tu@email.com" required style={{ width: '100%', padding: '13px 16px', borderRadius: 12, border: '1px solid rgba(166,200,220,0.3)', background: 'rgba(255,255,255,0.06)', color: '#e8f1f5', fontSize: 15, boxSizing: 'border-box', outline: 'none' }} />
+                <button type="submit" disabled={stickyLoading} style={{ width: '100%', padding: '14px', borderRadius: 12, border: 'none', background: '#a6c8dc', color: '#1f2d3a', fontWeight: 700, fontSize: 15, cursor: stickyLoading ? 'not-allowed' : 'pointer', opacity: stickyLoading ? 0.6 : 1 }}>
+                  {stickyLoading ? '...' : 'Unirme gratis'}
+                </button>
+              </form>
+            ) : (
+              <SuccessState position={stickyPosition} email={lastSubmittedEmail} />
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* ══ 5.4 EXIT-INTENT MODAL ══ */}
+      {exitModalOpen && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)', zIndex: 300, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          onClick={() => setExitModalOpen(false)}>
+          <div onClick={e => e.stopPropagation()} style={{ background: '#2c3e50', borderRadius: 24, padding: '40px 36px', maxWidth: 440, width: '90%', position: 'relative', border: '1px solid rgba(166,200,220,0.15)' }}>
+            <button onClick={() => setExitModalOpen(false)} style={{ position: 'absolute', top: 16, right: 16, background: 'none', border: 'none', color: '#5a6f7d', fontSize: 20, cursor: 'pointer' }}>✕</button>
+            <h3 style={{ fontSize: 24, fontWeight: 600, color: '#e8f1f5', margin: '0 0 8px' }}>¿Te vas sin Niela?</h3>
+            <p style={{ fontSize: 15, color: 'rgba(232,241,245,0.65)', margin: '0 0 24px' }}>Dejá tu email. Cuando lancemos, sos de los primeros en probarla.</p>
+            {!exitSubmitted ? (
+              <form onSubmit={handleExitSubmit}>
+                <input type="email" value={exitEmail} onChange={e => setExitEmail(e.target.value)} placeholder="tu@email.com" required style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid rgba(166,200,220,0.3)', background: 'rgba(255,255,255,0.06)', color: '#e8f1f5', fontSize: 15, marginBottom: 12, boxSizing: 'border-box', outline: 'none' }} />
+                <button type="submit" disabled={exitLoading} style={{ width: '100%', padding: '14px', borderRadius: 12, border: 'none', background: '#a6c8dc', color: '#1f2d3a', fontWeight: 700, fontSize: 15, cursor: exitLoading ? 'not-allowed' : 'pointer', opacity: exitLoading ? 0.6 : 1 }}>
+                  {exitLoading ? '...' : 'Unirme gratis'}
+                </button>
+              </form>
+            ) : (
+              <SuccessState position={exitPosition} email={lastSubmittedEmail} />
+            )}
+          </div>
+        </div>
+      )}
 
       {/* ══ SCOPED STYLES ══ */}
       <style jsx>{`
@@ -573,6 +841,14 @@ export default function Home() {
 
         /* nav link hover */
         nav a:hover { opacity: 1; color: #e8f1f5 !important; }
+
+        /* 5.3 sticky bar hidden on desktop */
+        .sticky-mobile-cta {
+          display: flex;
+        }
+        @media (min-width: 768px) {
+          .sticky-mobile-cta { display: none !important; }
+        }
 
         /* responsive */
         @media (max-width: 900px) {
