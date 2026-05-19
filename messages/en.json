@@ -1,158 +1,198 @@
 {
   "meta": {
-    "title": "Niela — Meditación personalizada",
-    "description": "Sesiones de meditación generadas por IA, adaptadas a tu tradición espiritual y a cómo te sentís hoy."
+    "title": "Niela — Personalized meditation",
+    "description": "AI-generated meditation sessions, adapted to your spiritual tradition and how you feel today."
   },
   "nav": {
-    "comoFunciona": "Cómo funciona",
-    "tradiciones": "Tradiciones",
-    "comparativa": "Comparativa",
-    "cta": "Unirme a la lista"
+    "comoFunciona": "How it works",
+    "tradiciones": "Traditions",
+    "comparativa": "Comparison",
+    "cta": "Join the list"
   },
   "hero": {
-    "waitlistChip": "✦ {count} personas en lista de espera",
-    "waitlistChipFallback": "✦ Lista de espera abierta",
-    "title1": "Tu meditación,",
-    "title2": "tu tradición,",
-    "title3": "tu momento.",
-    "subtitle": "Sesiones de meditación generadas por IA, adaptadas a tu tradición espiritual y a cómo te sentís hoy.",
-    "emailPlaceholder": "tu@email.com",
-    "submitButton": "Unirme a la lista",
-    "footnote": "Sin spam. Aviso cuando lancemos.",
-    "viewHow": "Ver cómo funciona ↓",
+    "waitlistChip": "{count} people on the waitlist",
+    "waitlistChipFallback": "Waitlist open",
+    "title1": "Your meditation,",
+    "title2": "your tradition,",
+    "title3": "your moment.",
+    "subtitle": "AI-generated meditation sessions, tailored to your spiritual tradition and how you feel today.",
+    "emailPlaceholder": "you@email.com",
+    "submitButton": "Join the list",
+    "footnote": "No spam. We'll let you know when we launch.",
+    "viewHow": "See how it works",
     "badgeGdpr": "GDPR compliant",
-    "badgeEvidence": "Basado en evidencia",
-    "badgeTraditions": "7 tradiciones"
-  },
-  "trustBar": {
-    "evidence": "Basado en evidencia",
-    "gdpr": "GDPR Compliant",
-    "encryption": "Cifrado end-to-end",
-    "advisory": "Comité asesor cultural",
-    "soonInMedia": "Próximamente en medios"
+    "badgeEvidence": "Evidence-based",
+    "badgeTraditions": "7 traditions"
   },
   "howItWorks": {
-    "eyebrow": "Cómo funciona",
-    "title": "Cinco pantallas.\nUna práctica que se adapta a vos.",
-    "card1Title": "Elegí tu tradición",
-    "card1Text": "7 tradiciones espirituales. Configurás tu camino: Zen, Tibetana, Andina, Sufí, Cristiana contemplativa, Islámica o Laica.",
-    "card2Title": "La IA entiende tu momento",
-    "card2Text": "Describís cómo te sentís. Niela AI genera una sesión única, adaptada a tu tradición y a tu día.",
-    "card3Title": "Cursos por tradición",
-    "card3Text": "20 lecciones por tradición. Teoría, práctica y reflexión guiada. Un camino completo.",
-    "card4Title": "Tu biblioteca de sesiones",
-    "card4Text": "Guardá tus meditaciones favoritas. Etiquetas por estado emocional. Volvé a las que más te ayudaron.",
-    "card5Title": "Diario de tu práctica",
-    "card5Text": "Registrá cómo te sentís. Niela aprende de tu evolución para personalizar mejor cada sesión."
+    "title": "Five screens. One practice that adapts to you.",
+    "card1Title": "Choose your tradition",
+    "card1Text": "7 spiritual traditions. Set up your path: Zen, Tibetan, Andean, Sufi, Contemplative Christian, Islamic, or Secular.",
+    "card2Title": "AI that understands your moment",
+    "card2Text": "Tell us how you feel. Niela AI creates a unique session, adapted to your tradition and your day.",
+    "card3Title": "Courses by tradition",
+    "card3Text": "20 lessons per tradition. Theory, practice, and guided reflection. A complete path.",
+    "card4Title": "Your session library",
+    "card4Text": "Save your favorite meditations. Tags by emotional state. Come back to the ones that helped most.",
+    "card5Title": "Your practice journal",
+    "card5Text": "Track how you feel. Niela learns from your journey to personalize each session better.",
+    "eyebrow": "How it works"
+  },
+  "whyExist": {
+    "eyebrow": "WHY WE EXIST",
+    "title1": "Meditation is universal.",
+    "title2": "But apps aren't.",
+    "text": "The big meditation apps are designed for one profile: Western, secular, English-speaking. Niela was born for everyone else — for those who meditate in Arabic, pray in Swahili, practice zazen in Buenos Aires, or contemplate in silence in Mexico City.",
+    "traditions": {
+      "zen": "Zen",
+      "budista": "Buddhist",
+      "cristiana": "Christian",
+      "hindu": "Hindu",
+      "estoica": "Stoic",
+      "secular": "Secular",
+      "sufi": "Sufi"
+    },
+    "title": "Meditation is universal.\nBut apps aren't."
   },
   "comparison": {
-    "eyebrow": "Comparativa",
-    "title": "Por qué Niela es diferente",
+    "eyebrow": "COMPARISON",
+    "title": "Why Niela is different",
     "headerFeature": "Feature",
     "headerNiela": "Niela",
     "headerCalm": "Calm",
     "headerHeadspace": "Headspace",
-    "rowTradition": "Personalización por tradición",
-    "rowAi": "Sesiones generadas por IA",
-    "rowMultiTradition": "Multi-tradición",
-    "rowNativeSpanish": "Contenido nativo en español",
-    "rowNoTemplates": "Sin plantillas genéricas",
-    "partial": "Parcial",
-    "ebbNote": "Ebb · solo EN",
-    "footer": "Comparación basada en información pública al 18 de mayo de 2026. Headspace Ebb (AI companion) disponible solo en inglés según anuncio oficial de Headspace Health, octubre 2024."
-  },
-  "whyExist": {
-    "eyebrow": "Por qué existimos",
-    "title": "La meditación es universal.\nPero las apps no lo son.",
-    "text": "Las grandes apps de meditación están diseñadas para un solo perfil: occidental, secular, angloparlante. Niela nació para todos los demás — para quienes meditan en árabe, rezan en swahili, practican zazen en Buenos Aires o contemplan en silencio en Ciudad de México."
-  },
-  "traditions": {
-    "zen": { "name": "Zen", "desc": "Quietud, impermanencia, presencia plena" },
-    "budista": { "name": "Budista", "desc": "Atención plena, compasión, desapego" },
-    "cristiana": { "name": "Cristiana", "desc": "Lectio divina, contemplación, presencia divina" },
-    "hindu": { "name": "Hindú", "desc": "Pranayama, mantra, conexión con el Ser" },
-    "estoica": { "name": "Estoica", "desc": "Memento mori, dicotomía del control, virtud" },
-    "secular": { "name": "Secular", "desc": "Mindfulness basado en evidencia, sin dogma" },
-    "sufi": { "name": "Sufí", "desc": "Dhikr, amor divino, disolución del ego" }
+    "rowTradition": "Personalization by tradition",
+    "rowAi": "AI-generated sessions",
+    "rowMultiTradition": "Multi-tradition",
+    "rowNativeSpanish": "Native Spanish content",
+    "rowNoTemplates": "No generic templates",
+    "partial": "Partial",
+    "ebbNote": "Ebb · EN only",
+    "footer": "Comparison based on public information as of May 18, 2026. Headspace Ebb (AI companion) available only in English according to official Headspace Health announcement, October 2024."
   },
   "finalCta": {
-    "eyebrow": "Lista de espera",
-    "title": "Sé de los primeros en probar Niela",
-    "subtitleWithCount": "Únete a {count} personas que ya están esperando Niela.",
-    "subtitleFallback": "Sé de los primeros en probar Niela.",
-    "emailPlaceholder": "tu@email.com",
-    "submitButton": "Unirme a la lista",
-    "terms": "Al unirme acepto los",
-    "termsLink": "Términos",
-    "and": "y la",
-    "privacyLink": "Política de Privacidad",
-    "footnote": "Sin spam. Aviso una sola vez al lanzar.",
-    "appStoreSoon": "Próximamente",
+    "title": "Be among the first to try Niela",
+    "subtitle": "Be among the first to try Niela.",
+    "appStoreSoon": "Coming soon",
     "appStore": "App Store",
-    "googlePlay": "Google Play"
+    "googlePlay": "Google Play",
+    "emailPlaceholder": "you@email.com",
+    "submitButton": "Join the list",
+    "terms": "By joining I accept the",
+    "termsLink": "Terms",
+    "and": "and the",
+    "privacyLink": "Privacy Policy",
+    "footnote": "No spam. We'll let you know when we launch.",
+    "eyebrow": "Waitlist",
+    "subtitleFallback": "Be among the first to try Niela.",
+    "subtitleWithCount": "Join {count} people already waiting for Niela."
   },
   "success": {
-    "title": "¡Estás dentro!",
-    "position": "Sos la persona #{position} en descubrir Niela.",
-    "subtitle": "Te avisamos antes que a nadie cuando lancemos.",
-    "shareTitle": "Invitá amigos y subí en la lista",
-    "shareSubtitle": "Por cada amigo que se una, subís 5 posiciones.",
-    "whatsappButton": "💬 WhatsApp",
-    "twitterButton": "𝕏 Twitter",
-    "copyButton": "🔗 Copiar link",
-    "copied": "✓ Copiado",
-    "shareText": "Me anoté en la lista de espera de Niela, una app de meditación con IA en español. ¿Te sumás?"
+    "title": "You're in!",
+    "position": "You're person #{n} to discover Niela.",
+    "subtitle": "We'll tell you before anyone else when we launch.",
+    "shareTitle": "Invite friends and move up the list",
+    "shareSubtitle": "For every friend who joins, you move up 5 spots.",
+    "whatsappButton": "WhatsApp",
+    "twitterButton": "Twitter",
+    "copyButton": "Copy link",
+    "copied": "Link copied",
+    "whatsappText": "I'm trying Niela — AI meditation personalized by your spiritual tradition. Join the waitlist:",
+    "twitterText": "I'm trying Niela — personalized AI meditation. Join the waitlist:",
+    "shareText": "I signed up for Niela's waitlist — AI meditation personalized by spiritual tradition. Care to join?"
   },
   "exitModal": {
-    "title": "¿Te vas sin Niela?",
-    "subtitle": "Dejá tu email. Cuando lancemos, sos de los primeros en probarla.",
-    "submitButton": "Unirme a la lista"
+    "title": "Leaving without Niela?",
+    "subtitle": "Drop your email. When we launch, you'll be among the first to try it.",
+    "submitButton": "Join the list"
   },
-  "stickyModal": {
-    "title": "Únete a la lista de espera",
-    "subtitle": "Gratis. Sin spam. Avisamos cuando lancemos.",
-    "submitButton": "Unirme"
-  },
-  "stickyBar": {
-    "waitingText": "{count} personas ya esperan",
-    "waitingFallback": "Unite gratis",
-    "submitButton": "Unirme"
+  "stickyMobile": {
+    "submitButton": "Join",
+    "waitingText": "{count} people already waiting"
   },
   "footer": {
-    "productHeader": "Producto",
-    "companyHeader": "Empresa",
-    "resourcesHeader": "Recursos",
-    "legalHeader": "Legal",
-    "comoFunciona": "Cómo funciona",
-    "tradiciones": "Tradiciones",
-    "precios": "Precios",
-    "appMovil": "App móvil",
-    "sobreNosotros": "Sobre nosotros",
-    "manifiesto": "Manifiesto",
-    "carreras": "Carreras",
+    "productHeader": "PRODUCT",
+    "companyHeader": "COMPANY",
+    "resourcesHeader": "RESOURCES",
+    "legalHeader": "LEGAL",
+    "comoFunciona": "How it works",
+    "tradiciones": "Traditions",
+    "precios": "Pricing",
+    "appMovil": "Mobile app",
+    "sobreNosotros": "About us",
+    "manifiesto": "Manifesto",
+    "carreras": "Careers",
     "blog": "Blog",
     "faq": "FAQ",
-    "soporte": "Soporte",
-    "terminos": "Términos",
-    "privacidad": "Privacidad",
+    "soporte": "Support",
+    "terminos": "Terms",
+    "privacidad": "Privacy",
     "cookies": "Cookies",
-    "copyright": "Niela © 2026 · Hecho con cuidado en Italia 🇮🇹",
+    "copyright": "Niela © 2026 · Made with care in Italy 🇮🇹",
     "instagram": "Instagram",
     "tiktok": "TikTok",
     "x": "X",
     "youtube": "YouTube"
   },
   "errors": {
-    "rateLimit": "Demasiados intentos. Esperá unos minutos e intentá de nuevo.",
-    "generic": "Algo salió mal. Intentá de nuevo en unos segundos."
+    "invalidEmail": "Invalid email",
+    "rateLimit": "Too many attempts. Wait a few minutes.",
+    "generic": "Something went wrong. Try again in a few seconds."
   },
   "phoneMockup": {
-    "greeting": "Hola Sofía",
-    "question": "¿Qué sientes hoy?",
-    "intentLabel": "Tu intención",
-    "intentText": "\"Ansiedad antes de dormir y rumiación sobre el trabajo\"",
-    "traditionLabel": "Tradición",
-    "generatingLabel": "Generando tu sesión",
-    "meditationSnippet": "\"Hojas que flotan por un río...\""
+    "generatingLabel": "Generating your session",
+    "greeting": "Hi Sofía",
+    "intentLabel": "Your intention",
+    "intentText": "\"Anxiety before sleep and rumination about work\"",
+    "meditationSnippet": "\"Leaves floating on a river...\"",
+    "question": "How do you feel today?",
+    "traditionLabel": "Tradition"
+  },
+  "stickyBar": {
+    "submitButton": "Join",
+    "waitingFallback": "Join free",
+    "waitingText": "{count} people already waiting"
+  },
+  "stickyModal": {
+    "submitButton": "Join",
+    "subtitle": "Free. No spam. We will notify you when we launch.",
+    "title": "Join the waitlist"
+  },
+  "traditions": {
+    "zen": {
+      "name": "Zen",
+      "desc": "Stillness, impermanence, full presence"
+    },
+    "budista": {
+      "name": "Buddhist",
+      "desc": "Mindfulness, compassion, non-attachment"
+    },
+    "cristiana": {
+      "name": "Christian",
+      "desc": "Lectio divina, contemplation, divine presence"
+    },
+    "hindu": {
+      "name": "Hindu",
+      "desc": "Pranayama, mantra, connection with the Self"
+    },
+    "estoica": {
+      "name": "Stoic",
+      "desc": "Memento mori, dichotomy of control, virtue"
+    },
+    "secular": {
+      "name": "Secular",
+      "desc": "Evidence-based mindfulness, no dogma"
+    },
+    "sufi": {
+      "name": "Sufi",
+      "desc": "Dhikr, divine love, dissolution of ego"
+    }
+  },
+  "trustBar": {
+    "advisory": "Cultural advisory board",
+    "encryption": "End-to-end encryption",
+    "evidence": "Evidence-based",
+    "gdpr": "GDPR Compliant",
+    "soonInMedia": "Coming soon in media"
   }
 }
