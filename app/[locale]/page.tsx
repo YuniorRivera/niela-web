@@ -4,6 +4,8 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
+import { LangSwitcher } from '@/components/LangSwitcher'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://medita-app-production.up.railway.app'
 
@@ -43,6 +45,7 @@ function PhoneMockup({ label }: { label: string }) {
 /* ── 5.5 SuccessState with confetti + viral share ── */
 function SuccessState({ position, email = '' }: { position: number; email?: string }) {
   const [copied, setCopied] = useState(false)
+  const t = useTranslations('success')
 
   // Confetti al montar
   useEffect(() => {
@@ -67,7 +70,7 @@ function SuccessState({ position, email = '' }: { position: number; email?: stri
   }
 
   const refUrl = `https://niela.app?ref=${hashEmail(email)}`
-  const shareText = `Me anoté en la lista de espera de Niela, una app de meditación con IA en español. ¿Te sumás?`
+  const shareText = t('shareText')
   const waUrl = `https://wa.me/?text=${encodeURIComponent(shareText + ' ' + refUrl)}`
   const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(refUrl)}`
 
@@ -95,7 +98,7 @@ function SuccessState({ position, email = '' }: { position: number; email?: stri
         transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1], delay: 0.15 }}
         style={{ fontSize: 20, fontWeight: 700, color: '#e8f1f5', margin: '0 0 6px' }}
       >
-        ¡Estás dentro!
+        {t('title')}
       </motion.p>
 
       <motion.p
@@ -104,7 +107,7 @@ function SuccessState({ position, email = '' }: { position: number; email?: stri
         transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1], delay: 0.3 }}
         style={{ fontSize: 14, color: '#a6c8dc', margin: '0 0 6px', fontWeight: 500 }}
       >
-        Sos la persona #{position} en descubrir Niela.
+        {t('position', { position })}
       </motion.p>
 
       <motion.p
@@ -113,7 +116,7 @@ function SuccessState({ position, email = '' }: { position: number; email?: stri
         transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1], delay: 0.45 }}
         style={{ fontSize: 13, color: 'rgba(232,241,245,0.6)', margin: '0 0 20px' }}
       >
-        Te avisamos antes que a nadie cuando lancemos.
+        {t('subtitle')}
       </motion.p>
 
       <motion.p
@@ -122,7 +125,7 @@ function SuccessState({ position, email = '' }: { position: number; email?: stri
         transition={{ delay: 0.6 }}
         style={{ fontSize: 12, color: 'rgba(232,241,245,0.45)', margin: '0 0 14px' }}
       >
-        Invitá amigos y subí en la lista · Por cada amigo que se una, subís 5 posiciones.
+        {t('shareTitle')} · {t('shareSubtitle')}
       </motion.p>
 
       <motion.div
@@ -131,10 +134,10 @@ function SuccessState({ position, email = '' }: { position: number; email?: stri
         transition={{ duration: 0.35, delay: 0.7 }}
         style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap' }}
       >
-        <a href={waUrl} target="_blank" rel="noopener" style={{ padding: '10px 16px', borderRadius: 12, background: '#25D366', color: '#fff', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}>💬 WhatsApp</a>
-        <a href={twitterUrl} target="_blank" rel="noopener" style={{ padding: '10px 16px', borderRadius: 12, background: '#000', color: '#fff', fontSize: 13, fontWeight: 600, textDecoration: 'none', border: '1px solid #333' }}>𝕏 Twitter</a>
+        <a href={waUrl} target="_blank" rel="noopener" style={{ padding: '10px 16px', borderRadius: 12, background: '#25D366', color: '#fff', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}>{t('whatsappButton')}</a>
+        <a href={twitterUrl} target="_blank" rel="noopener" style={{ padding: '10px 16px', borderRadius: 12, background: '#000', color: '#fff', fontSize: 13, fontWeight: 600, textDecoration: 'none', border: '1px solid #333' }}>{t('twitterButton')}</a>
         <button onClick={copyLink} style={{ padding: '10px 16px', borderRadius: 12, background: 'rgba(166,200,220,0.15)', color: '#a6c8dc', fontSize: 13, fontWeight: 600, border: '1px solid rgba(166,200,220,0.3)', cursor: 'pointer' }}>
-          {copied ? '✓ Copiado' : '🔗 Copiar link'}
+          {copied ? t('copied') : t('copyButton')}
         </button>
       </motion.div>
     </div>
@@ -149,6 +152,8 @@ function WaitlistForm({ dark = false, onSuccess }: { dark?: boolean; onSuccess?:
   const [status, setStatus] = useState<'idle' | 'success' | 'error' | 'ratelimit'>('idle')
   const [position, setPosition] = useState(0)
   const [submittedEmail, setSubmittedEmail] = useState('')
+  const t = useTranslations('finalCta')
+  const tErrors = useTranslations('errors')
 
   const submit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault()
@@ -196,27 +201,27 @@ function WaitlistForm({ dark = false, onSuccess }: { dark?: boolean; onSuccess?:
         <input
           type="email" required value={email}
           onChange={e => setEmail(e.target.value)}
-          placeholder="tu@email.com"
+          placeholder={t('emailPlaceholder')}
           style={{ flex: 1, padding: '13px 18px', borderRadius: 999, border: inputBorder, background: inputBg, fontSize: 14, color: inputColor, backdropFilter: 'blur(8px)', outline: 'none' }}
         />
         <button
           type="submit" disabled={submitting || !accepted}
           className="btn-primary"
           style={{ background: btnBg, color: btnColor, border: 'none', padding: '13px 24px', borderRadius: 999, fontSize: 14, fontWeight: 600, cursor: submitting || !accepted ? 'not-allowed' : 'pointer', whiteSpace: 'nowrap', opacity: submitting || !accepted ? 0.45 : 1, transition: 'transform 150ms ease-out, opacity 150ms ease-out' }}
-        >{submitting ? '...' : 'Unirme a la lista'}</button>
+        >{submitting ? '...' : t('submitButton')}</button>
       </form>
       <label style={{ display: 'flex', alignItems: 'flex-start', gap: 8, cursor: 'pointer', marginBottom: 8 }}>
         <input type="checkbox" checked={accepted} onChange={e => setAccepted(e.target.checked)} style={{ marginTop: 2, accentColor: '#a6c8dc', flexShrink: 0 }} />
         <span style={{ fontSize: 11, color: legalColor, lineHeight: 1.5 }}>
-          Al unirme acepto los{' '}
-          <a href="/legal/terminos" style={{ color: linkColor }}>Términos</a>
-          {' '}y la{' '}
-          <a href="/legal/privacidad" style={{ color: linkColor }}>Política de Privacidad</a>
+          {t('terms')}{' '}
+          <a href="/legal/terminos" style={{ color: linkColor }}>{t('termsLink')}</a>
+          {' '}{t('and')}{' '}
+          <a href="/legal/privacidad" style={{ color: linkColor }}>{t('privacyLink')}</a>
         </span>
       </label>
-      {status === 'error' && <p style={{ fontSize: 12, color: '#e08080', margin: 0 }}>Algo salió mal. Intentá de nuevo en unos segundos.</p>}
-      {status === 'ratelimit' && <p style={{ fontSize: 12, color: '#e08080', margin: 0 }}>Demasiados intentos. Esperá unos minutos e intentá de nuevo.</p>}
-      {status === 'idle' && <p style={{ fontSize: 12, color: legalColor, margin: 0 }}>Sin spam. Aviso una sola vez al lanzar.</p>}
+      {status === 'error' && <p style={{ fontSize: 12, color: '#e08080', margin: 0 }}>{tErrors('generic')}</p>}
+      {status === 'ratelimit' && <p style={{ fontSize: 12, color: '#e08080', margin: 0 }}>{tErrors('rateLimit')}</p>}
+      {status === 'idle' && <p style={{ fontSize: 12, color: legalColor, margin: 0 }}>{t('footnote')}</p>}
     </div>
   )
 }
@@ -225,6 +230,7 @@ function WaitlistForm({ dark = false, onSuccess }: { dark?: boolean; onSuccess?:
    PAGE
 ══════════════════════════════════════════════ */
 export default function Home() {
+  const t = useTranslations()
   const [count, setCount] = useState<number | null>(null)
   const [heroMounted, setHeroMounted] = useState(false)
   const [hoveredTradition, setHoveredTradition] = useState<string | null>(null)
@@ -361,13 +367,13 @@ export default function Home() {
   const [sec8Ref, sec8In] = useInView(0.1)
 
   const traditions = [
-    { name: 'Zen',       desc: 'Quietud, impermanencia, presencia plena' },
-    { name: 'Budista',   desc: 'Atención plena, compasión, desapego' },
-    { name: 'Cristiana', desc: 'Lectio divina, contemplación, presencia divina' },
-    { name: 'Hindú',     desc: 'Pranayama, mantra, conexión con el Ser' },
-    { name: 'Estoica',   desc: 'Memento mori, dicotomía del control, virtud' },
-    { name: 'Secular',   desc: 'Mindfulness basado en evidencia, sin dogma' },
-    { name: 'Sufí',      desc: 'Dhikr, amor divino, disolución del ego' },
+    { name: t('traditions.zen.name'),      desc: t('traditions.zen.desc') },
+    { name: t('traditions.budista.name'),  desc: t('traditions.budista.desc') },
+    { name: t('traditions.cristiana.name'),desc: t('traditions.cristiana.desc') },
+    { name: t('traditions.hindu.name'),    desc: t('traditions.hindu.desc') },
+    { name: t('traditions.estoica.name'),  desc: t('traditions.estoica.desc') },
+    { name: t('traditions.secular.name'),  desc: t('traditions.secular.desc') },
+    { name: t('traditions.sufi.name'),     desc: t('traditions.sufi.desc') },
   ]
 
   return (
@@ -380,10 +386,11 @@ export default function Home() {
           <span style={{ fontSize: 18, fontWeight: 500, color: '#e8f1f5', letterSpacing: '0.5px' }}>niela</span>
         </Link>
         <div style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
-          <a href="#como-funciona" style={{ fontSize: 14, color: 'rgba(232,241,245,0.65)', textDecoration: 'none', transition: 'color 200ms' }}>Cómo funciona</a>
-          <a href="#tradiciones" style={{ fontSize: 14, color: 'rgba(232,241,245,0.65)', textDecoration: 'none', transition: 'color 200ms' }}>Tradiciones</a>
-          <a href="#comparativa" style={{ fontSize: 14, color: 'rgba(232,241,245,0.65)', textDecoration: 'none', transition: 'color 200ms' }}>Comparativa</a>
-          <a href="#cta" style={{ background: '#a6c8dc', color: '#1f2d3a', border: 'none', padding: '10px 20px', borderRadius: 999, fontSize: 13, fontWeight: 600, textDecoration: 'none', transition: 'transform 150ms, opacity 150ms' }}>Unirme a la lista</a>
+          <a href="#como-funciona" style={{ fontSize: 14, color: 'rgba(232,241,245,0.65)', textDecoration: 'none', transition: 'color 200ms' }}>{t('nav.comoFunciona')}</a>
+          <a href="#tradiciones" style={{ fontSize: 14, color: 'rgba(232,241,245,0.65)', textDecoration: 'none', transition: 'color 200ms' }}>{t('nav.tradiciones')}</a>
+          <a href="#comparativa" style={{ fontSize: 14, color: 'rgba(232,241,245,0.65)', textDecoration: 'none', transition: 'color 200ms' }}>{t('nav.comparativa')}</a>
+          <LangSwitcher />
+          <a href="#cta" style={{ background: '#a6c8dc', color: '#1f2d3a', border: 'none', padding: '10px 20px', borderRadius: 999, fontSize: 13, fontWeight: 600, textDecoration: 'none', transition: 'transform 150ms, opacity 150ms' }}>{t('nav.cta')}</a>
         </div>
       </nav>
 
@@ -397,18 +404,18 @@ export default function Home() {
         <div style={{ position: 'relative', zIndex: 5 }}>
           {/* Pill waitlist */}
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '7px 16px', background: 'rgba(166,200,220,0.12)', border: '1px solid rgba(166,200,220,0.25)', borderRadius: 999, fontSize: 13, color: '#a6c8dc', marginBottom: 28, backdropFilter: 'blur(12px)', fontWeight: 500 }}>
-            {count != null && count > 0 ? `✦ ${count.toLocaleString('es')} personas en lista de espera` : '✦ Lista de espera abierta'}
+            {count != null && count > 0 ? t('hero.waitlistChip', { count: count.toLocaleString('es') }) : t('hero.waitlistChipFallback')}
           </div>
 
           {/* Headline */}
           <h1 style={{ fontSize: 72, lineHeight: 1.0, fontWeight: 500, color: '#e8f1f5', margin: '0 0 24px', letterSpacing: '-2.5px' }}>
-            <span className={`hero-line hero-line-1${heroMounted ? ' hero-line-visible' : ''}`} style={{ display: 'block' }}>Tu meditación,</span>
-            <span className={`hero-line hero-line-2${heroMounted ? ' hero-line-visible' : ''}`} style={{ display: 'block' }}>tu tradición,</span>
-            <span className={`hero-line hero-line-3${heroMounted ? ' hero-line-visible' : ''}`} style={{ display: 'block', color: '#a6c8dc', fontStyle: 'italic' }}>tu momento.</span>
+            <span className={`hero-line hero-line-1${heroMounted ? ' hero-line-visible' : ''}`} style={{ display: 'block' }}>{t('hero.title1')}</span>
+            <span className={`hero-line hero-line-2${heroMounted ? ' hero-line-visible' : ''}`} style={{ display: 'block' }}>{t('hero.title2')}</span>
+            <span className={`hero-line hero-line-3${heroMounted ? ' hero-line-visible' : ''}`} style={{ display: 'block', color: '#a6c8dc', fontStyle: 'italic' }}>{t('hero.title3')}</span>
           </h1>
 
           <p style={{ fontSize: 17, lineHeight: 1.65, color: 'rgba(232,241,245,0.72)', margin: '0 0 24px', maxWidth: 440 }}>
-            Sesiones de meditación generadas por IA, adaptadas a tu tradición espiritual y a cómo te sentís hoy.
+            {t('hero.subtitle')}
           </p>
 
           {/* 5.2 Hero email form */}
@@ -418,7 +425,7 @@ export default function Home() {
                 type="email"
                 value={heroEmail}
                 onChange={e => setHeroEmail(e.target.value)}
-                placeholder="tu@email.com"
+                placeholder={t('hero.emailPlaceholder')}
                 required
                 style={{
                   flex: 1,
@@ -443,7 +450,7 @@ export default function Home() {
                 whiteSpace: 'nowrap',
                 opacity: heroLoading ? 0.6 : 1,
               }}>
-                {heroLoading ? '...' : 'Unirme a la lista'}
+                {heroLoading ? '...' : t('hero.submitButton')}
               </button>
             </form>
           ) : (
@@ -451,7 +458,7 @@ export default function Home() {
               <SuccessState position={heroPosition} email={lastSubmittedEmail} />
             </div>
           )}
-          <p style={{ fontSize: 12, color: 'rgba(232,241,245,0.4)', margin: '0 0 24px' }}>Sin spam. Aviso cuando lancemos.</p>
+          <p style={{ fontSize: 12, color: 'rgba(232,241,245,0.4)', margin: '0 0 24px' }}>{t('hero.footnote')}</p>
 
           <div style={{ display: 'flex', gap: 14, marginBottom: 36, flexWrap: 'wrap' }}>
             <a
@@ -459,16 +466,16 @@ export default function Home() {
               className="btn-primary"
               style={{ background: 'rgba(166,200,220,0.15)', color: '#a6c8dc', padding: '14px 28px', borderRadius: 999, fontSize: 15, fontWeight: 600, textDecoration: 'none', transition: 'transform 150ms ease-out, opacity 150ms ease-out', border: '1px solid rgba(166,200,220,0.3)' }}
             >
-              Ver cómo funciona ↓
+              {t('hero.viewHow')}
             </a>
           </div>
 
           {/* Trust micro-signals */}
           <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
             {[
-              { icon: '🔒', label: 'GDPR compliant' },
-              { icon: '🔬', label: 'Basado en evidencia' },
-              { icon: '🌍', label: '7 tradiciones' },
+              { icon: '🔒', label: t('hero.badgeGdpr') },
+              { icon: '🔬', label: t('hero.badgeEvidence') },
+              { icon: '🌍', label: t('hero.badgeTraditions') },
             ].map(({ icon, label }) => (
               <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <span style={{ fontSize: 13 }}>{icon}</span>
@@ -492,15 +499,15 @@ export default function Home() {
                 </div>
               </div>
               <div style={{ marginTop: 4 }}>
-                <p style={{ fontSize: 11, color: '#4a6b80', margin: '0 0 2px' }}>Hola Sofía</p>
-                <h4 style={{ fontSize: 15, color: '#1f2d3a', margin: 0, fontWeight: 500 }}>¿Qué sientes hoy?</h4>
+                <p style={{ fontSize: 11, color: '#4a6b80', margin: '0 0 2px' }}>{t('phoneMockup.greeting')}</p>
+                <h4 style={{ fontSize: 15, color: '#1f2d3a', margin: 0, fontWeight: 500 }}>{t('phoneMockup.question')}</h4>
               </div>
               <div style={{ background: 'rgba(255,255,255,0.7)', borderRadius: 14, padding: 10, border: '1px solid rgba(44,62,80,0.06)' }}>
-                <p style={{ fontSize: 10, color: '#5a6f7d', margin: '0 0 6px' }}>Tu intención</p>
-                <p style={{ fontSize: 11, color: '#2c3e50', margin: 0, lineHeight: 1.4 }}>&quot;Ansiedad antes de dormir y rumiación sobre el trabajo&quot;</p>
+                <p style={{ fontSize: 10, color: '#5a6f7d', margin: '0 0 6px' }}>{t('phoneMockup.intentLabel')}</p>
+                <p style={{ fontSize: 11, color: '#2c3e50', margin: 0, lineHeight: 1.4 }}>{t('phoneMockup.intentText')}</p>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                <p style={{ fontSize: 9, color: '#4a6b80', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Tradición</p>
+                <p style={{ fontSize: 9, color: '#4a6b80', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>{t('phoneMockup.traditionLabel')}</p>
                 <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
                   <span style={{ padding: '4px 9px', background: '#b8c9a8', borderRadius: 999, fontSize: 9, color: '#2d3d24', fontWeight: 500 }}>Zen ✓</span>
                   <span style={{ padding: '4px 9px', background: 'rgba(212,184,150,0.4)', borderRadius: 999, fontSize: 9, color: '#5a4530' }}>Hindú</span>
@@ -509,8 +516,8 @@ export default function Home() {
               </div>
               <div style={{ marginTop: 'auto', background: 'linear-gradient(135deg, #2c3e50 0%, #4a6b80 100%)', borderRadius: 14, padding: 14, color: '#f0ebe0', position: 'relative', overflow: 'hidden' }}>
                 <div style={{ position: 'absolute', top: -20, right: -20, width: 60, height: 60, borderRadius: '50%', background: 'rgba(212,184,150,0.2)' }} />
-                <p style={{ fontSize: 9, opacity: 0.7, margin: '0 0 4px', position: 'relative' }}>Generando tu sesión</p>
-                <p style={{ fontSize: 11, margin: '0 0 10px', lineHeight: 1.4, position: 'relative' }}>&quot;Hojas que flotan por un río...&quot;</p>
+                <p style={{ fontSize: 9, opacity: 0.7, margin: '0 0 4px', position: 'relative' }}>{t('phoneMockup.generatingLabel')}</p>
+                <p style={{ fontSize: 11, margin: '0 0 10px', lineHeight: 1.4, position: 'relative' }}>{t('phoneMockup.meditationSnippet')}</p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, position: 'relative' }}>
                   <div style={{ width: 30, height: 30, borderRadius: '50%', background: '#f0ebe0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <svg width="11" height="11" viewBox="0 0 24 24" fill="#2c3e50"><polygon points="6 4 20 12 6 20 6 4" /></svg>
@@ -535,14 +542,14 @@ export default function Home() {
       >
         <div className={`fade-up${sec2In ? ' in-view' : ''}`} style={{ textAlign: 'center' }}>
           <div style={{ display: 'flex', gap: 0, justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', marginBottom: 24 }}>
-            {['Basado en evidencia', 'GDPR Compliant', 'Cifrado end-to-end', 'Comité asesor cultural'].map((item, i, arr) => (
+            {[t('trustBar.evidence'), t('trustBar.gdpr'), t('trustBar.encryption'), t('trustBar.advisory')].map((item, i, arr) => (
               <span key={item} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                 <span style={{ fontSize: 14, color: 'rgba(232,241,245,0.65)', fontWeight: 400, letterSpacing: '0.2px' }}>{item}</span>
                 {i < arr.length - 1 && <span style={{ color: 'rgba(166,200,220,0.3)', margin: '0 16px', fontSize: 12 }}>·</span>}
               </span>
             ))}
           </div>
-          <p style={{ fontSize: 11, color: 'rgba(232,241,245,0.3)', margin: '0 0 20px', textTransform: 'uppercase', letterSpacing: '2px' }}>Próximamente en medios</p>
+          <p style={{ fontSize: 11, color: 'rgba(232,241,245,0.3)', margin: '0 0 20px', textTransform: 'uppercase', letterSpacing: '2px' }}>{t('trustBar.soonInMedia')}</p>
           <div style={{ display: 'flex', gap: 36, justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', opacity: 0.3 }}>
             {['TechCrunch', 'El País', 'Forbes Wellness', 'Wired Health'].map(m => (
               <span key={m} style={{ fontSize: 14, color: '#e8f1f5', fontWeight: 600, fontStyle: 'italic', letterSpacing: '0.5px' }}>{m}</span>
@@ -558,21 +565,21 @@ export default function Home() {
         style={{ padding: '100px 64px', background: 'linear-gradient(180deg, #1f2d3a 0%, #1a2635 100%)', position: 'relative' }}
       >
         <div style={{ textAlign: 'center', marginBottom: 72 }}>
-          <p style={{ fontSize: 12, color: '#a6c8dc', textTransform: 'uppercase', letterSpacing: '3px', margin: '0 0 16px', fontWeight: 600 }}>Cómo funciona</p>
+          <p style={{ fontSize: 12, color: '#a6c8dc', textTransform: 'uppercase', letterSpacing: '3px', margin: '0 0 16px', fontWeight: 600 }}>{t('howItWorks.eyebrow')}</p>
           <h2 className={`fade-up${sec3In ? ' in-view' : ''}`} style={{ fontSize: 44, fontWeight: 500, color: '#e8f1f5', margin: 0, letterSpacing: '-1px' }}>
-            Cinco pantallas.<br />Una práctica que se adapta a vos.
+            {t('howItWorks.title').split('\n').map((line, i) => <span key={i}>{line}{i === 0 && <br />}</span>)}
           </h2>
         </div>
         <div className="como-funciona-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, maxWidth: 1100, margin: '0 auto' }}>
           {([
-            { emoji: '🪷', title: 'Elegí tu tradición',        desc: '7 tradiciones espirituales. Configurás tu camino: Zen, Tibetana, Andina, Sufí, Cristiana contemplativa, Islámica o Laica.', screen: 'perfil-tradiciones', stagger: 1 },
-            { emoji: '✨', title: 'La IA entiende tu momento', desc: 'Describís cómo te sentís. Niela AI genera una sesión única, adaptada a tu tradición y a tu día.',                              screen: 'niela-ai',            stagger: 2 },
-            { emoji: '📚', title: 'Cursos por tradición',       desc: '20 lecciones por tradición. Teoría, práctica y reflexión guiada. Un camino completo.',                                        screen: 'inicio-curso-zen',    stagger: 3 },
-            { emoji: '🔖', title: 'Tu biblioteca de sesiones',  desc: 'Guardá tus meditaciones favoritas. Etiquetas por estado emocional. Volvé a las que más te ayudaron.',                          screen: 'historial-sesiones',  stagger: 1 },
-            { emoji: '📔', title: 'Diario de tu práctica',      desc: 'Registrá cómo te sentís. Niela aprende de tu evolución para personalizar mejor cada sesión.',                                  screen: 'diario-mood',         stagger: 2 },
+            { emoji: '🪷', titleKey: 'howItWorks.card1Title', descKey: 'howItWorks.card1Text', screen: 'perfil-tradiciones', stagger: 1 },
+            { emoji: '✨', titleKey: 'howItWorks.card2Title', descKey: 'howItWorks.card2Text', screen: 'niela-ai',            stagger: 2 },
+            { emoji: '📚', titleKey: 'howItWorks.card3Title', descKey: 'howItWorks.card3Text', screen: 'inicio-curso-zen',    stagger: 3 },
+            { emoji: '🔖', titleKey: 'howItWorks.card4Title', descKey: 'howItWorks.card4Text', screen: 'historial-sesiones',  stagger: 1 },
+            { emoji: '📔', titleKey: 'howItWorks.card5Title', descKey: 'howItWorks.card5Text', screen: 'diario-mood',         stagger: 2 },
           ] as const).map((card) => (
             <div
-              key={card.title}
+              key={card.titleKey}
               className={`fade-up stagger-${card.stagger}${sec3In ? ' in-view' : ''}`}
               style={{
                 background: 'rgba(255,255,255,0.04)',
@@ -586,8 +593,8 @@ export default function Home() {
               }}
             >
               <div style={{ fontSize: 28 }}>{card.emoji}</div>
-              <h3 style={{ fontSize: 18, fontWeight: 600, color: '#e8f1f5', margin: 0 }}>{card.title}</h3>
-              <p style={{ fontSize: 14, lineHeight: 1.65, color: 'rgba(232,241,245,0.6)', margin: 0 }}>{card.desc}</p>
+              <h3 style={{ fontSize: 18, fontWeight: 600, color: '#e8f1f5', margin: 0 }}>{t(card.titleKey)}</h3>
+              <p style={{ fontSize: 14, lineHeight: 1.65, color: 'rgba(232,241,245,0.6)', margin: 0 }}>{t(card.descKey)}</p>
               {/* Mockup de teléfono con screenshot real */}
               <div style={{
                 marginTop: 8,
@@ -602,7 +609,7 @@ export default function Home() {
               }}>
                 <Image
                   src={`/screens/${card.screen}.webp`}
-                  alt={card.title}
+                  alt={t(card.titleKey)}
                   width={300}
                   height={560}
                   style={{ width: '100%', height: 'auto', borderRadius: 28, display: 'block' }}
@@ -622,14 +629,14 @@ export default function Home() {
         style={{ padding: '100px 64px', background: '#243344' }}
       >
         <div style={{ textAlign: 'center', marginBottom: 64 }}>
-          <p style={{ fontSize: 12, color: '#a6c8dc', textTransform: 'uppercase', letterSpacing: '3px', margin: '0 0 16px', fontWeight: 600 }}>Comparativa</p>
-          <h2 className={`fade-up${sec6In ? ' in-view' : ''}`} style={{ fontSize: 44, fontWeight: 500, color: '#e8f1f5', margin: 0, letterSpacing: '-1px' }}>Por qué Niela es diferente</h2>
+          <p style={{ fontSize: 12, color: '#a6c8dc', textTransform: 'uppercase', letterSpacing: '3px', margin: '0 0 16px', fontWeight: 600 }}>{t('comparison.eyebrow')}</p>
+          <h2 className={`fade-up${sec6In ? ' in-view' : ''}`} style={{ fontSize: 44, fontWeight: 500, color: '#e8f1f5', margin: 0, letterSpacing: '-1px' }}>{t('comparison.title')}</h2>
         </div>
         <div className="comparativa-wrap" style={{ maxWidth: 720, margin: '0 auto' }}>
         <div className={`fade-up${sec6In ? ' in-view' : ''}`} style={{ minWidth: 480, borderRadius: 20, overflow: 'hidden', border: '1px solid rgba(166,200,220,0.12)' }}>
           {/* Header */}
           <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', background: 'rgba(166,200,220,0.06)', borderBottom: '1px solid rgba(166,200,220,0.1)' }}>
-            {['Feature', 'Niela', 'Calm', 'Headspace'].map((h, i) => (
+            {[t('comparison.headerFeature'), t('comparison.headerNiela'), t('comparison.headerCalm'), t('comparison.headerHeadspace')].map((h, i) => (
               <div key={h} style={{ padding: '18px 24px', fontSize: 13, fontWeight: 600, color: i === 1 ? '#a6c8dc' : 'rgba(232,241,245,0.5)', textAlign: i === 0 ? 'left' : 'center', background: i === 1 ? 'rgba(166,200,220,0.06)' : 'transparent' }}>{h}</div>
             ))}
           </div>
@@ -644,19 +651,19 @@ export default function Home() {
               borderBottom: last ? 'none' : '1px solid rgba(166,200,220,0.06)',
             });
             const partial = (
-              <span style={{ fontSize: 13, color: 'rgba(232,241,245,0.4)', fontWeight: 400 }}>Parcial</span>
+              <span style={{ fontSize: 13, color: 'rgba(232,241,245,0.4)', fontWeight: 400 }}>{t('comparison.partial')}</span>
             );
             const rows: { label: string; niela: React.ReactNode; calm: React.ReactNode; headspace: React.ReactNode }[] = [
-              { label: 'Personalización por tradición', niela: '✓', calm: '✗', headspace: '✗' },
-              { label: 'Sesiones generadas por IA',     niela: '✓', calm: '✗', headspace: (
+              { label: t('comparison.rowTradition'), niela: '✓', calm: '✗', headspace: '✗' },
+              { label: t('comparison.rowAi'),        niela: '✓', calm: '✗', headspace: (
                 <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
                   <span>✓</span>
-                  <span style={{ fontSize: 10, color: 'rgba(232,241,245,0.3)', fontWeight: 400 }}>Ebb · solo EN</span>
+                  <span style={{ fontSize: 10, color: 'rgba(232,241,245,0.3)', fontWeight: 400 }}>{t('comparison.ebbNote')}</span>
                 </span>
               )},
-              { label: 'Multi-tradición',               niela: '✓', calm: '✗', headspace: '✗' },
-              { label: 'Contenido nativo en español',   niela: '✓', calm: partial, headspace: partial },
-              { label: 'Sin plantillas genéricas',      niela: '✓', calm: '✗', headspace: '✗' },
+              { label: t('comparison.rowMultiTradition'),  niela: '✓', calm: '✗', headspace: '✗' },
+              { label: t('comparison.rowNativeSpanish'),   niela: '✓', calm: partial, headspace: partial },
+              { label: t('comparison.rowNoTemplates'),     niela: '✓', calm: '✗', headspace: '✗' },
             ];
             return rows.map((row, ri) => (
               <div key={ri} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr' }}>
@@ -670,7 +677,7 @@ export default function Home() {
         </div>
         </div>
         <p style={{ textAlign: 'center', fontSize: 11, color: 'rgba(232,241,245,0.25)', marginTop: 20, fontStyle: 'italic' }}>
-          Comparación basada en información pública al 18 de mayo de 2026. Headspace Ebb (AI companion) disponible solo en inglés según anuncio oficial de Headspace Health, octubre 2024.
+          {t('comparison.footer')}
         </p>
       </section>
 
@@ -681,12 +688,12 @@ export default function Home() {
         style={{ padding: '100px 64px', background: 'linear-gradient(180deg, #243344 0%, #1f2d3a 100%)' }}
       >
         <div style={{ maxWidth: 760, margin: '0 auto', textAlign: 'center' }}>
-          <p style={{ fontSize: 12, color: '#a6c8dc', textTransform: 'uppercase', letterSpacing: '3px', margin: '0 0 24px', fontWeight: 600 }}>Por qué existimos</p>
+          <p style={{ fontSize: 12, color: '#a6c8dc', textTransform: 'uppercase', letterSpacing: '3px', margin: '0 0 24px', fontWeight: 600 }}>{t('whyExist.eyebrow')}</p>
           <h2 className={`fade-up${sec7In ? ' in-view' : ''}`} style={{ fontSize: 44, fontWeight: 500, color: '#e8f1f5', margin: '0 0 28px', letterSpacing: '-1px', lineHeight: 1.1 }}>
-            La meditación es universal.<br />Pero las apps no lo son.
+            {t('whyExist.title').split('\n').map((line, i) => <span key={i}>{line}{i === 0 && <br />}</span>)}
           </h2>
           <p className={`fade-up stagger-2${sec7In ? ' in-view' : ''}`} style={{ fontSize: 16, lineHeight: 1.75, color: 'rgba(232,241,245,0.65)', margin: '0 0 56px' }}>
-            Las grandes apps de meditación están diseñadas para un solo perfil: occidental, secular, angloparlante. Niela nació para todos los demás — para quienes meditan en árabe, rezan en swahili, practican zazen en Buenos Aires o contemplan en silencio en Ciudad de México.
+            {t('whyExist.text')}
           </p>
           {/* Tradition pills */}
           <div className={`fade-up stagger-3${sec7In ? ' in-view' : ''}`} style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
@@ -734,23 +741,23 @@ export default function Home() {
 
         <div className={`fade-up${sec8In ? ' in-view' : ''}`} style={{ position: 'relative', zIndex: 5, maxWidth: 640, margin: '0 auto' }}>
           <h2 style={{ fontSize: 56, fontWeight: 500, color: '#e8f1f5', margin: '0 0 20px', letterSpacing: '-1.5px', lineHeight: 1.05 }}>
-            Sé de los primeros en probar Niela
+            {t('finalCta.title')}
           </h2>
           <p style={{ fontSize: 18, color: 'rgba(232,241,245,0.65)', margin: '0 0 48px', lineHeight: 1.6 }}>
-            {count != null && count > 0 ? `Únete a ${count.toLocaleString('es')} personas que ya están esperando Niela.` : 'Sé de los primeros en probar Niela.'}
+            {count != null && count > 0 ? t('finalCta.subtitleWithCount', { count: count.toLocaleString('es') }) : t('finalCta.subtitleFallback')}
           </p>
 
           {/* App store placeholders */}
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', marginBottom: 48, flexWrap: 'wrap' }}>
             {[
-              { label: 'App Store', icon: '🍎' },
-              { label: 'Google Play', icon: '▶' },
+              { labelKey: 'finalCta.appStore', icon: '🍎' },
+              { labelKey: 'finalCta.googlePlay', icon: '▶' },
             ].map(btn => (
-              <button key={btn.label} disabled style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 28px', borderRadius: 14, border: '1px solid rgba(166,200,220,0.2)', background: 'rgba(255,255,255,0.04)', color: 'rgba(232,241,245,0.4)', fontSize: 15, fontWeight: 500, cursor: 'not-allowed' }}>
+              <button key={btn.labelKey} disabled style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 28px', borderRadius: 14, border: '1px solid rgba(166,200,220,0.2)', background: 'rgba(255,255,255,0.04)', color: 'rgba(232,241,245,0.4)', fontSize: 15, fontWeight: 500, cursor: 'not-allowed' }}>
                 <span style={{ fontSize: 18 }}>{btn.icon}</span>
                 <span>
-                  <span style={{ display: 'block', fontSize: 10, opacity: 0.7, textAlign: 'left' }}>Próximamente</span>
-                  {btn.label}
+                  <span style={{ display: 'block', fontSize: 10, opacity: 0.7, textAlign: 'left' }}>{t('finalCta.appStoreSoon')}</span>
+                  {t(btn.labelKey)}
                 </span>
               </button>
             ))}
@@ -767,13 +774,13 @@ export default function Home() {
       <footer style={{ background: '#0d1821', borderTop: '1px solid rgba(166,200,220,0.07)', padding: '64px 64px 32px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 40, maxWidth: 1040, margin: '0 auto', marginBottom: 48 }}>
           {[
-            { heading: 'Producto', links: ['Cómo funciona', 'Tradiciones', 'Precios', 'App móvil'] },
-            { heading: 'Empresa',  links: ['Sobre nosotros', 'Manifiesto', 'Carreras'] },
-            { heading: 'Recursos', links: ['Blog', 'FAQ', 'Soporte'] },
-            { heading: 'Legal',    links: ['Términos', 'Privacidad', 'Cookies'] },
+            { headingKey: 'footer.productHeader', links: [t('footer.comoFunciona'), t('footer.tradiciones'), t('footer.precios'), t('footer.appMovil')] },
+            { headingKey: 'footer.companyHeader',  links: [t('footer.sobreNosotros'), t('footer.manifiesto'), t('footer.carreras')] },
+            { headingKey: 'footer.resourcesHeader', links: [t('footer.blog'), t('footer.faq'), t('footer.soporte')] },
+            { headingKey: 'footer.legalHeader',    links: [t('footer.terminos'), t('footer.privacidad'), t('footer.cookies')] },
           ].map(col => (
-            <div key={col.heading}>
-              <p style={{ fontSize: 12, fontWeight: 600, color: 'rgba(232,241,245,0.4)', textTransform: 'uppercase', letterSpacing: '2px', margin: '0 0 16px' }}>{col.heading}</p>
+            <div key={col.headingKey}>
+              <p style={{ fontSize: 12, fontWeight: 600, color: 'rgba(232,241,245,0.4)', textTransform: 'uppercase', letterSpacing: '2px', margin: '0 0 16px' }}>{t(col.headingKey)}</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {col.links.map(link => (
                   <a key={link} href="#" style={{ fontSize: 14, color: 'rgba(232,241,245,0.55)', textDecoration: 'none', transition: 'color 200ms' }}>{link}</a>
@@ -784,9 +791,9 @@ export default function Home() {
         </div>
 
         <div style={{ maxWidth: 1040, margin: '0 auto', paddingTop: 28, borderTop: '1px solid rgba(166,200,220,0.07)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
-          <p style={{ fontSize: 13, color: 'rgba(232,241,245,0.35)', margin: 0 }}>Niela © 2026 · Hecho con cuidado en Italia 🇮🇹</p>
+          <p style={{ fontSize: 13, color: 'rgba(232,241,245,0.35)', margin: 0 }}>{t('footer.copyright')}</p>
           <div style={{ display: 'flex', gap: 20 }}>
-            {['Instagram', 'TikTok', 'X', 'YouTube'].map(sn => (
+            {[t('footer.instagram'), t('footer.tiktok'), t('footer.x'), t('footer.youtube')].map(sn => (
               <a key={sn} href="#" style={{ fontSize: 13, color: 'rgba(232,241,245,0.35)', textDecoration: 'none', transition: 'color 200ms' }}>{sn}</a>
             ))}
           </div>
@@ -810,9 +817,9 @@ export default function Home() {
           padding: '0 20px',
           zIndex: 200,
         }}>
-          <span style={{ fontSize: 13, color: 'rgba(232,241,245,0.6)' }}>{count != null && count > 0 ? `${count.toLocaleString('es')} personas ya esperan` : 'Unite gratis'}</span>
+          <span style={{ fontSize: 13, color: 'rgba(232,241,245,0.6)' }}>{count != null && count > 0 ? t('stickyBar.waitingText', { count: count.toLocaleString('es') }) : t('stickyBar.waitingFallback')}</span>
           <button onClick={() => setStickyModalOpen(true)} style={{ background: '#a6c8dc', color: '#1f2d3a', border: 'none', borderRadius: 999, padding: '10px 20px', fontWeight: 700, fontSize: 14, cursor: 'pointer' }}>
-            Unirme
+            {t('stickyBar.submitButton')}
           </button>
         </div>
       )}
@@ -823,13 +830,13 @@ export default function Home() {
           onClick={() => setStickyModalOpen(false)}>
           <div onClick={e => e.stopPropagation()} style={{ background: '#2c3e50', borderRadius: '24px 24px 0 0', padding: '32px 28px 40px', width: '100%', maxWidth: 480, position: 'relative', border: '1px solid rgba(166,200,220,0.15)', borderBottom: 'none' }}>
             <button onClick={() => setStickyModalOpen(false)} style={{ position: 'absolute', top: 16, right: 16, background: 'none', border: 'none', color: '#5a6f7d', fontSize: 20, cursor: 'pointer' }}>✕</button>
-            <h3 style={{ fontSize: 22, fontWeight: 600, color: '#e8f1f5', margin: '0 0 8px' }}>Únete a la lista de espera</h3>
-            <p style={{ fontSize: 14, color: 'rgba(232,241,245,0.65)', margin: '0 0 20px' }}>Gratis. Sin spam. Avisamos cuando lancemos.</p>
+            <h3 style={{ fontSize: 22, fontWeight: 600, color: '#e8f1f5', margin: '0 0 8px' }}>{t('stickyModal.title')}</h3>
+            <p style={{ fontSize: 14, color: 'rgba(232,241,245,0.65)', margin: '0 0 20px' }}>{t('stickyModal.subtitle')}</p>
             {!stickySubmitted ? (
               <form onSubmit={handleStickySubmit} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                <input type="email" value={stickyEmail} onChange={e => setStickyEmail(e.target.value)} placeholder="tu@email.com" required style={{ width: '100%', padding: '13px 16px', borderRadius: 12, border: '1px solid rgba(166,200,220,0.3)', background: 'rgba(255,255,255,0.06)', color: '#e8f1f5', fontSize: 15, boxSizing: 'border-box', outline: 'none' }} />
+                <input type="email" value={stickyEmail} onChange={e => setStickyEmail(e.target.value)} placeholder={t('hero.emailPlaceholder')} required style={{ width: '100%', padding: '13px 16px', borderRadius: 12, border: '1px solid rgba(166,200,220,0.3)', background: 'rgba(255,255,255,0.06)', color: '#e8f1f5', fontSize: 15, boxSizing: 'border-box', outline: 'none' }} />
                 <button type="submit" disabled={stickyLoading} style={{ width: '100%', padding: '14px', borderRadius: 12, border: 'none', background: '#a6c8dc', color: '#1f2d3a', fontWeight: 700, fontSize: 15, cursor: stickyLoading ? 'not-allowed' : 'pointer', opacity: stickyLoading ? 0.6 : 1 }}>
-                  {stickyLoading ? '...' : 'Unirme'}
+                  {stickyLoading ? '...' : t('stickyModal.submitButton')}
                 </button>
               </form>
             ) : (
@@ -845,13 +852,13 @@ export default function Home() {
           onClick={() => setExitModalOpen(false)}>
           <div onClick={e => e.stopPropagation()} style={{ background: '#2c3e50', borderRadius: 24, padding: '40px 36px', maxWidth: 440, width: '90%', position: 'relative', border: '1px solid rgba(166,200,220,0.15)' }}>
             <button onClick={() => setExitModalOpen(false)} style={{ position: 'absolute', top: 16, right: 16, background: 'none', border: 'none', color: '#5a6f7d', fontSize: 20, cursor: 'pointer' }}>✕</button>
-            <h3 style={{ fontSize: 24, fontWeight: 600, color: '#e8f1f5', margin: '0 0 8px' }}>¿Te vas sin Niela?</h3>
-            <p style={{ fontSize: 15, color: 'rgba(232,241,245,0.65)', margin: '0 0 24px' }}>Dejá tu email. Cuando lancemos, sos de los primeros en probarla.</p>
+            <h3 style={{ fontSize: 24, fontWeight: 600, color: '#e8f1f5', margin: '0 0 8px' }}>{t('exitModal.title')}</h3>
+            <p style={{ fontSize: 15, color: 'rgba(232,241,245,0.65)', margin: '0 0 24px' }}>{t('exitModal.subtitle')}</p>
             {!exitSubmitted ? (
               <form onSubmit={handleExitSubmit}>
-                <input type="email" value={exitEmail} onChange={e => setExitEmail(e.target.value)} placeholder="tu@email.com" required style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid rgba(166,200,220,0.3)', background: 'rgba(255,255,255,0.06)', color: '#e8f1f5', fontSize: 15, marginBottom: 12, boxSizing: 'border-box', outline: 'none' }} />
+                <input type="email" value={exitEmail} onChange={e => setExitEmail(e.target.value)} placeholder={t('hero.emailPlaceholder')} required style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid rgba(166,200,220,0.3)', background: 'rgba(255,255,255,0.06)', color: '#e8f1f5', fontSize: 15, marginBottom: 12, boxSizing: 'border-box', outline: 'none' }} />
                 <button type="submit" disabled={exitLoading} style={{ width: '100%', padding: '14px', borderRadius: 12, border: 'none', background: '#a6c8dc', color: '#1f2d3a', fontWeight: 700, fontSize: 15, cursor: exitLoading ? 'not-allowed' : 'pointer', opacity: exitLoading ? 0.6 : 1 }}>
-                  {exitLoading ? '...' : 'Unirme a la lista'}
+                  {exitLoading ? '...' : t('exitModal.submitButton')}
                 </button>
               </form>
             ) : (
