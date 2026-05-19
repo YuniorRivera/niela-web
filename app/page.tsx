@@ -82,7 +82,7 @@ function WaitlistForm({ dark = false, onSuccess }: { dark?: boolean; onSuccess?:
   const [email, setEmail] = useState('')
   const [accepted, setAccepted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
-  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [status, setStatus] = useState<'idle' | 'success' | 'error' | 'ratelimit'>('idle')
   const [position, setPosition] = useState(0)
   const [submittedEmail, setSubmittedEmail] = useState('')
 
@@ -105,6 +105,8 @@ function WaitlistForm({ dark = false, onSuccess }: { dark?: boolean; onSuccess?:
         setEmail('')
         sessionStorage.setItem('emailSubmitted', '1')
         if (onSuccess) onSuccess(data.position ?? 0)
+      } else if (r.status === 429) {
+        setStatus('ratelimit')
       } else {
         setStatus('error')
       }
@@ -148,7 +150,8 @@ function WaitlistForm({ dark = false, onSuccess }: { dark?: boolean; onSuccess?:
           <a href="/legal/privacidad" style={{ color: linkColor }}>Política de Privacidad</a>
         </span>
       </label>
-      {status === 'error' && <p style={{ fontSize: 12, color: '#e08080', margin: 0 }}>No pudimos conectar. Intenta de nuevo.</p>}
+      {status === 'error' && <p style={{ fontSize: 12, color: '#e08080', margin: 0 }}>Algo salió mal. Intentá de nuevo en unos segundos.</p>}
+      {status === 'ratelimit' && <p style={{ fontSize: 12, color: '#e08080', margin: 0 }}>Demasiados intentos. Esperá unos minutos e intentá de nuevo.</p>}
       {status === 'idle' && <p style={{ fontSize: 12, color: legalColor, margin: 0 }}>Sin spam. Aviso una sola vez al lanzar.</p>}
     </div>
   )
@@ -158,7 +161,7 @@ function WaitlistForm({ dark = false, onSuccess }: { dark?: boolean; onSuccess?:
    PAGE
 ══════════════════════════════════════════════ */
 export default function Home() {
-  const [count, setCount] = useState<number>(327)
+  const [count, setCount] = useState<number | null>(null)
   const [heroMounted, setHeroMounted] = useState(false)
   const [hoveredTradition, setHoveredTradition] = useState<string | null>(null)
 
@@ -253,7 +256,7 @@ export default function Home() {
         }
         setLastSubmittedEmail(email)
         sessionStorage.setItem('emailSubmitted', '1')
-        onSuccess(data.position ?? count)
+        onSuccess(data.position ?? count ?? 1)
       }
     } catch {}
     finally { setLoading(false) }
@@ -330,7 +333,7 @@ export default function Home() {
         <div style={{ position: 'relative', zIndex: 5 }}>
           {/* Pill waitlist */}
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '7px 16px', background: 'rgba(166,200,220,0.12)', border: '1px solid rgba(166,200,220,0.25)', borderRadius: 999, fontSize: 13, color: '#a6c8dc', marginBottom: 28, backdropFilter: 'blur(12px)', fontWeight: 500 }}>
-            ✦ {count} personas en lista de espera
+            {count != null && count > 0 ? `✦ ${count.toLocaleString('es')} personas en lista de espera` : '✦ Lista de espera abierta'}
           </div>
 
           {/* Headline */}
@@ -668,7 +671,7 @@ export default function Home() {
             Empezá tu práctica hoy
           </h2>
           <p style={{ fontSize: 18, color: 'rgba(232,241,245,0.65)', margin: '0 0 48px', lineHeight: 1.6 }}>
-            Únete a {count} personas que ya están esperando Niela.
+            {count != null && count > 0 ? `Únete a ${count.toLocaleString('es')} personas que ya están esperando Niela.` : 'Sé de los primeros en probar Niela.'}
           </p>
 
           {/* App store placeholders */}
@@ -741,7 +744,7 @@ export default function Home() {
           padding: '0 20px',
           zIndex: 200,
         }}>
-          <span style={{ fontSize: 13, color: 'rgba(232,241,245,0.6)' }}>{count} personas ya esperan</span>
+          <span style={{ fontSize: 13, color: 'rgba(232,241,245,0.6)' }}>{count != null && count > 0 ? `${count.toLocaleString('es')} personas ya esperan` : 'Unite gratis'}</span>
           <button onClick={() => setStickyModalOpen(true)} style={{ background: '#a6c8dc', color: '#1f2d3a', border: 'none', borderRadius: 999, padding: '10px 20px', fontWeight: 700, fontSize: 14, cursor: 'pointer' }}>
             Únete gratis
           </button>
