@@ -6,13 +6,17 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://niela.app"),
-  title: "Niela — Meditación en español",
+  title: "Niela — Meditación personalizada",
   description:
-    "Guías de meditación en español organizadas por tradición y propósito.",
+    "Sesiones de meditación generadas por IA, adaptadas a tu tradición espiritual y a cómo te sentís hoy.",
+  icons: {
+    icon: "/icon-192.png",
+    apple: "/apple-touch-icon.png",
+  },
   openGraph: {
-    title: "Niela — Meditación en español",
+    title: "Niela — Meditación personalizada",
     description:
-      "Guías de meditación en español organizadas por tradición y propósito.",
+      "Sesiones de meditación generadas por IA, adaptadas a tu tradición espiritual y a cómo te sentís hoy.",
     images: ["/og.png"],
   },
 };
