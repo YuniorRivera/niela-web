@@ -388,7 +388,7 @@ export default function Home() {
       </nav>
 
       {/* ══ SECCIÓN 1: HERO ══ */}
-      <section style={{ minHeight: '100vh', paddingTop: 88, background: 'linear-gradient(160deg, #1f2d3a 0%, #2c3e50 60%, #1a2e3b 100%)', position: 'relative', overflow: 'hidden', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'center', padding: '88px 64px 80px', maxWidth: 1240, margin: '0 auto' }}>
+      <section className="hero-section" style={{ minHeight: '100vh', paddingTop: 88, background: 'linear-gradient(160deg, #1f2d3a 0%, #2c3e50 60%, #1a2e3b 100%)', position: 'relative', overflow: 'hidden', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'center', padding: '88px 64px 80px', maxWidth: 1240, margin: '0 auto' }}>
         {/* Decorative blur sphere */}
         <div style={{ position: 'absolute', top: '15%', right: '5%', width: 420, height: 420, borderRadius: '50%', background: 'radial-gradient(circle, rgba(166,200,220,0.18) 0%, rgba(166,200,220,0) 70%)', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', bottom: '10%', left: '0%', width: 300, height: 300, borderRadius: '50%', background: 'radial-gradient(circle, rgba(184,201,168,0.14) 0%, rgba(184,201,168,0) 70%)', pointerEvents: 'none' }} />
@@ -479,7 +479,7 @@ export default function Home() {
         </div>
 
         {/* Right column — floating iPhone mockup */}
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
+        <div className="hero-mockup" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
           <div className="ring-big" />
           <div className="ring-small" />
           <div className="hero-sphere" />
@@ -563,7 +563,7 @@ export default function Home() {
             Cinco pantallas.<br />Una práctica que se adapta a vos.
           </h2>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, maxWidth: 1100, margin: '0 auto' }}>
+        <div className="como-funciona-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, maxWidth: 1100, margin: '0 auto' }}>
           {([
             { emoji: '🪷', title: 'Elegí tu tradición',        desc: '7 tradiciones espirituales. Configurás tu camino: Zen, Tibetana, Andina, Sufí, Cristiana contemplativa, Islámica o Laica.', screen: 'perfil-tradiciones', stagger: 1 },
             { emoji: '✨', title: 'La IA entiende tu momento', desc: 'Describís cómo te sentís. Niela AI genera una sesión única, adaptada a tu tradición y a tu día.',                              screen: 'niela-ai',            stagger: 2 },
@@ -625,7 +625,8 @@ export default function Home() {
           <p style={{ fontSize: 12, color: '#a6c8dc', textTransform: 'uppercase', letterSpacing: '3px', margin: '0 0 16px', fontWeight: 600 }}>Comparativa</p>
           <h2 className={`fade-up${sec6In ? ' in-view' : ''}`} style={{ fontSize: 44, fontWeight: 500, color: '#e8f1f5', margin: 0, letterSpacing: '-1px' }}>Por qué Niela es diferente</h2>
         </div>
-        <div className={`fade-up${sec6In ? ' in-view' : ''}`} style={{ maxWidth: 720, margin: '0 auto', borderRadius: 20, overflow: 'hidden', border: '1px solid rgba(166,200,220,0.12)' }}>
+        <div className="comparativa-wrap" style={{ maxWidth: 720, margin: '0 auto' }}>
+        <div className={`fade-up${sec6In ? ' in-view' : ''}`} style={{ minWidth: 480, borderRadius: 20, overflow: 'hidden', border: '1px solid rgba(166,200,220,0.12)' }}>
           {/* Header */}
           <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', background: 'rgba(166,200,220,0.06)', borderBottom: '1px solid rgba(166,200,220,0.1)' }}>
             {['Feature', 'Niela', 'Calm', 'Headspace'].map((h, i) => (
@@ -666,6 +667,7 @@ export default function Home() {
               </div>
             ));
           })()}
+        </div>
         </div>
         <p style={{ textAlign: 'center', fontSize: 11, color: 'rgba(232,241,245,0.25)', marginTop: 20, fontStyle: 'italic' }}>
           Comparación basada en información pública al 18 de mayo de 2026. Headspace Ebb (AI companion) disponible solo en inglés según anuncio oficial de Headspace Health, octubre 2024.
@@ -810,7 +812,7 @@ export default function Home() {
         }}>
           <span style={{ fontSize: 13, color: 'rgba(232,241,245,0.6)' }}>{count != null && count > 0 ? `${count.toLocaleString('es')} personas ya esperan` : 'Unite gratis'}</span>
           <button onClick={() => setStickyModalOpen(true)} style={{ background: '#a6c8dc', color: '#1f2d3a', border: 'none', borderRadius: 999, padding: '10px 20px', fontWeight: 700, fontSize: 14, cursor: 'pointer' }}>
-            Únete gratis
+            Unirme
           </button>
         </div>
       )}
@@ -917,6 +919,24 @@ export default function Home() {
           .sticky-mobile-cta { display: none !important; }
         }
 
+        /* como-funciona grid responsive */
+        .como-funciona-grid { grid-template-columns: repeat(3,1fr) !important; }
+        @media (max-width: 900px) {
+          .como-funciona-grid { grid-template-columns: repeat(2,1fr) !important; }
+        }
+        @media (max-width: 600px) {
+          .como-funciona-grid { grid-template-columns: 1fr !important; }
+        }
+
+        /* comparativa scroll on mobile */
+        .comparativa-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+        /* hero mockup — hidden on mobile so hero fits in 1 viewport */
+        @media (max-width: 768px) {
+          .hero-mockup { display: none !important; }
+          .hero-section { grid-template-columns: 1fr !important; min-height: unset !important; padding: 100px 24px 60px !important; }
+        }
+
         /* responsive */
         @media (max-width: 900px) {
           section[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; padding: 80px 24px !important; }
@@ -924,7 +944,7 @@ export default function Home() {
           div[style*="repeat(2,1fr)"] { grid-template-columns: 1fr !important; }
           div[style*="repeat(4,1fr)"] { grid-template-columns: repeat(2,1fr) !important; }
           nav { padding: 16px 24px !important; }
-          h1[style*="font-size: 72px"] { font-size: 44px !important; letter-spacing: -1.5px !important; }
+          h1[style*="font-size: 72px"] { font-size: 44px !important; letter-spacing: -1.5px !important; line-height: 1.1 !important; }
           h2[style*="font-size: 44px"] { font-size: 32px !important; }
           h2[style*="font-size: 56px"] { font-size: 38px !important; }
           nav > div:last-child a:not(:last-child) { display: none !important; }
@@ -933,6 +953,9 @@ export default function Home() {
           div[style*="repeat(4,1fr)"] { grid-template-columns: 1fr !important; }
           section { padding: 64px 20px !important; }
           nav { padding: 14px 20px !important; }
+          h1[style*="font-size: 72px"] { font-size: 36px !important; letter-spacing: -1px !important; line-height: 1.15 !important; }
+          h2[style*="font-size: 44px"] { font-size: 28px !important; }
+          p[style*="font-size: 17px"] { font-size: 15px !important; }
         }
 
         /* reduced motion */
