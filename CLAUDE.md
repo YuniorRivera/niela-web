@@ -45,7 +45,7 @@
 NO existen en Niela: Vipassana, Vedanta, Mindfulness (como tradición separada). Si alguna se sugiere, RECHAZAR.
 
 ## Reglas críticas
-1. Antes de cambiar el diseño de la landing: leer este archivo + ver versión en producción (https://niela-web.vercel.app).
+1. Antes de cambiar el diseño de la landing: leer este archivo + ver versión en producción (https://niela.app).
 2. NO inventar componentes que no estén en el diseño aprobado.
 3. NO improvisar copy: el copy del hero es: "Tu meditación, tu tradición, tu momento."
 4. NO improvisar tradiciones (ver lista canónica arriba).
