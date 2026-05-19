@@ -125,7 +125,6 @@ export default function Home() {
   /* section refs for IntersectionObserver */
   const [sec2Ref, sec2In] = useInView(0.15)
   const [sec3Ref, sec3In] = useInView(0.1)
-  const [sec4Ref, sec4In] = useInView(0.1)
   const [sec6Ref, sec6In] = useInView(0.1)
   const [sec7Ref, sec7In] = useInView(0.1)
   const [sec8Ref, sec8In] = useInView(0.1)
@@ -285,65 +284,67 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ══ SECCIÓN 3: CÓMO FUNCIONA ══ */}
+      {/* ══ SECCIÓN 3+4: CÓMO FUNCIONA — 5 CARDS CON SCREENSHOTS REALES ══ */}
       <section
         id="como-funciona"
         ref={sec3Ref as React.RefObject<HTMLElement>}
-        style={{ padding: '100px 64px', background: 'linear-gradient(180deg, #1f2d3a 0%, #243344 100%)', position: 'relative' }}
+        style={{ padding: '100px 64px', background: 'linear-gradient(180deg, #1f2d3a 0%, #1a2635 100%)', position: 'relative' }}
       >
-        <div style={{ textAlign: 'center', marginBottom: 64 }}>
+        <div style={{ textAlign: 'center', marginBottom: 72 }}>
           <p style={{ fontSize: 12, color: '#a6c8dc', textTransform: 'uppercase', letterSpacing: '3px', margin: '0 0 16px', fontWeight: 600 }}>Cómo funciona</p>
-          <h2 className={`fade-up${sec3In ? ' in-view' : ''}`} style={{ fontSize: 44, fontWeight: 500, color: '#e8f1f5', margin: 0, letterSpacing: '-1px' }}>Tres pasos hacia tu práctica</h2>
+          <h2 className={`fade-up${sec3In ? ' in-view' : ''}`} style={{ fontSize: 44, fontWeight: 500, color: '#e8f1f5', margin: 0, letterSpacing: '-1px' }}>
+            Cinco pantallas.<br />Una práctica que se adapta a vos.
+          </h2>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24, maxWidth: 1040, margin: '0 auto' }}>
-          {[
-            { num: '01', title: 'Elegí tu tradición', desc: 'En el onboarding, seleccionás de 7 tradiciones espirituales. La app aprende tu estilo.', label: 'Onboarding · Tradiciones' },
-            { num: '02', title: 'Describí tu momento', desc: 'Escribís cómo te sentís hoy. La IA genera una sesión única para ti.', label: 'IA · Sesión personalizada' },
-            { num: '03', title: 'Escuchá y soltá', desc: 'Audio guiado, voz cálida, sin distracciones. Solo vos y tu práctica.', label: 'Audio guiado · Voz cálida' },
-          ].map((step, i) => (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, maxWidth: 1100, margin: '0 auto' }}>
+          {([
+            { emoji: '🪷', title: 'Elegí tu tradición',        desc: '7 tradiciones espirituales. Configurás tu camino: Zen, Tibetana, Andina, Sufí, Cristiana contemplativa, Islámica o Laica.', screen: 'perfil-tradiciones', stagger: 1 },
+            { emoji: '✨', title: 'La IA entiende tu momento', desc: 'Describís cómo te sentís. Niela AI genera una sesión única, adaptada a tu tradición y a tu día.',                              screen: 'niela-ai',            stagger: 2 },
+            { emoji: '📚', title: 'Cursos por tradición',       desc: '20 lecciones por tradición. Teoría, práctica y reflexión guiada. Un camino completo.',                                        screen: 'inicio-curso-zen',    stagger: 3 },
+            { emoji: '🔖', title: 'Tu biblioteca de sesiones',  desc: 'Guardá tus meditaciones favoritas. Etiquetas por estado emocional. Volvé a las que más te ayudaron.',                          screen: 'historial-sesiones',  stagger: 1 },
+            { emoji: '📔', title: 'Diario de tu práctica',      desc: 'Registrá cómo te sentís. Niela aprende de tu evolución para personalizar mejor cada sesión.',                                  screen: 'diario-mood',         stagger: 2 },
+          ] as const).map((card) => (
             <div
-              key={step.num}
-              className={`fade-up stagger-${i + 1 as 1|2|3}${sec3In ? ' in-view' : ''}`}
-              style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 24, padding: '40px 32px', border: '1px solid rgba(166,200,220,0.1)', position: 'relative', overflow: 'hidden' }}
+              key={card.title}
+              className={`fade-up stagger-${card.stagger}${sec3In ? ' in-view' : ''}`}
+              style={{
+                background: 'rgba(255,255,255,0.04)',
+                border: '1px solid rgba(166,200,220,0.1)',
+                borderRadius: 24,
+                padding: '32px 28px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 16,
+                transition: 'transform 200ms cubic-bezier(0.23,1,0.32,1), border-color 200ms',
+              }}
             >
-              <div style={{ fontSize: 72, fontWeight: 700, color: '#a6c8dc', opacity: 0.15, lineHeight: 1, marginBottom: 8, userSelect: 'none' }}>{step.num}</div>
-              <h3 style={{ fontSize: 20, fontWeight: 500, color: '#e8f1f5', margin: '0 0 12px' }}>{step.title}</h3>
-              <p style={{ fontSize: 14, lineHeight: 1.65, color: 'rgba(232,241,245,0.6)', margin: '0 0 28px' }}>{step.desc}</p>
-              <PhoneMockup label={step.label} />
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ══ SECCIÓN 4: FEATURES GRID ══ */}
-      <section
-        ref={sec4Ref as React.RefObject<HTMLElement>}
-        style={{ padding: '100px 64px', background: '#1a2635' }}
-      >
-        <div style={{ textAlign: 'center', marginBottom: 64 }}>
-          <p style={{ fontSize: 12, color: '#a6c8dc', textTransform: 'uppercase', letterSpacing: '3px', margin: '0 0 16px', fontWeight: 600 }}>Features</p>
-          <h2 className={`fade-up${sec4In ? ' in-view' : ''}`} style={{ fontSize: 44, fontWeight: 500, color: '#e8f1f5', margin: 0, letterSpacing: '-1px', maxWidth: 600, marginLeft: 'auto', marginRight: 'auto' }}>Todo lo que necesitás para meditar con intención</h2>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 20, maxWidth: 960, margin: '0 auto' }}>
-          {[
-            { icon: '🌏', title: '7 tradiciones espirituales', desc: 'Zen, Budista, Cristiana, Hindú, Estoica, Secular y Sufí. Cada una con su voz, metáforas y silencio propios.', label: 'Selector · 7 tradiciones' },
-            { icon: '🧠', title: 'IA que entiende tu momento', desc: 'Describís cómo te sentís y la IA genera una sesión única. No plantillas. No genérico. Solo para vos.', label: 'IA · Sesión única' },
-            { icon: '📚', title: 'Cursos por tradición', desc: 'Un módulo de 7 días por tradición, con teoría, práctica y reflexión guiada. Un camino completo.', label: 'Cursos · 7 días' },
-            { icon: '💾', title: 'Tu biblioteca personal', desc: 'Guardá meditaciones, notas y sesiones favoritas. Tu práctica siempre disponible offline.', label: 'Biblioteca · Guardados' },
-          ].map((feat, i) => (
-            <div
-              key={feat.title}
-              className={`fade-up stagger-${(i % 2 + 1) as 1|2}${sec4In ? ' in-view' : ''} feature-card`}
-              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(166,200,220,0.12)', borderRadius: 24, padding: '36px 32px', display: 'flex', gap: 32, alignItems: 'flex-start', transition: 'transform 200ms cubic-bezier(0.23,1,0.32,1), border-color 200ms' }}
-            >
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 28, marginBottom: 16 }}>{feat.icon}</div>
-                <h3 style={{ fontSize: 20, fontWeight: 500, color: '#e8f1f5', margin: '0 0 12px' }}>{feat.title}</h3>
-                <p style={{ fontSize: 14, lineHeight: 1.65, color: 'rgba(232,241,245,0.6)', margin: 0 }}>{feat.desc}</p>
+              <div style={{ fontSize: 28 }}>{card.emoji}</div>
+              <h3 style={{ fontSize: 18, fontWeight: 600, color: '#e8f1f5', margin: 0 }}>{card.title}</h3>
+              <p style={{ fontSize: 14, lineHeight: 1.65, color: 'rgba(232,241,245,0.6)', margin: 0 }}>{card.desc}</p>
+              {/* Mockup de teléfono con screenshot real */}
+              <div style={{
+                marginTop: 8,
+                borderRadius: 36,
+                border: '8px solid #0a0a0a',
+                padding: 4,
+                boxShadow: '0 24px 48px rgba(0,0,0,0.5)',
+                overflow: 'hidden',
+                alignSelf: 'center',
+                width: '100%',
+                maxWidth: 220,
+              }}>
+                <Image
+                  src={`/screens/${card.screen}.webp`}
+                  alt={card.title}
+                  width={300}
+                  height={560}
+                  style={{ width: '100%', height: 'auto', borderRadius: 28, display: 'block' }}
+                />
               </div>
-              <PhoneMockup label={feat.label} />
             </div>
           ))}
+          {/* 6ª celda vacía para centrar la fila de 2 */}
+          <div style={{ display: 'none' }} aria-hidden="true" />
         </div>
       </section>
 
