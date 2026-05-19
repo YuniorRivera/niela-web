@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -39,9 +40,25 @@ function PhoneMockup({ label }: { label: string }) {
   )
 }
 
-/* ── 5.5 SuccessState with viral share ── */
+/* ── 5.5 SuccessState with confetti + viral share ── */
 function SuccessState({ position, email = '' }: { position: number; email?: string }) {
   const [copied, setCopied] = useState(false)
+
+  // Confetti al montar
+  useEffect(() => {
+    import('canvas-confetti').then(({ default: confetti }) => {
+      confetti({
+        particleCount: 80,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#d4e3d4', '#e8d9b5', '#a8c9a8', '#ffffff', '#a6c8dc'],
+      })
+      setTimeout(() => {
+        confetti({ particleCount: 50, angle: 60, spread: 55, origin: { x: 0, y: 0.7 } })
+        confetti({ particleCount: 50, angle: 120, spread: 55, origin: { x: 1, y: 0.7 } })
+      }, 300)
+    })
+  }, [])
 
   const hashEmail = (e: string) => {
     let hash = 0
@@ -62,17 +79,64 @@ function SuccessState({ position, email = '' }: { position: number; email?: stri
 
   return (
     <div style={{ textAlign: 'center', padding: '8px 0' }}>
-      <div style={{ fontSize: 28, marginBottom: 8 }}>✨</div>
-      <p style={{ fontSize: 17, fontWeight: 600, color: '#e8f1f5', margin: '0 0 4px' }}>Estás en la lista</p>
-      <p style={{ fontSize: 13, color: '#a6c8dc', margin: '0 0 20px' }}>Posición #{position}</p>
-      <p style={{ fontSize: 13, color: 'rgba(232,241,245,0.6)', margin: '0 0 16px' }}>Invitá amigos y subí en la lista. Por cada amigo que se una, subís 5 posiciones.</p>
-      <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap' }}>
+      {/* Emoji con bounce usando framer-motion */}
+      <motion.div
+        initial={{ scale: 0, rotate: -15 }}
+        animate={{ scale: 1, rotate: 0 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 14, delay: 0.05 }}
+        style={{ fontSize: 40, marginBottom: 12, display: 'inline-block' }}
+      >
+        🪷
+      </motion.div>
+
+      <motion.p
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1], delay: 0.15 }}
+        style={{ fontSize: 20, fontWeight: 700, color: '#e8f1f5', margin: '0 0 6px' }}
+      >
+        ¡Estás dentro!
+      </motion.p>
+
+      <motion.p
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1], delay: 0.3 }}
+        style={{ fontSize: 14, color: '#a6c8dc', margin: '0 0 6px', fontWeight: 500 }}
+      >
+        Sos la persona #{position} en descubrir Niela.
+      </motion.p>
+
+      <motion.p
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1], delay: 0.45 }}
+        style={{ fontSize: 13, color: 'rgba(232,241,245,0.6)', margin: '0 0 20px' }}
+      >
+        Te avisamos antes que a nadie cuando lancemos.
+      </motion.p>
+
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.6 }}
+        style={{ fontSize: 12, color: 'rgba(232,241,245,0.45)', margin: '0 0 14px' }}
+      >
+        Invitá amigos y subí en la lista · Por cada amigo que se una, subís 5 posiciones.
+      </motion.p>
+
+      <motion.div
+        initial={{ opacity: 0, y: 6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, delay: 0.7 }}
+        style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap' }}
+      >
         <a href={waUrl} target="_blank" rel="noopener" style={{ padding: '10px 16px', borderRadius: 12, background: '#25D366', color: '#fff', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}>💬 WhatsApp</a>
         <a href={twitterUrl} target="_blank" rel="noopener" style={{ padding: '10px 16px', borderRadius: 12, background: '#000', color: '#fff', fontSize: 13, fontWeight: 600, textDecoration: 'none', border: '1px solid #333' }}>𝕏 Twitter</a>
         <button onClick={copyLink} style={{ padding: '10px 16px', borderRadius: 12, background: 'rgba(166,200,220,0.15)', color: '#a6c8dc', fontSize: 13, fontWeight: 600, border: '1px solid rgba(166,200,220,0.3)', cursor: 'pointer' }}>
           {copied ? '✓ Copiado' : '🔗 Copiar link'}
         </button>
-      </div>
+      </motion.div>
     </div>
   )
 }
