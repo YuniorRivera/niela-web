@@ -64,11 +64,11 @@
     "rowTradition": "Personalization by tradition",
     "rowAi": "AI-generated sessions",
     "rowMultiTradition": "Multi-tradition",
-    "rowNativeSpanish": "Native Spanish content",
     "rowNoTemplates": "No generic templates",
     "partial": "Partial",
     "ebbNote": "Ebb · EN only",
-    "footer": "Comparison based on public information as of May 18, 2026. Headspace Ebb (AI companion) available only in English according to official Headspace Health announcement, October 2024."
+    "footer": "Comparison based on public information as of May 18, 2026. Headspace Ebb (AI companion) available only in English according to official Headspace Health announcement, October 2024.",
+    "rowNativeLanguage": "Native content in your language"
   },
   "finalCta": {
     "title": "Be among the first to try Niela",
@@ -128,7 +128,7 @@
     "terminos": "Terms",
     "privacidad": "Privacy",
     "cookies": "Cookies",
-    "copyright": "Niela © 2026 · Made with care in Italy 🇮🇹",
+    "copyright": "Niela © 2026 · Made with care",
     "instagram": "Instagram",
     "tiktok": "TikTok",
     "x": "X",
@@ -192,7 +192,11 @@
     "advisory": "Cultural advisory board",
     "encryption": "End-to-end encryption",
     "evidence": "Evidence-based",
-    "gdpr": "GDPR Compliant",
-    "soonInMedia": "Coming soon in media"
+    "gdpr": "GDPR Compliant"
+  },
+  "heroMockup": {
+    "chipZen": "Zen ✓",
+    "chipHindu": "Hindu",
+    "chipSecular": "Secular"
   }
 }

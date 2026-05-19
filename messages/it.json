@@ -64,11 +64,11 @@
     "rowTradition": "Personalizzazione per tradizione",
     "rowAi": "Sessioni generate dall'IA",
     "rowMultiTradition": "Multi-tradizione",
-    "rowNativeSpanish": "Contenuti nativi in spagnolo",
     "rowNoTemplates": "Niente modelli generici",
     "partial": "Parziale",
     "ebbNote": "Ebb · solo EN",
-    "footer": "Confronto basato su informazioni pubbliche al 18 maggio 2026. Headspace Ebb (compagno IA) disponibile solo in inglese secondo l'annuncio ufficiale di Headspace Health, ottobre 2024."
+    "footer": "Confronto basato su informazioni pubbliche al 18 maggio 2026. Headspace Ebb (compagno IA) disponibile solo in inglese secondo l'annuncio ufficiale di Headspace Health, ottobre 2024.",
+    "rowNativeLanguage": "Contenuti nativi nella tua lingua"
   },
   "finalCta": {
     "title": "Sii tra i primi a provare Niela",
@@ -128,7 +128,7 @@
     "terminos": "Termini",
     "privacidad": "Privacy",
     "cookies": "Cookie",
-    "copyright": "Niela © 2026 · Fatto con cura in Italia 🇮🇹",
+    "copyright": "Niela © 2026 · Fatto con cura",
     "instagram": "Instagram",
     "tiktok": "TikTok",
     "x": "X",
@@ -192,7 +192,11 @@
     "advisory": "Comitato consultivo culturale",
     "encryption": "Crittografia end-to-end",
     "evidence": "Basato su evidenze",
-    "gdpr": "GDPR Compliant",
-    "soonInMedia": "Prossimamente nei media"
+    "gdpr": "GDPR Compliant"
+  },
+  "heroMockup": {
+    "chipZen": "Zen ✓",
+    "chipHindu": "Hindu",
+    "chipSecular": "Laica"
   }
 }

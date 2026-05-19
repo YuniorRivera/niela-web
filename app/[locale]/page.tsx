@@ -509,9 +509,9 @@ export default function Home() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 <p style={{ fontSize: 9, color: '#4a6b80', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>{t('phoneMockup.traditionLabel')}</p>
                 <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-                  <span style={{ padding: '4px 9px', background: '#b8c9a8', borderRadius: 999, fontSize: 9, color: '#2d3d24', fontWeight: 500 }}>Zen ✓</span>
-                  <span style={{ padding: '4px 9px', background: 'rgba(212,184,150,0.4)', borderRadius: 999, fontSize: 9, color: '#5a4530' }}>Hindú</span>
-                  <span style={{ padding: '4px 9px', background: 'rgba(180,180,180,0.3)', borderRadius: 999, fontSize: 9, color: '#2c3e50' }}>Secular</span>
+                  <span style={{ padding: '4px 9px', background: '#b8c9a8', borderRadius: 999, fontSize: 9, color: '#2d3d24', fontWeight: 500 }}>{t('heroMockup.chipZen')}</span>
+                  <span style={{ padding: '4px 9px', background: 'rgba(212,184,150,0.4)', borderRadius: 999, fontSize: 9, color: '#5a4530' }}>{t('heroMockup.chipHindu')}</span>
+                  <span style={{ padding: '4px 9px', background: 'rgba(180,180,180,0.3)', borderRadius: 999, fontSize: 9, color: '#2c3e50' }}>{t('heroMockup.chipSecular')}</span>
                 </div>
               </div>
               <div style={{ marginTop: 'auto', background: 'linear-gradient(135deg, #2c3e50 0%, #4a6b80 100%)', borderRadius: 14, padding: 14, color: '#f0ebe0', position: 'relative', overflow: 'hidden' }}>
@@ -547,12 +547,6 @@ export default function Home() {
                 <span style={{ fontSize: 14, color: 'rgba(232,241,245,0.65)', fontWeight: 400, letterSpacing: '0.2px' }}>{item}</span>
                 {i < arr.length - 1 && <span style={{ color: 'rgba(166,200,220,0.3)', margin: '0 16px', fontSize: 12 }}>·</span>}
               </span>
-            ))}
-          </div>
-          <p style={{ fontSize: 11, color: 'rgba(232,241,245,0.3)', margin: '0 0 20px', textTransform: 'uppercase', letterSpacing: '2px' }}>{t('trustBar.soonInMedia')}</p>
-          <div style={{ display: 'flex', gap: 36, justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', opacity: 0.3 }}>
-            {['TechCrunch', 'El País', 'Forbes Wellness', 'Wired Health'].map(m => (
-              <span key={m} style={{ fontSize: 14, color: '#e8f1f5', fontWeight: 600, fontStyle: 'italic', letterSpacing: '0.5px' }}>{m}</span>
             ))}
           </div>
         </div>
@@ -662,7 +656,7 @@ export default function Home() {
                 </span>
               )},
               { label: t('comparison.rowMultiTradition'),  niela: '✓', calm: '✗', headspace: '✗' },
-              { label: t('comparison.rowNativeSpanish'),   niela: '✓', calm: partial, headspace: partial },
+              { label: t('comparison.rowNativeLanguage'),  niela: '✓', calm: partial, headspace: partial },
               { label: t('comparison.rowNoTemplates'),     niela: '✓', calm: '✗', headspace: '✗' },
             ];
             return rows.map((row, ri) => (
