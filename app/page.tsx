@@ -139,7 +139,7 @@ function WaitlistForm({ dark = false, onSuccess }: { dark?: boolean; onSuccess?:
           type="submit" disabled={submitting || !accepted}
           className="btn-primary"
           style={{ background: btnBg, color: btnColor, border: 'none', padding: '13px 24px', borderRadius: 999, fontSize: 14, fontWeight: 600, cursor: submitting || !accepted ? 'not-allowed' : 'pointer', whiteSpace: 'nowrap', opacity: submitting || !accepted ? 0.45 : 1, transition: 'transform 150ms ease-out, opacity 150ms ease-out' }}
-        >{submitting ? '...' : 'Empezar gratis'}</button>
+        >{submitting ? '...' : 'Unirme a la lista'}</button>
       </form>
       <label style={{ display: 'flex', alignItems: 'flex-start', gap: 8, cursor: 'pointer', marginBottom: 8 }}>
         <input type="checkbox" checked={accepted} onChange={e => setAccepted(e.target.checked)} style={{ marginTop: 2, accentColor: '#a6c8dc', flexShrink: 0 }} />
@@ -319,7 +319,7 @@ export default function Home() {
           <a href="#como-funciona" style={{ fontSize: 14, color: 'rgba(232,241,245,0.65)', textDecoration: 'none', transition: 'color 200ms' }}>Cómo funciona</a>
           <a href="#tradiciones" style={{ fontSize: 14, color: 'rgba(232,241,245,0.65)', textDecoration: 'none', transition: 'color 200ms' }}>Tradiciones</a>
           <a href="#comparativa" style={{ fontSize: 14, color: 'rgba(232,241,245,0.65)', textDecoration: 'none', transition: 'color 200ms' }}>Comparativa</a>
-          <a href="#cta" style={{ background: '#a6c8dc', color: '#1f2d3a', border: 'none', padding: '10px 20px', borderRadius: 999, fontSize: 13, fontWeight: 600, textDecoration: 'none', transition: 'transform 150ms, opacity 150ms' }}>Empezar gratis</a>
+          <a href="#cta" style={{ background: '#a6c8dc', color: '#1f2d3a', border: 'none', padding: '10px 20px', borderRadius: 999, fontSize: 13, fontWeight: 600, textDecoration: 'none', transition: 'transform 150ms, opacity 150ms' }}>Unirme a la lista</a>
         </div>
       </nav>
 
@@ -379,7 +379,7 @@ export default function Home() {
                 whiteSpace: 'nowrap',
                 opacity: heroLoading ? 0.6 : 1,
               }}>
-                {heroLoading ? '...' : 'Unirme gratis'}
+                {heroLoading ? '...' : 'Unirme a la lista'}
               </button>
             </form>
           ) : (
@@ -668,7 +668,7 @@ export default function Home() {
 
         <div className={`fade-up${sec8In ? ' in-view' : ''}`} style={{ position: 'relative', zIndex: 5, maxWidth: 640, margin: '0 auto' }}>
           <h2 style={{ fontSize: 56, fontWeight: 500, color: '#e8f1f5', margin: '0 0 20px', letterSpacing: '-1.5px', lineHeight: 1.05 }}>
-            Empezá tu práctica hoy
+            Sé de los primeros en probar Niela
           </h2>
           <p style={{ fontSize: 18, color: 'rgba(232,241,245,0.65)', margin: '0 0 48px', lineHeight: 1.6 }}>
             {count != null && count > 0 ? `Únete a ${count.toLocaleString('es')} personas que ya están esperando Niela.` : 'Sé de los primeros en probar Niela.'}
@@ -763,7 +763,7 @@ export default function Home() {
               <form onSubmit={handleStickySubmit} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <input type="email" value={stickyEmail} onChange={e => setStickyEmail(e.target.value)} placeholder="tu@email.com" required style={{ width: '100%', padding: '13px 16px', borderRadius: 12, border: '1px solid rgba(166,200,220,0.3)', background: 'rgba(255,255,255,0.06)', color: '#e8f1f5', fontSize: 15, boxSizing: 'border-box', outline: 'none' }} />
                 <button type="submit" disabled={stickyLoading} style={{ width: '100%', padding: '14px', borderRadius: 12, border: 'none', background: '#a6c8dc', color: '#1f2d3a', fontWeight: 700, fontSize: 15, cursor: stickyLoading ? 'not-allowed' : 'pointer', opacity: stickyLoading ? 0.6 : 1 }}>
-                  {stickyLoading ? '...' : 'Unirme gratis'}
+                  {stickyLoading ? '...' : 'Unirme'}
                 </button>
               </form>
             ) : (
@@ -785,7 +785,7 @@ export default function Home() {
               <form onSubmit={handleExitSubmit}>
                 <input type="email" value={exitEmail} onChange={e => setExitEmail(e.target.value)} placeholder="tu@email.com" required style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1px solid rgba(166,200,220,0.3)', background: 'rgba(255,255,255,0.06)', color: '#e8f1f5', fontSize: 15, marginBottom: 12, boxSizing: 'border-box', outline: 'none' }} />
                 <button type="submit" disabled={exitLoading} style={{ width: '100%', padding: '14px', borderRadius: 12, border: 'none', background: '#a6c8dc', color: '#1f2d3a', fontWeight: 700, fontSize: 15, cursor: exitLoading ? 'not-allowed' : 'pointer', opacity: exitLoading ? 0.6 : 1 }}>
-                  {exitLoading ? '...' : 'Unirme gratis'}
+                  {exitLoading ? '...' : 'Unirme a la lista'}
                 </button>
               </form>
             ) : (
