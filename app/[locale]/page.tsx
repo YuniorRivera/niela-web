@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { LangSwitcher } from '@/components/LangSwitcher'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://medita-app-production.up.railway.app'
@@ -154,6 +154,7 @@ function WaitlistForm({ dark = false, onSuccess }: { dark?: boolean; onSuccess?:
   const [submittedEmail, setSubmittedEmail] = useState('')
   const t = useTranslations('finalCta')
   const tErrors = useTranslations('errors')
+  const locale = useLocale()
 
   const submit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault()
@@ -164,7 +165,7 @@ function WaitlistForm({ dark = false, onSuccess }: { dark?: boolean; onSuccess?:
       const r = await fetch(`${API_URL}/api/waitlist`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, locale }),
       })
       const data = await r.json()
       if (r.ok || r.status === 409) {
@@ -181,7 +182,7 @@ function WaitlistForm({ dark = false, onSuccess }: { dark?: boolean; onSuccess?:
       }
     } catch { setStatus('error') }
     setSubmitting(false)
-  }, [email, onSuccess])
+  }, [email, locale, onSuccess])
 
   const inputBg = dark ? 'rgba(232,241,245,0.08)' : 'rgba(255,255,255,0.7)'
   const inputBorder = dark ? '1px solid rgba(232,241,245,0.18)' : '1px solid rgba(44,62,80,0.18)'
@@ -231,6 +232,7 @@ function WaitlistForm({ dark = false, onSuccess }: { dark?: boolean; onSuccess?:
 ══════════════════════════════════════════════ */
 export default function Home() {
   const t = useTranslations()
+  const locale = useLocale()
   const [count, setCount] = useState<number | null>(null)
   const [heroMounted, setHeroMounted] = useState(false)
   const [hoveredTradition, setHoveredTradition] = useState<string | null>(null)
@@ -317,7 +319,7 @@ export default function Home() {
       const res = await fetch(`${API_URL}/api/waitlist`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, locale }),
       })
       const data = await res.json()
       if (res.ok || res.status === 409) {
