@@ -24,8 +24,11 @@ export function LangSwitcher() {
         color: 'rgba(232,241,245,0.75)',
         border: '1px solid rgba(166,200,220,0.25)',
         borderRadius: 999,
-        padding: '6px 10px',
+        padding: '10px 12px',   /* ≥44px touch target on Android */
+        minHeight: 44,
         outline: 'none',
+        WebkitAppearance: 'none',
+        appearance: 'none',
       }}
     >
       <option value="es" style={{ background: '#2c3e50' }}>🇪🇸 ES</option>

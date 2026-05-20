@@ -379,7 +379,7 @@ export default function Home() {
   ]
 
   return (
-    <main style={{ margin: 0, minHeight: '100vh', background: '#1f2d3a', overflow: 'hidden' }}>
+    <main style={{ margin: 0, minHeight: '100vh', background: '#1f2d3a', overflowX: 'hidden' }}>
 
       {/* ══ NAV ══ */}
       <nav style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '24px 48px', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, background: 'rgba(31,45,58,0.85)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(166,200,220,0.08)' }}>
@@ -391,7 +391,7 @@ export default function Home() {
           <a href="#como-funciona" style={{ fontSize: 14, color: 'rgba(232,241,245,0.65)', textDecoration: 'none', transition: 'color 200ms' }}>{t('nav.comoFunciona')}</a>
           <a href="#tradiciones" style={{ fontSize: 14, color: 'rgba(232,241,245,0.65)', textDecoration: 'none', transition: 'color 200ms' }}>{t('nav.tradiciones')}</a>
           <a href="#comparativa" style={{ fontSize: 14, color: 'rgba(232,241,245,0.65)', textDecoration: 'none', transition: 'color 200ms' }}>{t('nav.comparativa')}</a>
-          <LangSwitcher />
+          <div className="lang-switcher-wrap"><LangSwitcher /></div>
           <a href="#cta" style={{ background: '#a6c8dc', color: '#1f2d3a', border: 'none', padding: '10px 20px', borderRadius: 999, fontSize: 13, fontWeight: 600, textDecoration: 'none', transition: 'transform 150ms, opacity 150ms' }}>{t('nav.cta')}</a>
         </div>
       </nav>
@@ -803,7 +803,6 @@ export default function Home() {
           bottom: 0,
           left: 0,
           right: 0,
-          height: 60,
           background: 'rgba(31,45,58,0.92)',
           backdropFilter: 'blur(16px)',
           borderTop: '1px solid rgba(166,200,220,0.12)',
@@ -811,6 +810,8 @@ export default function Home() {
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '0 20px',
+          paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+          minHeight: 60,
           zIndex: 200,
         }}>
           <span style={{ fontSize: 13, color: 'rgba(232,241,245,0.6)' }}>{count != null && count > 0 ? t('stickyBar.waitingText', { count: count.toLocaleString('es') }) : t('stickyBar.waitingFallback')}</span>
@@ -940,7 +941,7 @@ export default function Home() {
           .hero-section { grid-template-columns: 1fr !important; min-height: unset !important; padding: 100px 24px 60px !important; }
         }
 
-        /* responsive */
+        /* responsive — applies to Chrome Android (Pixel/Galaxy) and iOS Safari */
         @media (max-width: 900px) {
           section[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; padding: 80px 24px !important; }
           div[style*="repeat(3,1fr)"] { grid-template-columns: 1fr !important; }
@@ -954,11 +955,16 @@ export default function Home() {
         }
         @media (max-width: 600px) {
           div[style*="repeat(4,1fr)"] { grid-template-columns: 1fr !important; }
-          section { padding: 64px 20px !important; }
+          /* Android: prevent any section from overflowing horizontally */
+          section { padding: 64px 20px !important; max-width: 100vw !important; box-sizing: border-box !important; }
           nav { padding: 14px 20px !important; }
           h1[style*="font-size: 72px"] { font-size: 36px !important; letter-spacing: -1px !important; line-height: 1.15 !important; }
           h2[style*="font-size: 44px"] { font-size: 28px !important; }
           p[style*="font-size: 17px"] { font-size: 15px !important; }
+          /* Comparativa: ensure min-width doesn't break layout, use scroll */
+          .comparativa-wrap { max-width: calc(100vw - 40px) !important; }
+          /* LangSwitcher: 44px tap target for Android */
+          .lang-switcher-wrap { min-height: 44px; display: flex; align-items: center; }
         }
 
         /* reduced motion */
