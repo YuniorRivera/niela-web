@@ -410,7 +410,7 @@ export default function Home() {
           </div>
 
           {/* Headline */}
-          <h1 style={{ fontSize: 72, lineHeight: 1.0, fontWeight: 500, color: '#e8f1f5', margin: '0 0 24px', letterSpacing: '-2.5px' }}>
+          <h1 className="hero-title" style={{ fontSize: 72, lineHeight: 1.0, fontWeight: 500, color: '#e8f1f5', margin: '0 0 24px', letterSpacing: '-2.5px' }}>
             <span className={`hero-line hero-line-1${heroMounted ? ' hero-line-visible' : ''}`} style={{ display: 'block' }}>{t('hero.title1')}</span>
             <span className={`hero-line hero-line-2${heroMounted ? ' hero-line-visible' : ''}`} style={{ display: 'block' }}>{t('hero.title2')}</span>
             <span className={`hero-line hero-line-3${heroMounted ? ' hero-line-visible' : ''}`} style={{ display: 'block', color: '#a6c8dc', fontStyle: 'italic' }}>{t('hero.title3')}</span>
@@ -941,6 +941,15 @@ export default function Home() {
           .hero-section { grid-template-columns: 1fr !important; min-height: unset !important; padding: 100px 24px 60px !important; }
         }
 
+        /* hero title — fluid font, works for all locales (IT is longest) */
+        .hero-title {
+          font-size: clamp(28px, 9.5vw, 72px) !important;
+          line-height: 1.1 !important;
+          letter-spacing: clamp(-1px, -0.03em, -2.5px) !important;
+          word-break: normal;
+          overflow-wrap: normal;
+        }
+
         /* responsive — applies to Chrome Android (Pixel/Galaxy) and iOS Safari */
         @media (max-width: 900px) {
           section[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; padding: 80px 24px !important; }
@@ -948,7 +957,6 @@ export default function Home() {
           div[style*="repeat(2,1fr)"] { grid-template-columns: 1fr !important; }
           div[style*="repeat(4,1fr)"] { grid-template-columns: repeat(2,1fr) !important; }
           nav { padding: 16px 24px !important; }
-          h1[style*="font-size: 72px"] { font-size: 44px !important; letter-spacing: -1.5px !important; line-height: 1.1 !important; }
           h2[style*="font-size: 44px"] { font-size: 32px !important; }
           h2[style*="font-size: 56px"] { font-size: 38px !important; }
           nav > div:last-child a:not(:last-child) { display: none !important; }
@@ -958,7 +966,6 @@ export default function Home() {
           /* Android: prevent any section from overflowing horizontally */
           section { padding: 64px 20px !important; max-width: 100vw !important; box-sizing: border-box !important; }
           nav { padding: 14px 20px !important; }
-          h1[style*="font-size: 72px"] { font-size: 36px !important; letter-spacing: -1px !important; line-height: 1.15 !important; }
           h2[style*="font-size: 44px"] { font-size: 28px !important; }
           p[style*="font-size: 17px"] { font-size: 15px !important; }
           /* Comparativa: ensure min-width doesn't break layout, use scroll */

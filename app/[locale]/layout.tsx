@@ -43,7 +43,7 @@ export default async function RootLayout({
   return (
     <html lang={locale} className="h-full scroll-smooth">
       <body className={`${inter.className} min-h-full flex flex-col`}>
-        <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
         </NextIntlClientProvider>
       </body>
