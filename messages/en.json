@@ -7,19 +7,24 @@
     "comoFunciona": "How it works",
     "tradiciones": "Traditions",
     "comparativa": "Comparison",
-    "cta": "Join the list"
+    "cta": "Join the list",
+    "download": "Download"
   },
   "hero": {
     "waitlistChip": "{count} people on the waitlist",
     "waitlistChipFallback": "Waitlist open",
-    "title1": "Your meditation,",
-    "title2": "your tradition,",
-    "title3": "your moment.",
-    "subtitle": "AI-generated meditation sessions, tailored to your spiritual tradition and how you feel today.",
+    "usersChip": "🌱 {count} people are using Niela",
+    "usersChipFallback": "🌱 Now available on Android",
+    "title1": "Find your path",
+    "title2": "in meditation.",
+    "title3": "",
+    "subtitle": "The app that respects your spiritual tradition — religious, spiritual, or secular.",
     "emailPlaceholder": "you@email.com",
     "submitButton": "Join the list",
     "footnote": "No spam. We'll let you know when we launch.",
     "viewHow": "See how it works",
+    "downloadPlay": "Download on Google Play",
+    "appStoreSoon": "App Store coming soon",
     "badgeGdpr": "GDPR compliant",
     "badgeEvidence": "Evidence-based",
     "badgeTraditions": "7 traditions"
@@ -37,6 +42,41 @@
     "card5Title": "Your practice journal",
     "card5Text": "Track how you feel. Niela learns from your journey to personalize each session better.",
     "eyebrow": "How it works"
+  },
+  "howItWorks2": {
+    "eyebrow": "How it works",
+    "title": "Simple. No shortcuts.",
+    "step1Title": "Download Niela",
+    "step1Desc": "Free on Google Play, no credit card required.",
+    "step2Title": "Choose your tradition",
+    "step2Desc": "Zen, Sufi, Christian, secular… or several at once.",
+    "step3Title": "Start the course",
+    "step3Desc": "One lesson per day. No shortcuts. Like real zen."
+  },
+  "traditions2": {
+    "title": "Your tradition, your path.",
+    "subtitle": "We're starting with the complete Zen course in Spanish. The other traditions arrive in the coming weeks.",
+    "zen": { "name": "Zen", "desc": "Mindful presence in the moment" },
+    "tibetana": { "name": "Tibetan", "desc": "Visualization and deep compassion" },
+    "andina": { "name": "Andean / Peruvian", "desc": "Connection with earth and elements" },
+    "sufi": { "name": "Sufi", "desc": "Heart opening and conscious breathing" },
+    "cristiana": { "name": "Christian contemplative", "desc": "Inner silence and deep prayer" },
+    "islamica": { "name": "Islamic", "desc": "Conscious reflection from tradition" },
+    "laica": { "name": "Secular", "desc": "Mental wellbeing without religion" }
+  },
+  "roadmap": {
+    "eyebrow": "Roadmap",
+    "title": "What's coming in Niela",
+    "col1Title": "This week",
+    "col1Items": ["Complete Zen course in Spanish", "Emotional journal", "Android app (Google Play)"],
+    "col1Done": [true, true, true],
+    "col2Title": "Next 4 weeks",
+    "col2Items": ["Tibetan tradition", "AI meditations based on your state", "iOS version (App Store)"],
+    "col2Done": [false, false, false],
+    "col3Title": "Next 3 months",
+    "col3Items": ["6 remaining traditions", "English version", "Italian version", "Niela community"],
+    "col3Done": [false, false, false, false],
+    "emailCta": "Leave your email and we'll notify you when what you're waiting for arrives:"
   },
   "whyExist": {
     "eyebrow": "WHY WE EXIST",
@@ -68,7 +108,35 @@
     "partial": "Partial",
     "ebbNote": "Ebb · EN only",
     "footer": "Comparison based on public information as of May 18, 2026. Headspace Ebb (AI companion) available only in English according to official Headspace Health announcement, October 2024.",
-    "rowNativeLanguage": "Native content in your language"
+    "rowNativeLanguage": "Native content in your language",
+    "rowProgressiveLaunch": "Progressive launch with community",
+    "rowNoTracking": "No third-party tracking"
+  },
+  "founder": {
+    "eyebrow": "Who makes Niela",
+    "title": "Who makes Niela",
+    "text1": "Hi, I'm Yunior Rivera. I'm building Niela from Italy, alone, with the help of practitioners from each tradition who validate the content.",
+    "text2": "No investors. No big team. Just deep respect for contemplative traditions and a drive to build something that truly helps you.",
+    "text3": "If you find bugs, have suggestions, or want to collaborate on a tradition's content — write to me directly.",
+    "cta": "Email hola@niela.app"
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "title": "Frequently asked questions",
+    "q1": "Is Niela religious?",
+    "a1": "Niela respects religious and spiritual traditions, and also includes a 100% secular option for those who prefer mental wellbeing without a religious component.",
+    "q2": "Do I need to believe in something?",
+    "a2": "No. Zen doesn't require religious belief. The other traditions are optional depending on your personal path.",
+    "q3": "Is it free?",
+    "a3": "The complete Zen course is free. In the future, personalized AI meditations will be part of an optional plan.",
+    "q4": "Is my data safe?",
+    "a4": "We don't sell information to third parties. We don't use Google Analytics or Meta Pixel. We comply with GDPR.",
+    "q5": "How do I delete my account?",
+    "a5": "From the app: Profile → Delete account. Everything is permanently deleted.",
+    "q6": "When does the iOS version arrive?",
+    "a6": "In the next 4 weeks. If you leave your email, we'll notify you when it's available.",
+    "q7": "When do the other traditions arrive?",
+    "a7": "We're starting this week with Zen. We'll launch one new tradition per month approximately. We'll notify you by email if you're interested in a specific one."
   },
   "finalCta": {
     "title": "Be among the first to try Niela",
@@ -104,7 +172,9 @@
   "exitModal": {
     "title": "Leaving without Niela?",
     "subtitle": "Drop your email. When we launch, you'll be among the first to try it.",
-    "submitButton": "Join the list"
+    "submitButton": "Join the list",
+    "iosTitle": "Leaving without iOS?",
+    "iosSubtitle": "Leave your email and we'll notify you when Niela arrives on the App Store."
   },
   "stickyMobile": {
     "submitButton": "Join",
@@ -128,11 +198,26 @@
     "terminos": "Terms",
     "privacidad": "Privacy",
     "cookies": "Cookies",
-    "copyright": "Niela © 2026 · Made with care",
+    "copyright": "© 2026 Niela. Made with care.",
     "instagram": "Instagram",
     "tiktok": "TikTok",
     "x": "X",
-    "youtube": "YouTube"
+    "youtube": "YouTube",
+    "traditionsHeader": "Traditions",
+    "downloadHeader": "Download",
+    "howToMeditateZen": "How to meditate Zen",
+    "tibetanMeditation": "Tibetan Meditation explained",
+    "sufism": "What is Sufism",
+    "andineTradition": "Contemplative Andean tradition",
+    "christianMeditation": "Christian meditation",
+    "secularMindfulness": "Secular Mindfulness",
+    "blogSoon": "Blog (coming soon)",
+    "breathingGuide": "Breathing guide (coming soon)",
+    "glossary": "Glossary (coming soon)",
+    "aboutNiela": "About Niela",
+    "contact": "Contact",
+    "googlePlay": "Google Play",
+    "appStoreSoon": "App Store (coming soon)"
   },
   "errors": {
     "invalidEmail": "Invalid email",
@@ -151,7 +236,8 @@
   "stickyBar": {
     "submitButton": "Join",
     "waitingFallback": "Join free",
-    "waitingText": "{count} people already waiting"
+    "waitingText": "{count} people already waiting",
+    "downloadText": "Available on Google Play"
   },
   "stickyModal": {
     "submitButton": "Join",
