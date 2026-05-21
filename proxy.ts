@@ -7,5 +7,6 @@ export default createMiddleware({
 });
 
 export const config = {
-  matcher: ['/((?!api|_next|.*\\..*).*)']
+  // Excluir: api, _next, archivos estáticos, y páginas legales (necesitan URL pública para Google Play)
+  matcher: ['/((?!api|_next|legal|demo|.*\\..*).*)']
 };
