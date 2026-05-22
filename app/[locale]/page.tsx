@@ -8,7 +8,7 @@ import { useTranslations, useLocale } from 'next-intl'
 import { LangSwitcher } from '@/components/LangSwitcher'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://medita-app-production.up.railway.app'
-const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.yuniorrivera.niela'
+const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.niela.app'
 
 /* ── useInView hook ── */
 function useInView(threshold = 0.1): [React.RefObject<HTMLElement | null>, boolean] {
