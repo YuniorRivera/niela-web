@@ -315,43 +315,43 @@ export default function Home() {
       key: 'zen',
       name: t('traditions2.zen.name'),
       desc: t('traditions2.zen.desc'),
-      gradient: 'linear-gradient(160deg, #2c4a3a 0%, #1a3028 100%)',
+      gradient: 'linear-gradient(160deg, #3D3833 0%, #2A2622 100%)',
     },
     {
       key: 'tibetana',
       name: t('traditions2.tibetana.name'),
       desc: t('traditions2.tibetana.desc'),
-      gradient: 'linear-gradient(160deg, #4a2c5a 0%, #2a1840 100%)',
+      gradient: 'linear-gradient(160deg, #6B1F1D 0%, #4A1614 100%)',
     },
     {
       key: 'andina',
       name: t('traditions2.andina.name'),
       desc: t('traditions2.andina.desc'),
-      gradient: 'linear-gradient(160deg, #4a3020 0%, #2c1c10 100%)',
+      gradient: 'linear-gradient(160deg, #6B4A1F 0%, #4A3315 100%)',
     },
     {
       key: 'sufi',
       name: t('traditions2.sufi.name'),
       desc: t('traditions2.sufi.desc'),
-      gradient: 'linear-gradient(160deg, #4a3828 0%, #2c2018 100%)',
+      gradient: 'linear-gradient(160deg, #7A5618 0%, #4A3410 100%)',
     },
     {
       key: 'cristiana',
       name: t('traditions2.cristiana.name'),
       desc: t('traditions2.cristiana.desc'),
-      gradient: 'linear-gradient(160deg, #3a3a5a 0%, #1e1e40 100%)',
+      gradient: 'linear-gradient(160deg, #1F3D5C 0%, #14283D 100%)',
     },
     {
       key: 'islamica',
       name: t('traditions2.islamica.name'),
       desc: t('traditions2.islamica.desc'),
-      gradient: 'linear-gradient(160deg, #1a4a3a 0%, #0a2820 100%)',
+      gradient: 'linear-gradient(160deg, #2D4528 0%, #1A2D17 100%)',
     },
     {
       key: 'laica',
       name: t('traditions2.laica.name'),
       desc: t('traditions2.laica.desc'),
-      gradient: 'linear-gradient(160deg, #2a3a4a 0%, #1a2634 100%)',
+      gradient: 'linear-gradient(160deg, #3D3D3D 0%, #2A2A2A 100%)',
     },
   ]
 
@@ -370,7 +370,7 @@ export default function Home() {
     <main style={{ margin: 0, minHeight: '100vh', background: '#0A0E14', overflowX: 'hidden' }}>
 
       {/* ══ NAV ══ */}
-      <nav style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '24px 48px', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, background: 'rgba(10,14,20,0.85)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(212,168,87,0.08)' }}>
+      <nav style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '24px 48px', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, background: '#0A0E14', backdropFilter: 'blur(16px)', borderBottom: '0.5px solid rgba(255,255,255,0.08)' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
           <Image src="/logo-leaf.png" alt="Niela" width={32} height={32} priority style={{ borderRadius: 6 }} />
           <span style={{ fontSize: 18, fontWeight: 500, color: '#ffffff', letterSpacing: '0.5px' }}>niela</span>
@@ -976,8 +976,8 @@ export default function Home() {
       {stickyVisible && (
         <div className="sticky-mobile-cta" style={{
           position: 'fixed', bottom: 0, left: 0, right: 0,
-          background: 'rgba(10,14,20,0.92)', backdropFilter: 'blur(16px)',
-          borderTop: '1px solid rgba(212,168,87,0.12)',
+          background: '#0A0E14', backdropFilter: 'blur(16px)',
+          borderTop: '0.5px solid rgba(255,255,255,0.08)',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           padding: '0 20px', paddingBottom: 'env(safe-area-inset-bottom, 0px)',
           minHeight: 60, zIndex: 200,

@@ -2,9 +2,11 @@
 
 html {
   scroll-behavior: smooth;
+  background-color: #0A0E14 !important;
 }
 
 :root {
+  --background:     #0A0E14;
   --bg:             #0A0E14;
   --bg-card:        rgba(255,255,255,0.025);
   --border:         rgba(255,255,255,0.10);
@@ -36,7 +38,7 @@ html {
 }
 
 body {
-  background-color: var(--bg);
+  background-color: #0A0E14 !important;
   color: var(--text);
   font-weight: 300;
   line-height: 1.6;
