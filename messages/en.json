@@ -56,26 +56,73 @@
   "traditions2": {
     "title": "Your tradition, your path.",
     "subtitle": "We're starting with the complete Zen course in Spanish. The other traditions arrive in the coming weeks.",
-    "zen": { "name": "Zen", "desc": "Mindful presence in the moment" },
-    "tibetana": { "name": "Tibetan", "desc": "Visualization and deep compassion" },
-    "andina": { "name": "Andean / Peruvian", "desc": "Connection with earth and elements" },
-    "sufi": { "name": "Sufi", "desc": "Heart opening and conscious breathing" },
-    "cristiana": { "name": "Christian contemplative", "desc": "Inner silence and deep prayer" },
-    "islamica": { "name": "Islamic", "desc": "Conscious reflection from tradition" },
-    "laica": { "name": "Secular", "desc": "Mental wellbeing without religion" }
+    "zen": {
+      "name": "Zen",
+      "desc": "Mindful presence in the moment"
+    },
+    "tibetana": {
+      "name": "Tibetan",
+      "desc": "Visualization and deep compassion"
+    },
+    "andina": {
+      "name": "Andean / Peruvian",
+      "desc": "Connection with earth and elements"
+    },
+    "sufi": {
+      "name": "Sufi",
+      "desc": "Heart opening and conscious breathing"
+    },
+    "cristiana": {
+      "name": "Christian contemplative",
+      "desc": "Inner silence and deep prayer"
+    },
+    "islamica": {
+      "name": "Islamic",
+      "desc": "Conscious reflection from tradition"
+    },
+    "laica": {
+      "name": "Secular",
+      "desc": "Mental wellbeing without religion"
+    }
   },
   "roadmap": {
     "eyebrow": "Roadmap",
     "title": "What's coming in Niela",
     "col1Title": "This week",
-    "col1Items": ["Complete Zen course in Spanish", "Emotional journal", "Android app (Google Play)"],
-    "col1Done": [true, true, true],
+    "col1Items": [
+      "Complete Zen course in Spanish",
+      "Emotional journal",
+      "Android app (Google Play)"
+    ],
+    "col1Done": [
+      true,
+      true,
+      true
+    ],
     "col2Title": "Next 4 weeks",
-    "col2Items": ["Tibetan tradition", "AI meditations based on your state", "iOS version (App Store)"],
-    "col2Done": [false, false, false],
+    "col2Items": [
+      "Tibetan tradition",
+      "AI meditations based on your state",
+      "iOS version (App Store)"
+    ],
+    "col2Done": [
+      false,
+      false,
+      false
+    ],
     "col3Title": "Next 3 months",
-    "col3Items": ["6 remaining traditions", "English version", "Italian version", "Niela community"],
-    "col3Done": [false, false, false, false],
+    "col3Items": [
+      "6 remaining traditions",
+      "English version",
+      "Italian version",
+      "Niela community"
+    ],
+    "col3Done": [
+      false,
+      false,
+      false,
+      false
+    ],
     "emailCta": "Leave your email and we'll notify you when what you're waiting for arrives:"
   },
   "whyExist": {
@@ -284,5 +331,37 @@
     "chipZen": "Zen ✓",
     "chipHindu": "Hindu",
     "chipSecular": "Secular"
+  },
+  "pricing": {
+    "eyebrow": "Pricing",
+    "title": "Simple and transparent",
+    "trialBadge": "14-day free trial",
+    "popular": "Most popular",
+    "plusTitle": "Plus",
+    "plusMonthly": "€7.99",
+    "plusPerMonth": "/mo",
+    "plusYearly": "€49.99",
+    "plusPerYear": "/yr",
+    "plusBilledAs": "€4.17/mo",
+    "plusSaving": "-48%",
+    "plusF1": "Unlimited AI meditations",
+    "plusF2": "Guided journal",
+    "plusF3": "7 traditions",
+    "plusF4": "Premium audio",
+    "proTitle": "Pro",
+    "proMonthly": "€12.99",
+    "proPerMonth": "/mo",
+    "proYearly": "€89.99",
+    "proPerYear": "/yr",
+    "proBilledAs": "€7.50/mo",
+    "proSaving": "-42%",
+    "proF1": "Everything in Plus",
+    "proF2": "Multi-tradition sessions",
+    "proF3": "Custom voices",
+    "proF4": "Unlimited history",
+    "cta": "Start for free",
+    "ctaNote": "No credit card · Cancel anytime",
+    "monthly": "Monthly",
+    "yearly": "Yearly"
   }
 }

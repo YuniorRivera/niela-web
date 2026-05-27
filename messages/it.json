@@ -56,26 +56,73 @@
   "traditions2": {
     "title": "La tua tradizione, il tuo cammino.",
     "subtitle": "Iniziamo con il corso Zen completo in spagnolo. Le altre tradizioni arrivano nelle prossime settimane.",
-    "zen": { "name": "Zen", "desc": "Presenza consapevole nel momento" },
-    "tibetana": { "name": "Tibetana", "desc": "Visualizzazione e compassione profonda" },
-    "andina": { "name": "Andina / Peruviana", "desc": "Connessione con la terra e gli elementi" },
-    "sufi": { "name": "Sufi", "desc": "Apertura del cuore e respiro consapevole" },
-    "cristiana": { "name": "Cristiana contemplativa", "desc": "Silenzio interiore e preghiera profonda" },
-    "islamica": { "name": "Islamica", "desc": "Riflessione consapevole dalla tradizione" },
-    "laica": { "name": "Laica", "desc": "Benessere mentale senza componente religiosa" }
+    "zen": {
+      "name": "Zen",
+      "desc": "Presenza consapevole nel momento"
+    },
+    "tibetana": {
+      "name": "Tibetana",
+      "desc": "Visualizzazione e compassione profonda"
+    },
+    "andina": {
+      "name": "Andina / Peruviana",
+      "desc": "Connessione con la terra e gli elementi"
+    },
+    "sufi": {
+      "name": "Sufi",
+      "desc": "Apertura del cuore e respiro consapevole"
+    },
+    "cristiana": {
+      "name": "Cristiana contemplativa",
+      "desc": "Silenzio interiore e preghiera profonda"
+    },
+    "islamica": {
+      "name": "Islamica",
+      "desc": "Riflessione consapevole dalla tradizione"
+    },
+    "laica": {
+      "name": "Laica",
+      "desc": "Benessere mentale senza componente religiosa"
+    }
   },
   "roadmap": {
     "eyebrow": "Roadmap",
     "title": "Cosa arriva in Niela",
     "col1Title": "Questa settimana",
-    "col1Items": ["Corso Zen completo in spagnolo", "Diario emotivo", "App su Android (Google Play)"],
-    "col1Done": [true, true, true],
+    "col1Items": [
+      "Corso Zen completo in spagnolo",
+      "Diario emotivo",
+      "App su Android (Google Play)"
+    ],
+    "col1Done": [
+      true,
+      true,
+      true
+    ],
     "col2Title": "Prossime 4 settimane",
-    "col2Items": ["Tradizione tibetana", "Meditazioni con IA secondo il tuo stato", "Versione iOS (App Store)"],
-    "col2Done": [false, false, false],
+    "col2Items": [
+      "Tradizione tibetana",
+      "Meditazioni con IA secondo il tuo stato",
+      "Versione iOS (App Store)"
+    ],
+    "col2Done": [
+      false,
+      false,
+      false
+    ],
     "col3Title": "Prossimi 3 mesi",
-    "col3Items": ["6 tradizioni rimanenti", "Versione in inglese", "Versione in italiano", "Comunità Niela"],
-    "col3Done": [false, false, false, false],
+    "col3Items": [
+      "6 tradizioni rimanenti",
+      "Versione in inglese",
+      "Versione in italiano",
+      "Comunità Niela"
+    ],
+    "col3Done": [
+      false,
+      false,
+      false,
+      false
+    ],
     "emailCta": "Lascia la tua email e ti avviseremo quando arriva ciò che aspetti:"
   },
   "whyExist": {
@@ -284,5 +331,37 @@
     "chipZen": "Zen ✓",
     "chipHindu": "Hindu",
     "chipSecular": "Laica"
+  },
+  "pricing": {
+    "eyebrow": "Piani",
+    "title": "Semplice e trasparente",
+    "trialBadge": "14 giorni gratis",
+    "popular": "Più popolare",
+    "plusTitle": "Plus",
+    "plusMonthly": "€7,99",
+    "plusPerMonth": "/mese",
+    "plusYearly": "€49,99",
+    "plusPerYear": "/anno",
+    "plusBilledAs": "€4,17/mese",
+    "plusSaving": "-48%",
+    "plusF1": "Meditazioni IA illimitate",
+    "plusF2": "Diario guidato",
+    "plusF3": "7 tradizioni",
+    "plusF4": "Audio premium",
+    "proTitle": "Pro",
+    "proMonthly": "€12,99",
+    "proPerMonth": "/mese",
+    "proYearly": "€89,99",
+    "proPerYear": "/anno",
+    "proBilledAs": "€7,50/mese",
+    "proSaving": "-42%",
+    "proF1": "Tutto di Plus",
+    "proF2": "Sessioni multi-tradizione",
+    "proF3": "Voci personalizzate",
+    "proF4": "Cronologia completa",
+    "cta": "Inizia gratis",
+    "ctaNote": "Nessuna carta · Annulla quando vuoi",
+    "monthly": "Mensile",
+    "yearly": "Annuale"
   }
 }

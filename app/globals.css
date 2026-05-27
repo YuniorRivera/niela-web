@@ -5,30 +5,41 @@ html {
 }
 
 :root {
-  --primary: #2c3e50;
-  --accent-blue: #a6c8dc;
-  --accent-green: #b8c9a8;
-  --accent-amber: #d4b896;
-  --bg-light: #e8f1f5;
-  --bg-cream: #f0ebe0;
-  --text-primary: #1f2d3a;
-  --text-secondary: #5a6f7d;
+  --bg:             #0A0E14;
+  --bg-card:        rgba(255,255,255,0.025);
+  --border:         rgba(255,255,255,0.10);
+  --accent:         #D4A857;
+  --accent-rgb:     212,168,87;
+  --text:           #ffffff;
+  --text-secondary: rgba(255,255,255,0.55);
+  --text-muted:     rgba(255,255,255,0.30);
+
+  /* legacy compat */
+  --primary:        #2c3e50;
+  --accent-blue:    #D4A857;
+  --accent-green:   #b8c9a8;
+  --accent-amber:   #d4b896;
+  --bg-light:       #0A0E14;
+  --bg-cream:       #0A0E14;
+  --text-primary:   #ffffff;
 }
 
 @theme inline {
-  --color-primary: var(--primary);
-  --color-accent-blue: var(--accent-blue);
-  --color-accent-green: var(--accent-green);
-  --color-accent-amber: var(--accent-amber);
-  --color-bg-light: var(--bg-light);
-  --color-bg-cream: var(--bg-cream);
-  --color-text-primary: var(--text-primary);
+  --color-primary:        var(--primary);
+  --color-accent-blue:    var(--accent);
+  --color-accent-green:   var(--accent-green);
+  --color-accent-amber:   var(--accent-amber);
+  --color-bg-light:       var(--bg);
+  --color-bg-cream:       var(--bg);
+  --color-text-primary:   var(--text);
   --color-text-secondary: var(--text-secondary);
 }
 
 body {
-  background-color: var(--bg-cream);
-  color: var(--text-primary);
+  background-color: var(--bg);
+  color: var(--text);
+  font-weight: 300;
+  line-height: 1.6;
 }
 
 /* ── Emil Kowalski animation system ── */
