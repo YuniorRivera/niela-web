@@ -246,6 +246,17 @@ export default function Home() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  // Fade-in observer for immersive tradition sections
+  useEffect(() => {
+    const els = document.querySelectorAll('.trad-immersive-section')
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('trad-in-view') }),
+      { threshold: 0.12 }
+    )
+    els.forEach(el => obs.observe(el))
+    return () => obs.disconnect()
+  }, [])
+
   // Exit-intent listener (desktop only)
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -487,36 +498,62 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ══ SECTION: MEDITA SEGÚN TU TRADICIÓN — VIDEO CARDS ══ */}
-      <section style={{ padding: '100px 64px', background: '#0A0A0F', position: 'relative' }}>
-        <h2 style={{ textAlign: 'center', color: '#ffffff', fontWeight: 300, fontSize: 'clamp(26px, 3.5vw, 42px)', margin: '0 0 56px', letterSpacing: '-0.5px' }}>
-          Medita según tu tradición
-        </h2>
-        <div className="video-trad-grid" style={{ maxWidth: 1200, margin: '0 auto' }}>
-          {[
-            { file: 'zen',      name: 'Zen' },
-            { file: 'tibetana', name: 'Tibetana' },
-            { file: 'andina',   name: 'Andina' },
-            { file: 'sufi',     name: 'Sufí' },
-            { file: 'cristiana',name: 'Cristiana' },
-            { file: 'islamica', name: 'Islámica' },
-            { file: 'laica',    name: 'Laica' },
-          ].map(({ file, name }) => (
-            <div key={file} className="video-trad-card">
-              <video
-                src={`/videos/${file}.mp4`}
-                autoPlay
-                muted
-                loop
-                playsInline
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-              />
-              <div className="video-trad-overlay" />
-              <span className="video-trad-name">{name}</span>
-            </div>
-          ))}
+      {/* ══ SECTION: MEDITA SEGÚN TU TRADICIÓN — IMMERSIVE SCROLL ══ */}
+      <div style={{ position: 'relative' }}>
+        {/* Sticky label — height:0 so it doesn't shift layout */}
+        <div style={{
+          position: 'sticky', top: 88, height: 0, overflow: 'visible',
+          zIndex: 20, textAlign: 'center', pointerEvents: 'none',
+        }}>
+          <span style={{
+            display: 'inline-block', padding: '14px 0',
+            color: '#C8A96E', fontSize: '0.65rem', fontWeight: 600,
+            letterSpacing: '0.35em', textTransform: 'uppercase',
+          }}>
+            Medita según tu tradición
+          </span>
         </div>
-      </section>
+
+        {[
+          { file: 'zen',       name: 'Zen' },
+          { file: 'tibetana',  name: 'Tibetana' },
+          { file: 'andina',    name: 'Andina' },
+          { file: 'sufi',      name: 'Sufí' },
+          { file: 'cristiana', name: 'Cristiana' },
+          { file: 'islamica',  name: 'Islámica' },
+          { file: 'laica',     name: 'Laica' },
+        ].map(({ file, name }) => (
+          <section key={file} className="trad-immersive-section" style={{ height: '100vh', position: 'relative', overflow: 'hidden' }}>
+            <video
+              src={`/videos/${file}.mp4`}
+              autoPlay muted loop playsInline
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }}
+            />
+            {/* Dark overlay */}
+            <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: 1 }} />
+            {/* Centered content */}
+            <div style={{
+              position: 'absolute', inset: 0, zIndex: 2,
+              display: 'flex', flexDirection: 'column',
+              alignItems: 'center', justifyContent: 'center',
+              gap: 20,
+            }}>
+              <h2 style={{
+                color: '#ffffff',
+                fontSize: 'clamp(3rem, 8vw, 7rem)',
+                fontWeight: 200,
+                letterSpacing: '0.3em',
+                textTransform: 'uppercase',
+                margin: 0,
+                lineHeight: 1,
+              }}>
+                {name}
+              </h2>
+              <div style={{ width: 60, height: 2, background: '#C8A96E', borderRadius: 1 }} />
+            </div>
+          </section>
+        ))}
+      </div>
 
       {/* ══ SECTION 2: TRUST BAR ══ */}
       <section
@@ -1141,47 +1178,17 @@ export default function Home() {
         @media (max-width: 1100px) { .traditions-grid { grid-template-columns: repeat(3,1fr); } }
         @media (max-width: 700px) { .traditions-grid { grid-template-columns: 1fr; } }
 
-        /* video tradition cards */
-        .video-trad-grid {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
-          gap: 16px;
+        /* immersive tradition sections */
+        .trad-immersive-section {
+          opacity: 0;
+          transition: opacity 900ms cubic-bezier(0.23, 1, 0.32, 1);
         }
-        .video-trad-card {
-          flex: 0 0 calc(25% - 12px);
-          position: relative;
-          aspect-ratio: 16 / 9;
-          border-radius: 12px;
-          overflow: hidden;
-          border: 1px solid transparent;
-          transition: border-color 0.4s ease;
-          cursor: default;
+        .trad-immersive-section.trad-in-view {
+          opacity: 1;
         }
-        .video-trad-card:hover { border-color: #C8A96E; }
-        .video-trad-overlay {
-          position: absolute;
-          inset: 0;
-          background: rgba(0,0,0,0.35);
-          transition: background 0.4s ease;
-          z-index: 1;
+        @media (prefers-reduced-motion: reduce) {
+          .trad-immersive-section { opacity: 1 !important; transition: none !important; }
         }
-        .video-trad-card:hover .video-trad-overlay { background: rgba(0,0,0,0.15); }
-        .video-trad-name {
-          position: absolute;
-          inset: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #C8A96E;
-          font-size: 1.2rem;
-          font-weight: 500;
-          letter-spacing: 0.1em;
-          z-index: 2;
-          pointer-events: none;
-        }
-        @media (max-width: 1100px) { .video-trad-card { flex: 0 0 calc(33.333% - 11px); } }
-        @media (max-width: 700px)  { .video-trad-card { flex: 0 0 calc(50% - 8px); } }
 
         /* founder grid responsive */
         .founder-grid { display: grid; grid-template-columns: 200px 1fr; gap: 48px; align-items: start; }
