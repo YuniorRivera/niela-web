@@ -643,8 +643,15 @@ export default function Home() {
                 padding: '24px 20px',
               }}
             >
-              {/* dark overlay */}
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 60%, rgba(0,0,0,0) 100%)', pointerEvents: 'none' }} />
+              {/* video background */}
+              <video
+                src={`/videos/${card.key}.mp4`}
+                autoPlay muted loop playsInline
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }}
+              />
+              {/* gradient overlay */}
+              <div style={{ position: 'absolute', inset: 0, zIndex: 1, background: 'linear-gradient(to top, rgba(0,0,0,0.85) 40%, rgba(0,0,0,0.2) 100%)', pointerEvents: 'none' }} />
+              {/* text */}
               <div style={{ position: 'relative', zIndex: 2 }}>
                 <p style={{ fontSize: 22, fontWeight: 500, color: '#ffffff', margin: '0 0 4px', lineHeight: 1.2 }}>{card.name}</p>
                 <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', margin: 0, lineHeight: 1.4 }}>{card.desc}</p>
