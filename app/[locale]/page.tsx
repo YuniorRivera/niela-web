@@ -246,14 +246,17 @@ export default function Home() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Fade-in observer for immersive tradition sections
+  // Fade-in observer for scroll-snap tradition sections
   useEffect(() => {
-    const els = document.querySelectorAll('.trad-immersive-section')
+    // Observe the snap container's scroll for section visibility
+    const container = document.querySelector('.trad-snap-container')
+    const sections = document.querySelectorAll('.trad-snap-section')
+    if (!container || !sections.length) return
     const obs = new IntersectionObserver(
       (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('trad-in-view') }),
-      { threshold: 0.12 }
+      { root: container as HTMLElement, threshold: 0.2 }
     )
-    els.forEach(el => obs.observe(el))
+    sections.forEach(el => obs.observe(el))
     return () => obs.disconnect()
   }, [])
 
@@ -498,58 +501,118 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ══ SECTION: MEDITA SEGÚN TU TRADICIÓN — IMMERSIVE SCROLL ══ */}
-      <div style={{ position: 'relative' }}>
-        {/* Sticky label — height:0 so it doesn't shift layout */}
-        <div style={{
-          position: 'sticky', top: 88, height: 0, overflow: 'visible',
-          zIndex: 20, textAlign: 'center', pointerEvents: 'none',
-        }}>
-          <span style={{
-            display: 'inline-block', padding: '14px 0',
-            color: '#C8A96E', fontSize: '0.65rem', fontWeight: 600,
-            letterSpacing: '0.35em', textTransform: 'uppercase',
-          }}>
-            Medita según tu tradición
-          </span>
-        </div>
-
+      {/* ══ SECTION: MEDITA SEGÚN TU TRADICIÓN — SCROLL SNAP ══ */}
+      <div className="trad-snap-container">
         {[
-          { file: 'zen',       name: 'Zen' },
-          { file: 'tibetana',  name: 'Tibetana' },
-          { file: 'andina',    name: 'Andina' },
-          { file: 'sufi',      name: 'Sufí' },
-          { file: 'cristiana', name: 'Cristiana' },
-          { file: 'islamica',  name: 'Islámica' },
-          { file: 'laica',     name: 'Laica' },
-        ].map(({ file, name }) => (
-          <section key={file} className="trad-immersive-section" style={{ height: '100vh', position: 'relative', overflow: 'hidden' }}>
-            <video
-              src={`/videos/${file}.mp4`}
-              autoPlay muted loop playsInline
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }}
-            />
-            {/* Dark overlay */}
-            <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: 1 }} />
-            {/* Centered content */}
-            <div style={{
-              position: 'absolute', inset: 0, zIndex: 2,
-              display: 'flex', flexDirection: 'column',
-              alignItems: 'center', justifyContent: 'center',
-              gap: 20,
-            }}>
-              <h2 style={{
-                color: '#ffffff',
-                fontSize: 'clamp(3rem, 8vw, 7rem)',
-                fontWeight: 200,
-                letterSpacing: '0.3em',
-                textTransform: 'uppercase',
-                margin: 0,
-                lineHeight: 1,
-              }}>
-                {name}
-              </h2>
-              <div style={{ width: 60, height: 2, background: '#C8A96E', borderRadius: 1 }} />
+          {
+            file: 'zen', name: 'Zen',
+            title: 'La mente que no juzga',
+            bullets: [
+              'Meditación zazen — silencio y presencia pura',
+              'Observar pensamientos sin aferrarse a ellos',
+              'Práctica diaria de 10–20 minutos',
+              'Raíces en el budismo japonés del s. XII',
+            ],
+          },
+          {
+            file: 'tibetana', name: 'Tibetana',
+            title: 'La compasión como camino',
+            bullets: [
+              'Visualizaciones y mantras sagrados',
+              'Tonglen — dar y recibir con el corazón',
+              'Tradición viva de más de 1.400 años',
+              'Combina sabiduría e intención activa',
+            ],
+          },
+          {
+            file: 'andina', name: 'Andina',
+            title: 'Conectar con la Pachamama',
+            bullets: [
+              'Meditación con la tierra y los elementos',
+              'Respiración con los ciclos de la naturaleza',
+              'Sabiduría milenaria de los Andes',
+              'Gratitud y reciprocidad como práctica',
+            ],
+          },
+          {
+            file: 'sufi', name: 'Sufí',
+            title: 'El giro hacia lo divino',
+            bullets: [
+              'Dhikr — remembranza rítmica de lo sagrado',
+              'Música y movimiento como vía espiritual',
+              'Tradición mística del Islam',
+              'Disolver el ego en presencia pura',
+            ],
+          },
+          {
+            file: 'cristiana', name: 'Cristiana',
+            title: 'La oración contemplativa',
+            bullets: [
+              'Lectio Divina — escucha profunda del silencio',
+              'Presencia amorosa sin palabras',
+              'Tradición de los padres del desierto',
+              'Quietud interior como encuentro con lo sagrado',
+            ],
+          },
+          {
+            file: 'islamica', name: 'Islámica',
+            title: 'La paz del corazón',
+            bullets: [
+              'Muraqaba — vigilancia y contemplación interior',
+              'Respiración consciente en presencia de lo divino',
+              'Cinco momentos de pausa sagrada al día',
+              'Claridad mental y apertura espiritual',
+            ],
+          },
+          {
+            file: 'laica', name: 'Laica',
+            title: 'Ciencia y presencia',
+            bullets: [
+              'Mindfulness basado en evidencia científica',
+              'Sin creencias — solo atención plena',
+              'Reduce estrés, ansiedad y mejora el sueño',
+              'Accesible a cualquier persona',
+            ],
+          },
+        ].map(({ file, name, title, bullets }) => (
+          <section key={file} className="trad-snap-section">
+            {/* LEFT: video */}
+            <div className="trad-snap-left">
+              <video
+                src={`/videos/${file}.mp4`}
+                autoPlay muted loop playsInline
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }}
+              />
+              <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1 }} />
+              <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-end', height: '100%', padding: '48px 52px' }}>
+                <h2 style={{ color: '#ffffff', fontSize: 'clamp(2.8rem, 5vw, 5.5rem)', fontWeight: 200, letterSpacing: '0.3em', textTransform: 'uppercase', margin: '0 0 18px', lineHeight: 1 }}>
+                  {name}
+                </h2>
+                <div style={{ width: 60, height: 2, background: '#C8A96E', borderRadius: 1 }} />
+              </div>
+            </div>
+
+            {/* RIGHT: content */}
+            <div className="trad-snap-right">
+              <div style={{ maxWidth: 440 }}>
+                <p style={{ color: '#C8A96E', fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', margin: '0 0 20px' }}>
+                  {name}
+                </p>
+                <h3 style={{ color: '#ffffff', fontSize: 'clamp(1.5rem, 2.5vw, 2rem)', fontWeight: 300, margin: '0 0 32px', lineHeight: 1.25 }}>
+                  {title}
+                </h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 40 }}>
+                  {bullets.map((b, i) => (
+                    <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
+                      <span style={{ color: '#C8A96E', fontSize: '0.5rem', marginTop: '0.45em', flexShrink: 0 }}>●</span>
+                      <span style={{ color: 'rgba(255,255,255,0.82)', fontSize: '1rem', lineHeight: 1.55, fontWeight: 300 }}>{b}</span>
+                    </div>
+                  ))}
+                </div>
+                <a href="#como-funciona" style={{ color: '#C8A96E', fontSize: '0.85rem', fontWeight: 500, letterSpacing: '0.08em', textDecoration: 'none', borderBottom: '1px solid rgba(200,169,110,0.35)', paddingBottom: 2, transition: 'border-color 0.2s' }}>
+                  Explorar tradición →
+                </a>
+              </div>
             </div>
           </section>
         ))}
@@ -1178,16 +1241,61 @@ export default function Home() {
         @media (max-width: 1100px) { .traditions-grid { grid-template-columns: repeat(3,1fr); } }
         @media (max-width: 700px) { .traditions-grid { grid-template-columns: 1fr; } }
 
-        /* immersive tradition sections */
-        .trad-immersive-section {
+        /* scroll-snap tradition experience */
+        .trad-snap-container {
+          scroll-snap-type: y mandatory;
+          overflow-y: scroll;
+          height: 100vh;
+          /* Scrollbar hidden but functional */
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+        .trad-snap-container::-webkit-scrollbar { display: none; }
+
+        .trad-snap-section {
+          scroll-snap-align: start;
+          scroll-snap-stop: always;
+          height: 100vh;
+          display: grid;
+          grid-template-columns: 45% 55%;
+          overflow: hidden;
           opacity: 0;
-          transition: opacity 900ms cubic-bezier(0.23, 1, 0.32, 1);
+          transition: opacity 800ms cubic-bezier(0.23, 1, 0.32, 1);
         }
-        .trad-immersive-section.trad-in-view {
-          opacity: 1;
+        .trad-snap-section.trad-in-view { opacity: 1; }
+
+        .trad-snap-left {
+          position: relative;
+          overflow: hidden;
         }
+
+        .trad-snap-right {
+          background: #0A0A0F;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 64px 72px;
+          overflow-y: auto;
+        }
+
+        /* Mobile: stack vertically */
+        @media (max-width: 768px) {
+          .trad-snap-container {
+            scroll-snap-type: y mandatory;
+            height: 100vh;
+          }
+          .trad-snap-section {
+            grid-template-columns: 1fr;
+            grid-template-rows: 40vh 1fr;
+            height: 100vh;
+          }
+          .trad-snap-right {
+            padding: 36px 28px;
+          }
+        }
+
         @media (prefers-reduced-motion: reduce) {
-          .trad-immersive-section { opacity: 1 !important; transition: none !important; }
+          .trad-snap-section { opacity: 1 !important; transition: none !important; }
         }
 
         /* founder grid responsive */
