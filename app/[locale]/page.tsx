@@ -373,7 +373,13 @@ export default function Home() {
       {/* ══ NAV ══ */}
       <nav style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '24px 48px', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, background: '#0A0E14', backdropFilter: 'blur(16px)', borderBottom: '0.5px solid rgba(255,255,255,0.08)' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-          <Image src="/logo-leaf.png" alt="Niela" width={32} height={32} priority style={{ borderRadius: 6 }} />
+          <svg width="32" height="32" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Niela">
+            <ellipse cx="60" cy="78" rx="46" ry="6" stroke="#D4A857" strokeWidth="1.6" fill="none" opacity="0.3"/>
+            <ellipse cx="60" cy="78" rx="36" ry="5" stroke="#D4A857" strokeWidth="1.8" fill="none" opacity="0.5"/>
+            <ellipse cx="60" cy="78" rx="26" ry="4" stroke="#D4A857" strokeWidth="2" fill="none" opacity="0.7"/>
+            <ellipse cx="60" cy="78" rx="16" ry="3" stroke="#D4A857" strokeWidth="2.2" fill="none" opacity="0.9"/>
+            <path d="M60 18 C60 18 50 35 47 50 C45 60 50 70 60 70 C70 70 75 60 73 50 C70 35 60 18 60 18 Z" fill="#D4A857"/>
+          </svg>
           <span style={{ fontSize: 18, fontWeight: 500, color: '#ffffff', letterSpacing: '0.5px' }}>niela</span>
         </Link>
         <div style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
