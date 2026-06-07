@@ -18,10 +18,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       apple: "/apple-touch-icon.png",
     },
     openGraph: {
-      title: t('title'),
-      description: t('description'),
+      title: "Niela — Meditación personalizada",
+      description: "La app de meditación que respeta tu tradición espiritual. Zen, Tibetana, Andina, Sufí, Cristiana, Islámica y Laica.",
       url: `https://niela.app${locale === 'es' ? '' : `/${locale}`}`,
-      images: ["/og.png"],
+      images: [{ url: "/icon-512.png", width: 512, height: 512, alt: "Niela" }],
       locale: locale === 'es' ? 'es_ES' : locale === 'en' ? 'en_US' : 'it_IT',
     },
   };
