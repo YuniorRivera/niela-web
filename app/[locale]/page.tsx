@@ -487,6 +487,37 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ══ SECTION: MEDITA SEGÚN TU TRADICIÓN — VIDEO CARDS ══ */}
+      <section style={{ padding: '100px 64px', background: '#0A0A0F', position: 'relative' }}>
+        <h2 style={{ textAlign: 'center', color: '#ffffff', fontWeight: 300, fontSize: 'clamp(26px, 3.5vw, 42px)', margin: '0 0 56px', letterSpacing: '-0.5px' }}>
+          Medita según tu tradición
+        </h2>
+        <div className="video-trad-grid" style={{ maxWidth: 1200, margin: '0 auto' }}>
+          {[
+            { file: 'zen',      name: 'Zen' },
+            { file: 'tibetana', name: 'Tibetana' },
+            { file: 'andina',   name: 'Andina' },
+            { file: 'sufi',     name: 'Sufí' },
+            { file: 'cristiana',name: 'Cristiana' },
+            { file: 'islamica', name: 'Islámica' },
+            { file: 'laica',    name: 'Laica' },
+          ].map(({ file, name }) => (
+            <div key={file} className="video-trad-card">
+              <video
+                src={`/videos/${file}.mp4`}
+                autoPlay
+                muted
+                loop
+                playsInline
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+              <div className="video-trad-overlay" />
+              <span className="video-trad-name">{name}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ══ SECTION 2: TRUST BAR ══ */}
       <section
         ref={sec2Ref as React.RefObject<HTMLElement>}
@@ -1109,6 +1140,48 @@ export default function Home() {
         .traditions-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
         @media (max-width: 1100px) { .traditions-grid { grid-template-columns: repeat(3,1fr); } }
         @media (max-width: 700px) { .traditions-grid { grid-template-columns: 1fr; } }
+
+        /* video tradition cards */
+        .video-trad-grid {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 16px;
+        }
+        .video-trad-card {
+          flex: 0 0 calc(25% - 12px);
+          position: relative;
+          aspect-ratio: 16 / 9;
+          border-radius: 12px;
+          overflow: hidden;
+          border: 1px solid transparent;
+          transition: border-color 0.4s ease;
+          cursor: default;
+        }
+        .video-trad-card:hover { border-color: #C8A96E; }
+        .video-trad-overlay {
+          position: absolute;
+          inset: 0;
+          background: rgba(0,0,0,0.35);
+          transition: background 0.4s ease;
+          z-index: 1;
+        }
+        .video-trad-card:hover .video-trad-overlay { background: rgba(0,0,0,0.15); }
+        .video-trad-name {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #C8A96E;
+          font-size: 1.2rem;
+          font-weight: 500;
+          letter-spacing: 0.1em;
+          z-index: 2;
+          pointer-events: none;
+        }
+        @media (max-width: 1100px) { .video-trad-card { flex: 0 0 calc(33.333% - 11px); } }
+        @media (max-width: 700px)  { .video-trad-card { flex: 0 0 calc(50% - 8px); } }
 
         /* founder grid responsive */
         .founder-grid { display: grid; grid-template-columns: 200px 1fr; gap: 48px; align-items: start; }
