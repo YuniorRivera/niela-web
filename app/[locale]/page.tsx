@@ -246,19 +246,6 @@ export default function Home() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Fade-in observer for scroll-snap tradition sections
-  useEffect(() => {
-    // Observe the snap container's scroll for section visibility
-    const container = document.querySelector('.trad-snap-container')
-    const sections = document.querySelectorAll('.trad-snap-section')
-    if (!container || !sections.length) return
-    const obs = new IntersectionObserver(
-      (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('trad-in-view') }),
-      { root: container as HTMLElement, threshold: 0.2 }
-    )
-    sections.forEach(el => obs.observe(el))
-    return () => obs.disconnect()
-  }, [])
 
   // Exit-intent listener (desktop only)
   useEffect(() => {
@@ -501,13 +488,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ══ SECTION: MEDITA SEGÚN TU TRADICIÓN — SCROLL SNAP ══ */}
-      <div className="trad-snap-container">
-        {[
-          {
-            file: 'zen', name: 'Zen',
-            title: 'La mente que no juzga',
-            bullets: [
+      {/* ══ SECTION: MEDITA SEGÚN TU TRADICIÓN — GRID ══ */}
+      <section style={{ background: '#0A0A0F', padding: '120px 0' }}>
+        <h2 style={{ textAlign: 'center', color: '#ffffff', fontWeight: 300, fontSize: '2.5rem', margin: '0 0 80px', letterSpacing: '-0.02em' }}>
+          Medita según tu tradición
+        </h2>
+        <div className="trad-grid">
+          {[
+            {
+              file: 'zen', name: 'Zen',
+              title: 'La mente que no juzga',
+              bullets: [
               'Meditación zazen — silencio y presencia pura',
               'Observar pensamientos sin aferrarse a ellos',
               'Práctica diaria de 10–20 minutos',
@@ -574,49 +565,34 @@ export default function Home() {
               'Accesible a cualquier persona',
             ],
           },
-        ].map(({ file, name, title, bullets }) => (
-          <section key={file} className="trad-snap-section">
-            {/* LEFT: video */}
-            <div className="trad-snap-left">
+          ].map(({ file, name, title, bullets }) => (
+            <div key={file} className="trad-card">
               <video
                 src={`/videos/${file}.mp4`}
                 autoPlay muted loop playsInline
                 style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }}
               />
-              <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1 }} />
-              <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-end', height: '100%', padding: '48px 52px' }}>
-                <h2 style={{ color: '#ffffff', fontSize: 'clamp(2.8rem, 5vw, 5.5rem)', fontWeight: 200, letterSpacing: '0.3em', textTransform: 'uppercase', margin: '0 0 18px', lineHeight: 1 }}>
-                  {name}
-                </h2>
-                <div style={{ width: 60, height: 2, background: '#C8A96E', borderRadius: 1 }} />
-              </div>
-            </div>
-
-            {/* RIGHT: content */}
-            <div className="trad-snap-right">
-              <div style={{ maxWidth: 440 }}>
-                <p style={{ color: '#C8A96E', fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', margin: '0 0 20px' }}>
+              <div className="trad-card-overlay" />
+              <div style={{ position: 'absolute', bottom: 40, left: 40, right: 40, zIndex: 2 }}>
+                <p style={{ color: '#C8A96E', fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', margin: '0 0 10px' }}>
                   {name}
                 </p>
-                <h3 style={{ color: '#ffffff', fontSize: 'clamp(1.5rem, 2.5vw, 2rem)', fontWeight: 300, margin: '0 0 32px', lineHeight: 1.25 }}>
+                <h3 style={{ color: '#ffffff', fontSize: '1.6rem', fontWeight: 300, margin: '0 0 16px', lineHeight: 1.25 }}>
                   {title}
                 </h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 40 }}>
-                  {bullets.map((b, i) => (
-                    <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
-                      <span style={{ color: '#C8A96E', fontSize: '0.5rem', marginTop: '0.45em', flexShrink: 0 }}>●</span>
-                      <span style={{ color: 'rgba(255,255,255,0.82)', fontSize: '1rem', lineHeight: 1.55, fontWeight: 300 }}>{b}</span>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+                  {bullets.slice(0, 3).map((b, i) => (
+                    <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                      <span style={{ color: '#C8A96E', fontSize: '0.45rem', marginTop: '0.5em', flexShrink: 0 }}>●</span>
+                      <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem', lineHeight: 1.45, fontWeight: 300 }}>{b}</span>
                     </div>
                   ))}
                 </div>
-                <a href="#como-funciona" style={{ color: '#C8A96E', fontSize: '0.85rem', fontWeight: 500, letterSpacing: '0.08em', textDecoration: 'none', borderBottom: '1px solid rgba(200,169,110,0.35)', paddingBottom: 2, transition: 'border-color 0.2s' }}>
-                  Explorar tradición →
-                </a>
               </div>
             </div>
-          </section>
-        ))}
-      </div>
+          ))}
+        </div>
+      </section>
 
       {/* ══ SECTION 2: TRUST BAR ══ */}
       <section
@@ -1241,61 +1217,37 @@ export default function Home() {
         @media (max-width: 1100px) { .traditions-grid { grid-template-columns: repeat(3,1fr); } }
         @media (max-width: 700px) { .traditions-grid { grid-template-columns: 1fr; } }
 
-        /* scroll-snap tradition experience */
-        .trad-snap-container {
-          scroll-snap-type: y mandatory;
-          overflow-y: scroll;
-          height: 100vh;
-          /* Scrollbar hidden but functional */
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-        }
-        .trad-snap-container::-webkit-scrollbar { display: none; }
-
-        .trad-snap-section {
-          scroll-snap-align: start;
-          scroll-snap-stop: always;
-          height: 100vh;
+        /* tradition grid cards */
+        .trad-grid {
           display: grid;
-          grid-template-columns: 45% 55%;
-          overflow: hidden;
-          opacity: 0;
-          transition: opacity 800ms cubic-bezier(0.23, 1, 0.32, 1);
+          grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+          gap: 2px;
         }
-        .trad-snap-section.trad-in-view { opacity: 1; }
-
-        .trad-snap-left {
+        .trad-card {
+          height: 420px;
           position: relative;
           overflow: hidden;
+          cursor: default;
+          transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
-
-        .trad-snap-right {
-          background: #0A0A0F;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 64px 72px;
-          overflow-y: auto;
+        .trad-card:hover { transform: scale(1.02); }
+        .trad-card-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to right, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0.1) 100%);
+          z-index: 1;
+          transition: background 0.4s ease;
         }
-
-        /* Mobile: stack vertically */
+        .trad-card:hover .trad-card-overlay {
+          background: linear-gradient(to right, rgba(0,0,0,0.82) 40%, rgba(0,0,0,0.25) 100%);
+        }
         @media (max-width: 768px) {
-          .trad-snap-container {
-            scroll-snap-type: y mandatory;
-            height: 100vh;
-          }
-          .trad-snap-section {
-            grid-template-columns: 1fr;
-            grid-template-rows: 40vh 1fr;
-            height: 100vh;
-          }
-          .trad-snap-right {
-            padding: 36px 28px;
-          }
+          .trad-grid { grid-template-columns: 1fr; gap: 2px; }
+          .trad-card { height: 360px; }
         }
-
         @media (prefers-reduced-motion: reduce) {
-          .trad-snap-section { opacity: 1 !important; transition: none !important; }
+          .trad-card { transition: none !important; }
+          .trad-card-overlay { transition: none !important; }
         }
 
         /* founder grid responsive */
