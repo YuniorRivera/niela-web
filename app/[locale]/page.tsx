@@ -217,6 +217,9 @@ export default function Home() {
   // Sticky CTA states
   const [stickyVisible, setStickyVisible] = useState(false)
 
+  // Trial download modal
+  const [trialModalOpen, setTrialModalOpen] = useState(false)
+
   // Fetch real count
   useEffect(() => {
     fetch(`${API_URL}/api/waitlist/count`)
@@ -418,16 +421,21 @@ export default function Home() {
           </p>
 
           {/* CTA buttons */}
-          <div style={{ display: 'flex', gap: 14, marginBottom: 36, flexWrap: 'wrap', alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: 14, marginBottom: 20, flexWrap: 'wrap', alignItems: 'center' }}>
+            <button
+              onClick={() => setTrialModalOpen(true)}
+              style={{ background: '#C8A96E', color: '#0A0A0F', border: 'none', padding: '14px 28px', borderRadius: 999, fontSize: 15, fontWeight: 600, cursor: 'pointer', letterSpacing: '-0.2px', transition: 'transform 150ms, opacity 150ms' }}
+              onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.03)')}
+              onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+            >
+              Empezar 14 días gratis
+            </button>
             <a href={PLAY_STORE_URL} target="_blank" rel="noopener" className="btn-play">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5v-17c0-.83 1.01-1.3 1.7-.76l14 8.5c.62.38.62 1.14 0 1.52l-14 8.5c-.69.54-1.7.07-1.7-.76z"/></svg>
               {t('hero.downloadPlay')}
             </a>
-            <span className="btn-appstore-disabled">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style={{ opacity: 0.4 }}><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-              {t('hero.appStoreSoon')}
-            </span>
           </div>
+          <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 12, marginBottom: 28, marginTop: 0 }}>Sin cargo hasta el día 14 · Cancela cuando quieras</p>
 
           {/* Trust micro-signals */}
           <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
@@ -1022,6 +1030,37 @@ export default function Home() {
             ) : (
               <SuccessState position={exitPosition} email={lastSubmittedEmail} />
             )}
+          </div>
+        </div>
+      )}
+
+      {/* ══ TRIAL DOWNLOAD MODAL ══ */}
+      {trialModalOpen && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(10px)', zIndex: 300, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          onClick={() => setTrialModalOpen(false)}>
+          <div onClick={e => e.stopPropagation()} style={{ background: '#0D1117', borderRadius: 24, padding: '40px 36px', maxWidth: 420, width: '90%', position: 'relative', border: '0.5px solid rgba(200,169,110,0.25)', textAlign: 'center' }}>
+            <button onClick={() => setTrialModalOpen(false)} style={{ position: 'absolute', top: 14, right: 14, background: 'none', border: 'none', color: 'rgba(255,255,255,0.35)', fontSize: 20, cursor: 'pointer', lineHeight: 1 }}>✕</button>
+            {/* Gota icon */}
+            <svg width="40" height="40" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginBottom: 20 }}>
+              <ellipse cx="60" cy="78" rx="46" ry="6" stroke="#C8A96E" strokeWidth="1.6" fill="none" opacity="0.3"/>
+              <ellipse cx="60" cy="78" rx="36" ry="5" stroke="#C8A96E" strokeWidth="1.8" fill="none" opacity="0.5"/>
+              <ellipse cx="60" cy="78" rx="26" ry="4" stroke="#C8A96E" strokeWidth="2" fill="none" opacity="0.7"/>
+              <ellipse cx="60" cy="78" rx="16" ry="3" stroke="#C8A96E" strokeWidth="2.2" fill="none" opacity="0.9"/>
+              <path d="M60 18 C60 18 50 35 47 50 C45 60 50 70 60 70 C70 70 75 60 73 50 C70 35 60 18 60 18 Z" fill="#C8A96E"/>
+            </svg>
+            <h3 style={{ fontSize: 22, fontWeight: 500, color: '#ffffff', margin: '0 0 10px', letterSpacing: '-0.3px' }}>Descarga Niela para empezar tu prueba gratuita</h3>
+            <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.45)', margin: '0 0 28px', lineHeight: 1.5 }}>14 días gratis · Sin cargo hasta el día 14 · Cancela cuando quieras</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <a href={PLAY_STORE_URL} target="_blank" rel="noopener" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, background: '#C8A96E', color: '#0A0A0F', borderRadius: 14, padding: '14px 20px', fontSize: 15, fontWeight: 600, textDecoration: 'none' }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5v-17c0-.83 1.01-1.3 1.7-.76l14 8.5c.62.38.62 1.14 0 1.52l-14 8.5c-.69.54-1.7.07-1.7-.76z"/></svg>
+                Descargar en Google Play
+              </a>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.35)', borderRadius: 14, padding: '14px 20px', fontSize: 15, fontWeight: 500, border: '0.5px solid rgba(255,255,255,0.08)' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{ opacity: 0.4 }}><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                App Store — próximamente
+              </div>
+            </div>
+            <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.25)', marginTop: 20, marginBottom: 0 }}>También puedes suscribirte desde la app</p>
           </div>
         </div>
       )}
