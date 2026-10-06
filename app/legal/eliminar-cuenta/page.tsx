@@ -1,42 +1,46 @@
 import type { Metadata } from 'next'
 import LegalContent from '../LegalContent'
 
+// Versión en español de /legal/eliminar-cuenta. El proxy manda /es/legal/* aquí
+// (localePrefix 'as-needed'), así que esta ES la página en español; inglés e
+// italiano se sirven desde app/[locale]/legal/eliminar-cuenta con el namespace
+// deleteAccount de messages/*.json. Los tres textos deben decir lo mismo.
 export const metadata: Metadata = {
-  title: 'Eliminar cuenta — Niela',
-  description: 'Instrucciones para eliminar tu cuenta y datos personales de Niela.',
+  title: 'Eliminar tu cuenta — Niela',
+  description: 'Cómo eliminar tu cuenta de Niela y todos tus datos, desde la app o por correo.',
 }
 
-const content = `# Eliminar tu cuenta de Niela
+const content = `# Eliminar tu cuenta
 
-Si querés eliminar tu cuenta, todos tus datos personales serán borrados de manera permanente e irreversible de nuestros servidores.
+Puedes eliminar tu cuenta de Niela cuando quieras. Al hacerlo borramos tus datos personales de forma permanente: no es una desactivación temporal y no se puede deshacer.
 
-## Datos que se eliminan
+## Qué se elimina
 
-- Perfil y datos personales
-- Historial de sesiones de meditación
-- Entradas del diario
-- Meditaciones generadas por IA
-- Suscripciones y créditos
+- Tu cuenta: email, nombre y contraseña.
+- Tus respuestas del registro: tradición, objetivos, duración y notas.
+- Tu diario, tus meditaciones guardadas y tu progreso del curso.
+- Tu dirección postal, si diste una para la carta de bienvenida.
+- Tus créditos de IA y el historial de uso asociado a tu cuenta.
 
-## ¿Cómo eliminar tu cuenta?
+## Cómo hacerlo
 
-### Opción 1 — Desde la app
+### Desde la app
 
-Abrí la app Niela y seguí estos pasos:
+Es la vía más rápida y surte efecto al instante:
 
 **Perfil → Ajustes → Eliminar cuenta**
 
-### Opción 2 — Por email
+### Por correo
 
-Enviá un email a **soporte@niela.app** con asunto: **"Solicitud eliminación de cuenta"** indicando tu email de registro.
+Si ya no tienes acceso a la app, escríbenos a **appniela@gmail.com** con el asunto «Eliminar mi cuenta de Niela».
 
-Procesamos tu solicitud en 48 horas.
+Escribe desde el mismo correo con el que te registraste, para poder confirmar que la cuenta es tuya. Respondemos en un máximo de 30 días, normalmente mucho antes.
 
 ---
 
 ## Nota legal
 
-> ⚠️ Eliminar tu cuenta es permanente e irreversible. Todos tus datos serán borrados de nuestros servidores en 30 días según nuestra [Política de Privacidad](/legal/privacidad).
+> La suscripción se gestiona desde tu ID de Apple o Google: eliminar la cuenta no la cancela. Conservamos las facturas durante 10 años por obligación fiscal, sin usarlas para ninguna otra cosa. Más detalles en nuestra [Política de Privacidad](/legal/privacidad).
 `
 
 export default function EliminarCuentaPage() {
