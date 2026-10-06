@@ -344,5 +344,30 @@
     "ctaNote": "Sin tarjeta de crédito · Cancela cuando quieras",
     "monthly": "Mensual",
     "yearly": "Anual"
+  },
+  "deleteAccount": {
+    "metaTitle": "Eliminar tu cuenta — Niela",
+    "metaDesc": "Cómo eliminar tu cuenta de Niela y todos tus datos, desde la app o por correo.",
+    "back": "← Volver a Niela",
+    "title": "Eliminar tu cuenta",
+    "intro": "Puedes eliminar tu cuenta de Niela cuando quieras. Al hacerlo borramos tus datos personales de forma permanente: no es una desactivación temporal y no se puede deshacer.",
+    "dataTitle": "Qué se elimina",
+    "data1": "Tu cuenta: email, nombre y contraseña.",
+    "data2": "Tus respuestas del registro: tradición, objetivos, duración y notas.",
+    "data3": "Tu diario, tus meditaciones guardadas y tu progreso del curso.",
+    "data4": "Tu dirección postal, si diste una para la carta de bienvenida.",
+    "data5": "Tus créditos de IA y el historial de uso asociado a tu cuenta.",
+    "howTitle": "Cómo hacerlo",
+    "opt1Title": "Desde la app",
+    "opt1Desc": "Es la vía más rápida y surte efecto al instante:",
+    "opt1Step": "Perfil → Ajustes → Eliminar cuenta",
+    "opt2Title": "Por correo",
+    "opt2Desc": "Si ya no tienes acceso a la app, escríbenos a",
+    "opt2Email": "appniela@gmail.com",
+    "opt2Subject": "Eliminar mi cuenta de Niela",
+    "opt2WithSubject": "con el asunto «Eliminar mi cuenta de Niela».",
+    "opt2Details": "Escribe desde el mismo correo con el que te registraste, para poder confirmar que la cuenta es tuya. Respondemos en un máximo de 30 días, normalmente mucho antes.",
+    "legalNote": "La suscripción se gestiona desde tu ID de Apple o Google: eliminar la cuenta no la cancela. Conservamos las facturas durante 10 años por obligación fiscal, sin usarlas para ninguna otra cosa.",
+    "privacyLink": "Política de privacidad"
   }
 }

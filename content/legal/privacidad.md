@@ -1,6 +1,6 @@
 # Política de Privacidad — Niela
 
-**Última actualización:** 3 de mayo de 2026
+**Última actualización:** 6 de octubre de 2026
 **Cumple con:** Reglamento (UE) 2016/679 (GDPR), Codice Privacy italiano (D.Lgs. 196/2003 modif. 101/2018)
 
 ## 1. Responsable del tratamiento
@@ -16,16 +16,19 @@ Como app individual sin DPO obligatorio (no procesamos datos a gran escala bajo 
 - **Cuenta:** email, contraseña (hasheada), nombre opcional.
 - **Onboarding:** tradiciones espirituales preferidas (zen, sufí, etc.), problema principal en texto libre, duración preferida, tono, notas culturales opcionales.
 - **Uso:** descripciones de problemas que escribís para generar meditaciones, entradas de journaling (mood + notas), favoritos guardados.
-- **Pagos:** procesados por Stripe/Apple/Google. **Nosotros no vemos ni almacenamos tu tarjeta**, solo recibimos confirmación de pago y un ID de cliente.
+- **Pagos:** procesados por Apple (App Store), Google y Stripe, con RevenueCat como intermediario técnico de las suscripciones. **Nosotros no vemos ni almacenamos tu tarjeta**, solo recibimos confirmación de pago y un identificador de suscripción.
+- **Dirección postal (opcional):** si aceptas recibir la carta de bienvenida escrita a mano, nos das tu nombre y dirección. Es **voluntario**, se pide solo después de suscribirte y puedes decir que no sin perder nada. Esos datos se usan **únicamente** para enviarte esa carta y, en el futuro, productos físicos que tú hayas pedido aparte: **nunca para publicidad, nunca se comparten ni se venden**. Las ofertas y novedades se muestran siempre dentro de la app, jamás por correo postal. Junto a la dirección guardamos la tradición que elegiste, solo para personalizar la carta.
 
 ### 2.2 Datos que recopilamos automáticamente
 - **Técnicos:** dirección IP (anonimizada para análisis), tipo de dispositivo, sistema operativo, versión de la app.
 - **De uso:** sesiones iniciadas, meditaciones escuchadas, duración de uso (sin contenido).
+- **Analítica de producto (PostHog):** eventos de uso como abrir el registro, elegir tradición, ver la pantalla de planes, empezar una prueba, empezar o terminar una lección y generar una meditación. Son **solo eventos**, asociados a tu identificador de cuenta: **no grabamos la pantalla ni lo que escribes** (no usamos grabación de sesión).
 - **Errores:** trazas técnicas de fallos vía Sentry (sin contenido personal asociado).
 
 ### 2.3 Datos que NO recopilamos
 - No accedemos a tus contactos, calendario, fotos, ubicación precisa, ni biometría.
 - No usamos cookies de terceros para publicidad.
+- No grabamos tu pantalla ni tus pulsaciones dentro de la app.
 - No vendemos tus datos a nadie. Nunca.
 
 ## 3. Categorías especiales de datos
@@ -60,7 +63,11 @@ Solo con proveedores estrictamente necesarios, todos con acuerdos de procesamien
 | **Railway** | Hosting de servidor y base de datos | EE.UU. (DPA + Cláusulas Contractuales Tipo) |
 | **Anthropic** | Generación de meditaciones IA | EE.UU. (DPA + SCCs) |
 | **ElevenLabs** | Síntesis de voz para audio | EE.UU. (DPA + SCCs) |
-| **Stripe** | Procesamiento de pagos | Irlanda (UE) |
+| **Apple** | Compras y suscripciones dentro de la app (App Store) | Irlanda (UE) / EE.UU. |
+| **RevenueCat** | Gestión técnica de suscripciones y estado de la compra | EE.UU. (DPA + SCCs) |
+| **Stripe** | Procesamiento de pagos (web y Android) | Irlanda (UE) |
+| **PostHog** | Analítica de producto, solo eventos (región UE) | Unión Europea |
+| **Cloudflare** | Almacenamiento y entrega de los audios (R2) | UE/EE.UU. (DPA + SCCs) |
 | **Resend** | Email transaccional (waitlist, confirmaciones) | EE.UU. (DPA + SCCs) |
 | **Sentry** | Monitoreo de errores | EE.UU. (DPA + SCCs, sin datos personales asociados) |
 | **Vercel** | Hosting de la web niela.app | EE.UU. (DPA + SCCs) |
@@ -79,6 +86,8 @@ Solo con proveedores estrictamente necesarios, todos con acuerdos de procesamien
 | Logs técnicos | 90 días |
 | Backups encriptados | Hasta 30 días |
 | Email de waitlist (sin cuenta) | Hasta que solicites baja o lancemos producto |
+| Dirección postal (carta de bienvenida) | Hasta que retires el consentimiento o cierres la cuenta |
+| Eventos de analítica (PostHog) | 12 meses |
 
 ## 7. Tus derechos GDPR
 
@@ -96,6 +105,8 @@ Tenés derecho a:
 **Cómo ejercerlos:** envianos email a appniela@gmail.com con tu solicitud. Respondemos dentro de 30 días (extensible a 60 si la solicitud es compleja, te avisamos).
 
 Dentro de la app: la opción "Eliminar cuenta" está en Configuración → Cuenta → Eliminar todos mis datos.
+
+Para retirar **solo** el consentimiento de la dirección postal y que la borremos, escríbenos a appniela@gmail.com: no afecta a tu suscripción ni al resto de tu cuenta.
 
 ## 8. Seguridad
 

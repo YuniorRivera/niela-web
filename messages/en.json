@@ -363,5 +363,30 @@
     "ctaNote": "No credit card · Cancel anytime",
     "monthly": "Monthly",
     "yearly": "Yearly"
+  },
+  "deleteAccount": {
+    "metaTitle": "Delete your account — Niela",
+    "metaDesc": "How to delete your Niela account and all your data, from the app or by email.",
+    "back": "← Back to Niela",
+    "title": "Delete your account",
+    "intro": "You can delete your Niela account whenever you like. When you do, we erase your personal data permanently: this is not a temporary deactivation and it cannot be undone.",
+    "dataTitle": "What gets deleted",
+    "data1": "Your account: email, name and password.",
+    "data2": "Your sign-up answers: tradition, goals, duration and notes.",
+    "data3": "Your journal, saved meditations and course progress.",
+    "data4": "Your postal address, if you gave one for the welcome letter.",
+    "data5": "Your AI credits and the usage history tied to your account.",
+    "howTitle": "How to do it",
+    "opt1Title": "From the app",
+    "opt1Desc": "This is the quickest way and takes effect immediately:",
+    "opt1Step": "Profile → Settings → Delete account",
+    "opt2Title": "By email",
+    "opt2Desc": "If you no longer have access to the app, write to us at",
+    "opt2Email": "appniela@gmail.com",
+    "opt2Subject": "Delete my Niela account",
+    "opt2WithSubject": "with the subject “Delete my Niela account”.",
+    "opt2Details": "Write from the same email address you signed up with, so we can confirm the account is yours. We reply within 30 days at the latest, usually much sooner.",
+    "legalNote": "Your subscription is managed through your Apple or Google ID: deleting the account does not cancel it. We keep invoices for 10 years as Italian tax law requires, and use them for nothing else.",
+    "privacyLink": "Privacy policy"
   }
 }
