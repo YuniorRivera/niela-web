@@ -1,6 +1,6 @@
 # Política de Privacidad — Niela
 
-**Última actualización:** 6 de octubre de 2026
+**Última actualización:** 8 de octubre de 2026
 **Cumple con:** Reglamento (UE) 2016/679 (GDPR), Codice Privacy italiano (D.Lgs. 196/2003 modif. 101/2018)
 
 ## 1. Responsable del tratamiento
@@ -15,14 +15,14 @@ Como app individual sin DPO obligatorio (no procesamos datos a gran escala bajo 
 ### 2.1 Datos que tú nos das
 - **Cuenta:** email, contraseña (hasheada), nombre opcional.
 - **Onboarding:** tradiciones espirituales preferidas (zen, sufí, etc.), problema principal en texto libre, duración preferida, tono, notas culturales opcionales.
-- **Uso:** descripciones de problemas que escribís para generar meditaciones, entradas de journaling (mood + notas), favoritos guardados.
+- **Uso:** descripciones de problemas que escribes para generar meditaciones, entradas de journaling (mood + notas), favoritos guardados.
 - **Pagos:** procesados por Apple (App Store), Google y Stripe, con RevenueCat como intermediario técnico de las suscripciones. **Nosotros no vemos ni almacenamos tu tarjeta**, solo recibimos confirmación de pago y un identificador de suscripción.
 - **Dirección postal (opcional):** si aceptas recibir la carta de bienvenida escrita a mano, nos das tu nombre y dirección. Es **voluntario**, se pide solo después de suscribirte y puedes decir que no sin perder nada. Esos datos se usan **únicamente** para enviarte esa carta y, en el futuro, productos físicos que tú hayas pedido aparte: **nunca para publicidad, nunca se comparten ni se venden**. Las ofertas y novedades se muestran siempre dentro de la app, jamás por correo postal. Junto a la dirección guardamos la tradición que elegiste, solo para personalizar la carta.
 
 ### 2.2 Datos que recopilamos automáticamente
 - **Técnicos:** dirección IP (anonimizada para análisis), tipo de dispositivo, sistema operativo, versión de la app.
 - **De uso:** sesiones iniciadas, meditaciones escuchadas, duración de uso (sin contenido).
-- **Analítica de producto (PostHog):** eventos de uso como abrir el registro, elegir tradición, ver la pantalla de planes, empezar una prueba, empezar o terminar una lección y generar una meditación. Son **solo eventos**, asociados a tu identificador de cuenta: **no grabamos la pantalla ni lo que escribes** (no usamos grabación de sesión).
+- **Analítica de producto (PostHog):** eventos de uso como abrir el registro, elegir tradición, ver la pantalla de planes, empezar una prueba, empezar o terminar una lección (con su número) y generar una meditación. Son **solo eventos**, asociados a tu identificador de cuenta: **no grabamos la pantalla ni lo que escribes**, y **no enviamos a la analítica qué tradición practicas**.
 - **Errores:** trazas técnicas de fallos vía Sentry (sin contenido personal asociado).
 
 ### 2.3 Datos que NO recopilamos
@@ -35,7 +35,12 @@ Como app individual sin DPO obligatorio (no procesamos datos a gran escala bajo 
 
 Tu descripción de "problema principal", journaling, y mood pueden contener información sobre tu **bienestar emocional o estado mental**. Bajo Art. 9 GDPR, estos pueden considerarse "categorías especiales" si revelan condiciones de salud.
 
-**Base legal del tratamiento:** consentimiento explícito (Art. 9.2.a GDPR), que vos otorgás al completar el onboarding y usar las funciones IA.
+**Base legal del tratamiento:** consentimiento explícito (Art. 9.2.a GDPR), que das marcando las casillas de la pantalla **"Antes de empezar, tu permiso"**, antes de elegir tradición. Son dos permisos separados, desmarcados por defecto:
+
+- **Tradición espiritual:** necesario para personalizar el curso y las meditaciones con IA. Sin él la app no puede adaptarse a ti.
+- **Diario de ánimo (opcional):** autoriza tratar tu estado de ánimo y **enviar tus notas del diario al proveedor de IA**. Si no lo das, el diario sigue funcionando con normalidad y **nada de él sale hacia la IA**.
+
+Puedes **retirar cualquiera de los dos cuando quieras** desde Ajustes → Permisos de privacidad, sin que ello afecte a la licitud del tratamiento anterior (Art. 7.3). Guardamos qué autorizaste, cuándo y con qué versión de esta política.
 
 **Garantías adicionales:**
 - Tu descripción se usa SOLO para generar tu meditación personalizada.
@@ -61,7 +66,7 @@ Solo con proveedores estrictamente necesarios, todos con acuerdos de procesamien
 | Proveedor | Para qué | Ubicación |
 |---|---|---|
 | **Railway** | Hosting de servidor y base de datos | EE.UU. (DPA + Cláusulas Contractuales Tipo) |
-| **Anthropic** | Generación de meditaciones IA | EE.UU. (DPA + SCCs) |
+| **Anthropic** | Generación de meditaciones IA. Recibe tu estado de ánimo y las notas del diario **solo si has dado el consentimiento del diario**; sin él, nada del diario sale hacia la IA | EE.UU. (DPA + SCCs) |
 | **ElevenLabs** | Síntesis de voz para audio | EE.UU. (DPA + SCCs) |
 | **Apple** | Compras y suscripciones dentro de la app (App Store) | Irlanda (UE) / EE.UU. |
 | **RevenueCat** | Gestión técnica de suscripciones y estado de la compra | EE.UU. (DPA + SCCs) |
@@ -74,7 +79,9 @@ Solo con proveedores estrictamente necesarios, todos con acuerdos de procesamien
 
 **Transferencias internacionales:** los proveedores en EE.UU. operan bajo Cláusulas Contractuales Tipo de la UE (SCCs) aprobadas por la Comisión Europea, que garantizan protección equivalente a GDPR.
 
-**Lo que enviamos a Anthropic/ElevenLabs:** tu descripción de problema, tradición elegida, duración. **No enviamos tu email, nombre, ni identificadores que te identifiquen personalmente.**
+**Lo que enviamos a Anthropic:** tu descripción del problema, la tradición elegida, la duración y el tono, **tu nombre de perfil** si lo has puesto, tus notas culturales, tu racha y tus últimas prácticas. Si autorizaste el diario, también tu estado de ánimo reciente y un extracto de tus notas; la "frase de consuelo" del diario envía la nota completa. **No enviamos tu email ni identificadores de pago.**
+
+**Lo que enviamos a ElevenLabs:** únicamente el texto de la meditación que hay que locutar.
 
 ## 6. Cuánto tiempo guardamos tus datos
 
@@ -91,7 +98,7 @@ Solo con proveedores estrictamente necesarios, todos con acuerdos de procesamien
 
 ## 7. Tus derechos GDPR
 
-Tenés derecho a:
+Tienes derecho a:
 
 - **Acceso (Art. 15):** pedir copia de todos tus datos. Te la enviamos en JSON dentro de 30 días.
 - **Rectificación (Art. 16):** corregir datos inexactos.
@@ -102,7 +109,7 @@ Tenés derecho a:
 - **Retirar consentimiento (Art. 7.3):** en cualquier momento, sin afectar la legalidad del tratamiento previo.
 - **Reclamar ante autoridad de control:** Garante per la Protezione dei Dati Personali (Italia, https://www.gpdp.it/) o tu autoridad nacional.
 
-**Cómo ejercerlos:** envianos email a appniela@gmail.com con tu solicitud. Respondemos dentro de 30 días (extensible a 60 si la solicitud es compleja, te avisamos).
+**Cómo ejercerlos:** envíanos email a appniela@gmail.com con tu solicitud. Respondemos dentro de 30 días (extensible a 60 si la solicitud es compleja, te avisamos).
 
 Dentro de la app: la opción "Eliminar cuenta" está en Configuración → Cuenta → Eliminar todos mis datos.
 
@@ -128,7 +135,7 @@ En caso de brecha de seguridad que afecte datos personales, notificaremos a la a
 
 Niela está dirigida a personas mayores de **16 años** (edad mínima de consentimiento digital en la UE). No recopilamos conscientemente datos de menores de 16 años.
 
-Si descubrimos que un usuario es menor de 16 sin consentimiento parental verificable, eliminaremos su cuenta y datos. Si sos padre/madre/tutor y creés que tu hijo/a tiene cuenta, contactanos a appniela@gmail.com.
+Si descubrimos que un usuario es menor de 16 sin consentimiento parental verificable, eliminaremos su cuenta y datos. Si eres padre, madre o tutor y crees que tu hijo/a tiene cuenta, contáctanos a appniela@gmail.com.
 
 ## 10. Cookies y tecnologías similares
 
