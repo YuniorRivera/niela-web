@@ -64,4 +64,4 @@ Si modificamos las cookies que usamos, actualizamos esta página y te notificamo
 
 ## 6. Contacto
 
-Dudas sobre cookies: appniela@gmail.com
+Dudas sobre cookies: soporte@niela.app

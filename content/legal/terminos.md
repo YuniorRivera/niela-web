@@ -8,7 +8,7 @@
 Niela ("la aplicación", "el servicio", "nosotros") es operada por:
 
 **Yunior Rivera**, persona física residente en Italia.
-Email de contacto: appniela@gmail.com
+Email de contacto: soporte@niela.app
 
 Niela es una aplicación de bienestar que ofrece meditaciones guiadas y meditaciones personalizadas generadas por inteligencia artificial.
 
@@ -77,7 +77,7 @@ Las meditaciones IA son generadas por modelos de lenguaje (Anthropic Claude). Au
 - No reflejar exactamente las tradiciones espirituales que representa.
 - Variar en calidad entre sesiones.
 
-No nos hacemos responsables de decisiones que tomes basadas únicamente en contenido generado por IA. Reportá problemas a appniela@gmail.com.
+No nos hacemos responsables de decisiones que tomes basadas únicamente en contenido generado por IA. Reportá problemas a soporte@niela.app.
 
 ## 8. Propiedad intelectual
 
@@ -119,6 +119,6 @@ Para residentes de la UE: tenés derecho a acceder a la plataforma de resolució
 
 ## 14. Contacto
 
-Email legal: appniela@gmail.com
+Email legal: soporte@niela.app
 
 Operador: Yunior Rivera, persona física residente en Italia.

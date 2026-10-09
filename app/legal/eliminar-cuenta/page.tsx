@@ -32,7 +32,7 @@ Es la vía más rápida y surte efecto al instante:
 
 ### Por correo
 
-Si ya no tienes acceso a la app, escríbenos a **appniela@gmail.com** con el asunto «Eliminar mi cuenta de Niela».
+Si ya no tienes acceso a la app, escríbenos a **soporte@niela.app** con el asunto «Eliminar mi cuenta de Niela».
 
 Escribe desde el mismo correo con el que te registraste, para poder confirmar que la cuenta es tuya. Respondemos en un máximo de 30 días, normalmente mucho antes.
 

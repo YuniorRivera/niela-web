@@ -745,7 +745,7 @@ export default function Home() {
 
         <div
           className={`fade-up${secPricingIn ? ' in-view' : ''}`}
-          style={{ maxWidth: 760, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}
+          style={{ maxWidth: 420, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr', gap: 20 }}
         >
           {/* ── PLUS card ── */}
           <div style={{
@@ -785,41 +785,6 @@ export default function Home() {
             </a>
           </div>
 
-          {/* ── PRO card ── */}
-          <div style={{
-            background: 'rgba(212,168,87,0.05)',
-            border: '0.5px solid rgba(212,168,87,0.22)',
-            borderRadius: 20,
-            padding: '36px 32px',
-            display: 'flex', flexDirection: 'column', gap: 0,
-            position: 'relative',
-          }}>
-            <div style={{ display: 'inline-flex', alignSelf: 'flex-start', padding: '4px 12px', background: 'rgba(212,168,87,0.12)', border: '0.5px solid rgba(212,168,87,0.3)', borderRadius: 999, fontSize: 11, color: '#D4A857', fontWeight: 500, marginBottom: 20 }}>
-              {t('pricing.trialBadge')}
-            </div>
-            <p style={{ fontSize: 13, fontWeight: 500, color: '#D4A857', margin: '0 0 8px', letterSpacing: '0.5px' }}>{t('pricing.proTitle')}</p>
-            <div style={{ marginBottom: 4 }}>
-              <span style={{ fontSize: 36, fontWeight: 400, color: '#ffffff', letterSpacing: '-1px' }}>{t('pricing.proMonthly')}</span>
-              <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)', fontWeight: 300 }}>{t('pricing.proPerMonth')}</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 32, padding: '10px 14px', background: 'rgba(212,168,87,0.08)', border: '0.5px solid rgba(212,168,87,0.20)', borderRadius: 10 }}>
-              <div style={{ fontSize: 11, fontWeight: 500, color: '#D4A857', padding: '2px 8px', background: 'rgba(212,168,87,0.15)', borderRadius: 999 }}>{t('pricing.popular')}</div>
-              <span style={{ fontSize: 14, color: '#ffffff', fontWeight: 400 }}>{t('pricing.proYearly')}<span style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 300 }}>{t('pricing.proPerYear')}</span></span>
-              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', fontWeight: 300 }}>{t('pricing.proBilledAs')}</span>
-              <span style={{ fontSize: 11, color: '#D4A857', fontWeight: 500, marginLeft: 'auto' }}>{t('pricing.proSaving')}</span>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 32 }}>
-              {(['proF1','proF2','proF3','proF4'] as const).map(k => (
-                <div key={k} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                  <span style={{ color: '#D4A857', fontSize: 13 }}>✓</span>
-                  <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.70)', fontWeight: 300 }}>{t(`pricing.${k}`)}</span>
-                </div>
-              ))}
-            </div>
-            <a href={`https://play.google.com/store/apps/details?id=com.niela.app`} target="_blank" rel="noopener" style={{ display: 'block', textAlign: 'center', padding: '14px 0', borderRadius: 999, background: '#D4A857', color: '#0A0E14', fontSize: 14, fontWeight: 600, textDecoration: 'none', marginTop: 'auto', transition: 'opacity 200ms' }}>
-              {t('pricing.cta')}
-            </a>
-          </div>
         </div>
 
         <p style={{ textAlign: 'center', fontSize: 12, color: 'rgba(255,255,255,0.30)', marginTop: 20, fontWeight: 300 }}>

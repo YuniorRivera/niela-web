@@ -6,7 +6,7 @@
 ## 1. Responsable del tratamiento
 
 **Yunior Rivera**, persona física residente en Italia.
-Email para asuntos de privacidad: appniela@gmail.com
+Email para asuntos de privacidad: soporte@niela.app
 
 Como app individual sin DPO obligatorio (no procesamos datos a gran escala bajo Art. 37 GDPR), el responsable directo es el operador de Niela.
 
@@ -109,11 +109,11 @@ Tienes derecho a:
 - **Retirar consentimiento (Art. 7.3):** en cualquier momento, sin afectar la legalidad del tratamiento previo.
 - **Reclamar ante autoridad de control:** Garante per la Protezione dei Dati Personali (Italia, https://www.gpdp.it/) o tu autoridad nacional.
 
-**Cómo ejercerlos:** envíanos email a appniela@gmail.com con tu solicitud. Respondemos dentro de 30 días (extensible a 60 si la solicitud es compleja, te avisamos).
+**Cómo ejercerlos:** envíanos email a soporte@niela.app con tu solicitud. Respondemos dentro de 30 días (extensible a 60 si la solicitud es compleja, te avisamos).
 
 Dentro de la app: la opción "Eliminar cuenta" está en Configuración → Cuenta → Eliminar todos mis datos.
 
-Para retirar **solo** el consentimiento de la dirección postal y que la borremos, escríbenos a appniela@gmail.com: no afecta a tu suscripción ni al resto de tu cuenta.
+Para retirar **solo** el consentimiento de la dirección postal y que la borremos, escríbenos a soporte@niela.app: no afecta a tu suscripción ni al resto de tu cuenta.
 
 ## 8. Seguridad
 
@@ -135,7 +135,7 @@ En caso de brecha de seguridad que afecte datos personales, notificaremos a la a
 
 Niela está dirigida a personas mayores de **16 años** (edad mínima de consentimiento digital en la UE). No recopilamos conscientemente datos de menores de 16 años.
 
-Si descubrimos que un usuario es menor de 16 sin consentimiento parental verificable, eliminaremos su cuenta y datos. Si eres padre, madre o tutor y crees que tu hijo/a tiene cuenta, contáctanos a appniela@gmail.com.
+Si descubrimos que un usuario es menor de 16 sin consentimiento parental verificable, eliminaremos su cuenta y datos. Si eres padre, madre o tutor y crees que tu hijo/a tiene cuenta, contáctanos a soporte@niela.app.
 
 ## 10. Cookies y tecnologías similares
 
@@ -156,7 +156,7 @@ Podemos actualizar esta política. Cambios sustanciales se notifican por email y
 
 ## 12. Contacto
 
-**Para todo lo relativo a privacidad:** appniela@gmail.com
+**Para todo lo relativo a privacidad:** soporte@niela.app
 
 **Autoridad de control italiana:**
 Garante per la Protezione dei Dati Personali
