@@ -765,6 +765,10 @@ export default function Home() {
               <span style={{ fontSize: 36, fontWeight: 400, color: '#ffffff', letterSpacing: '-1px' }}>{t('pricing.plusMonthly')}</span>
               <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)', fontWeight: 300 }}>{t('pricing.plusPerMonth')}</span>
             </div>
+            {/* El precio lo fija Apple por territorio: el de aqui es el de Espana e Italia. */}
+            <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.40)', fontWeight: 300, margin: '0 0 10px' }}>
+              {t('pricing.countryNote')}
+            </p>
             {/* Annual highlighted */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 32, padding: '10px 14px', background: 'rgba(212,168,87,0.08)', border: '0.5px solid rgba(212,168,87,0.20)', borderRadius: 10 }}>
               <div style={{ fontSize: 11, fontWeight: 500, color: '#D4A857', padding: '2px 8px', background: 'rgba(212,168,87,0.15)', borderRadius: 999 }}>{t('pricing.popular')}</div>
