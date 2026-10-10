@@ -135,17 +135,5 @@
   "errors": {
     "rateLimit": "Demasiados intentos. Esperá unos minutos e intentá de nuevo.",
     "generic": "Algo salió mal. Intentá de nuevo en unos segundos."
-  },
-  "success": {
-    "title": "¡Estás dentro!",
-    "position": "Sos la persona #{position} en descubrir Niela.",
-    "subtitle": "Te avisamos antes que a nadie cuando lancemos.",
-    "shareTitle": "Invitá amigos y subí en la lista",
-    "shareSubtitle": "Por cada amigo que se una, subís 5 posiciones.",
-    "whatsappButton": "💬 WhatsApp",
-    "twitterButton": "𝕏 Twitter",
-    "copyButton": "🔗 Copiar link",
-    "copied": "✓ Copiado",
-    "shareText": "Me anoté en la lista de espera de Niela, una app de meditación con IA en español. ¿Te sumás?"
   }
 }

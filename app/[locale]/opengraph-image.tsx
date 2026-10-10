@@ -1,3 +1,5 @@
+import { readFile } from 'node:fs/promises'
+import { join } from 'node:path'
 import { ImageResponse } from 'next/og'
 import { getTranslations } from 'next-intl/server'
 
@@ -11,6 +13,9 @@ export const alt = 'Niela'
 export default async function Image({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'meta' })
+  // Logotipo real de la app, embebido para que no dependa de una URL pública.
+  const logo = await readFile(join(process.cwd(), 'public/niela-logo.png'))
+  const logoSrc = `data:image/png;base64,${logo.toString('base64')}`
 
   return new ImageResponse(
     (
@@ -22,8 +27,10 @@ export default async function Image({ params }: { params: Promise<{ locale: stri
           fontFamily: 'sans-serif',
         }}
       >
-        <div style={{ display: 'flex', color: '#D4A857', fontSize: 34, letterSpacing: 2, marginBottom: 36 }}>
-          niela
+        <div style={{ display: 'flex', alignItems: 'center', gap: 18, marginBottom: 36 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={logoSrc} width={64} height={64} alt="" />
+          <span style={{ color: '#D4A857', fontSize: 34, letterSpacing: 2 }}>niela</span>
         </div>
         <div style={{ display: 'flex', color: '#ffffff', fontSize: 62, lineHeight: 1.15, maxWidth: 940 }}>
           {t('ogTitle')}

@@ -136,19 +136,5 @@
     "invalidEmail": "Invalid email",
     "rateLimit": "Too many attempts. Wait a few minutes.",
     "generic": "Something went wrong. Try again in a few seconds."
-  },
-  "success": {
-    "title": "You're in!",
-    "position": "You're person #{n} to discover Niela.",
-    "subtitle": "We'll tell you before anyone else when we launch.",
-    "shareTitle": "Invite friends and move up the list",
-    "shareSubtitle": "For every friend who joins, you move up 5 spots.",
-    "whatsappButton": "WhatsApp",
-    "twitterButton": "Twitter",
-    "copyButton": "Copy link",
-    "copied": "Link copied",
-    "whatsappText": "I'm trying Niela — AI meditation personalized by your spiritual tradition. Join the waitlist:",
-    "twitterText": "I'm trying Niela — personalized AI meditation. Join the waitlist:",
-    "shareText": "I signed up for Niela's waitlist — AI meditation personalized by spiritual tradition. Care to join?"
   }
 }

@@ -136,19 +136,5 @@
     "invalidEmail": "Email non valida",
     "rateLimit": "Troppi tentativi. Aspetta qualche minuto.",
     "generic": "Qualcosa è andato storto. Riprova tra qualche secondo."
-  },
-  "success": {
-    "title": "Sei dentro!",
-    "position": "Sei la persona #{n} a scoprire Niela.",
-    "subtitle": "Ti avviseremo prima di chiunque altro al lancio.",
-    "shareTitle": "Invita amici e sali nella lista",
-    "shareSubtitle": "Per ogni amico che si iscrive, sali di 5 posizioni.",
-    "whatsappButton": "WhatsApp",
-    "twitterButton": "Twitter",
-    "copyButton": "Copia link",
-    "copied": "Link copiato",
-    "whatsappText": "Sto provando Niela — meditazione con IA personalizzata in base alla tua tradizione spirituale. Unisciti alla lista d'attesa:",
-    "twitterText": "Sto provando Niela — meditazione con IA personalizzata. Unisciti alla lista d'attesa:",
-    "shareText": "Mi sono iscritto alla lista d'attesa di Niela — meditazione con IA personalizzata per tradizione spirituale. Ti unisci?"
   }
 }

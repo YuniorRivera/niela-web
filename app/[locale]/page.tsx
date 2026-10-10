@@ -76,8 +76,11 @@ export default async function Home({ params }: Props) {
       {/* ── Cabecera ── */}
       <header style={{ position: 'sticky', top: 0, zIndex: 10, background: 'rgba(10,14,20,0.92)', backdropFilter: 'blur(8px)', borderBottom: `1px solid ${LINE}` }}>
         <div style={{ maxWidth: 820, margin: '0 auto', padding: '12px 24px', display: 'flex', alignItems: 'center', gap: 16 }}>
-          <a href={locale === 'es' ? '/' : `/${locale}`} style={{ color: GOLD, fontSize: 17, fontWeight: 600, textDecoration: 'none', letterSpacing: '0.5px' }}>
-            niela
+          <a href={locale === 'es' ? '/' : `/${locale}`} style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
+            {/* Logotipo actual de la app (la doble onda). */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/niela-logo.png" alt="Niela" width={30} height={30} style={{ display: 'block' }} />
+            <span style={{ color: GOLD, fontSize: 17, fontWeight: 600, letterSpacing: '0.5px' }}>niela</span>
           </a>
           <nav className="nav-links" style={{ display: 'flex', gap: 18, marginLeft: 'auto' }}>
             <a href="#tradiciones" style={{ color: FAINT, fontSize: 13.5, textDecoration: 'none' }}>{t('nav.tradiciones')}</a>
