@@ -13,15 +13,15 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     metadataBase: new URL("https://niela.app"),
     title: t('title'),
     description: t('description'),
-    icons: {
-      icon: "/icon.svg",
-      apple: "/apple-touch-icon.png",
-    },
+    // El icono de Apple lo genera app/apple-icon.tsx; antes apuntaba a un
+    // archivo inexistente.
+    icons: { icon: "/icon.svg" },
+    // La imagen se genera en app/[locale]/opengraph-image.tsx: Next la añade
+    // sola, por eso no se declara aquí.
     openGraph: {
-      title: "Niela — Meditación personalizada",
-      description: "La app de meditación que respeta tu tradición espiritual. Zen, Tibetana, Andina, Sufí, Cristiana, Islámica y Laica.",
+      title: t('title'),
+      description: t('description'),
       url: `https://niela.app${locale === 'es' ? '' : `/${locale}`}`,
-      images: [{ url: "/og-image.jpg", width: 1024, height: 500, alt: "Niela" }],
       locale: locale === 'es' ? 'es_ES' : locale === 'en' ? 'en_US' : 'it_IT',
     },
   };
