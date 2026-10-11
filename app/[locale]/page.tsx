@@ -38,6 +38,61 @@ function AppStoreButton({ label }: { label: string }) {
   )
 }
 
+// Capturas del hero. Mientras no lleguen las de la app real se enseña la
+// ilustración del Zen dentro del móvil, no un rectángulo gris vacío.
+// Para activar las reales: poner aquí sus rutas, la lección del curso primero
+// (va delante) y Niela AI después (va detrás, desplazada).
+const HERO_SHOTS: string[] = []
+const HERO_FALLBACK = '/traditions/zen.webp'
+
+// Marco de iPhone: bisel, esquinas redondeadas y la isla dinámica.
+function PhoneFrame({ src, alt, style }: { src: string; alt: string; style?: React.CSSProperties }) {
+  return (
+    <div
+      style={{
+        position: 'relative', width: '100%', aspectRatio: '9 / 19.5',
+        padding: 7, borderRadius: 42, background: '#1a1d22',
+        border: '1px solid rgba(255,255,255,0.14)',
+        boxShadow: '0 24px 60px rgba(0,0,0,0.55)',
+        ...style,
+      }}
+    >
+      <div style={{ width: '100%', height: '100%', borderRadius: 35, overflow: 'hidden', background: '#000', position: 'relative' }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={src} alt={alt} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+        <span
+          aria-hidden="true"
+          style={{
+            position: 'absolute', top: 9, left: '50%', transform: 'translateX(-50%)',
+            width: '31%', height: 20, borderRadius: 999, background: '#000',
+          }}
+        />
+      </div>
+    </div>
+  )
+}
+
+// Una captura, o dos superpuestas: la del curso delante y Niela AI detrás.
+function HeroShots({ alt }: { alt: string }) {
+  const [front, back] = HERO_SHOTS.length > 0 ? HERO_SHOTS : [HERO_FALLBACK]
+
+  return (
+    <div className="hero-phone" style={{ position: 'relative', width: 320, justifySelf: 'end' }}>
+      {back && (
+        <PhoneFrame
+          src={back}
+          alt={alt}
+          style={{
+            position: 'absolute', inset: 0, zIndex: 0, opacity: 0.72,
+            transform: 'translate(13%, -6%) scale(0.92)',
+          }}
+        />
+      )}
+      <PhoneFrame src={front} alt={alt} style={{ position: 'relative', zIndex: 1 }} />
+    </div>
+  )
+}
+
 function Section({ id, children }: { id?: string; children: React.ReactNode }) {
   return (
     <section id={id} style={{ maxWidth: 820, margin: '0 auto', padding: '68px 24px', borderTop: `1px solid ${LINE}` }}>
@@ -93,25 +148,18 @@ export default async function Home({ params }: Props) {
 
       {/* ── 1. Inicio ── */}
       <section style={{ maxWidth: 820, margin: '0 auto', padding: '72px 24px 56px' }}>
-        <h1 style={{ fontSize: 42, lineHeight: 1.12, fontWeight: 400, color: TEXT, margin: '0 0 20px', letterSpacing: '-1px' }}>
-          {t('hero.title')}
-        </h1>
-        <p style={{ fontSize: 18, lineHeight: 1.6, color: MUTED, margin: '0 0 32px', maxWidth: 620 }}>
-          {t('hero.subtitle')}
-        </p>
-        <AppStoreButton label={t('hero.cta')} />
-        <p style={{ fontSize: 13, color: FAINT, margin: '14px 0 0' }}>{t('hero.note')}</p>
-
-        {/* CAPTURAS: hueco reservado hasta que lleguen las de la app real. */}
-        <div
-          aria-label={t('hero.screenshotAlt')}
-          style={{
-            marginTop: 44, border: `1px solid ${LINE}`, borderRadius: 20,
-            background: 'rgba(255,255,255,0.03)', aspectRatio: '16 / 9',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}
-        >
-          <span style={{ color: FAINT, fontSize: 13 }}>{t('hero.screenshotAlt')}</span>
+        <div className="hero-grid" style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 44, alignItems: 'center' }}>
+          <div>
+            <h1 style={{ fontSize: 42, lineHeight: 1.12, fontWeight: 400, color: TEXT, margin: '0 0 20px', letterSpacing: '-1px' }}>
+              {t('hero.title')}
+            </h1>
+            <p style={{ fontSize: 18, lineHeight: 1.6, color: MUTED, margin: '0 0 32px' }}>
+              {t('hero.subtitle')}
+            </p>
+            <AppStoreButton label={t('hero.cta')} />
+            <p style={{ fontSize: 13, color: FAINT, margin: '14px 0 0' }}>{t('hero.note')}</p>
+          </div>
+          <HeroShots alt={t('hero.screenshotAlt')} />
         </div>
       </section>
 
@@ -242,6 +290,8 @@ export default async function Home({ params }: Props) {
           .trad-grid { grid-template-columns: 1fr !important; }
           .nav-links { display: none !important; }
           h1 { font-size: 32px !important; }
+          .hero-grid { grid-template-columns: 1fr !important; gap: 36px !important; }
+          .hero-phone { width: 260px !important; justify-self: center !important; }
         }
       `}</style>
     </main>
