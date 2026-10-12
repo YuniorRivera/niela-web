@@ -42,7 +42,9 @@ function AppStoreButton({ label }: { label: string }) {
 // ilustración del Zen dentro del móvil, no un rectángulo gris vacío.
 // Para activar las reales: poner aquí sus rutas, la lección del curso primero
 // (va delante) y Niela AI después (va detrás, desplazada).
-const HERO_SHOTS: string[] = []
+// Orden: la primera va delante, la segunda detrás y desplazada. Falta la de
+// una lección del curso, que es la que debe ir delante.
+const HERO_SHOTS: string[] = ['/screens/niela-ai.webp']
 const HERO_FALLBACK = '/traditions/zen.webp'
 
 // Marco de iPhone: bisel, esquinas redondeadas y la isla dinámica.
