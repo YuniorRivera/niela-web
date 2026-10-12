@@ -42,9 +42,8 @@ function AppStoreButton({ label }: { label: string }) {
 // ilustración del Zen dentro del móvil, no un rectángulo gris vacío.
 // Para activar las reales: poner aquí sus rutas, la lección del curso primero
 // (va delante) y Niela AI después (va detrás, desplazada).
-// Orden: la primera va delante, la segunda detrás y desplazada. Falta la de
-// una lección del curso, que es la que debe ir delante.
-const HERO_SHOTS: string[] = ['/screens/niela-ai.webp']
+// Orden: la primera va delante, la segunda detrás y desplazada.
+const HERO_SHOTS: string[] = ['/screens/curso.webp', '/screens/niela-ai.webp']
 const HERO_FALLBACK = '/traditions/zen.webp'
 
 // Marco de iPhone: bisel, esquinas redondeadas y la isla dinámica.
@@ -59,9 +58,12 @@ function PhoneFrame({ src, alt, style }: { src: string; alt: string; style?: Rea
         ...style,
       }}
     >
-      <div style={{ width: '100%', height: '100%', borderRadius: 35, overflow: 'hidden', background: '#000', position: 'relative' }}>
+      {/* El fondo es el de la app, no negro puro: las capturas no tienen todas
+          la proporción exacta del marco y con `contain` (en vez de `cover`, que
+          recortaba los bordes del texto) el hueco que queda no se nota. */}
+      <div style={{ width: '100%', height: '100%', borderRadius: 35, overflow: 'hidden', background: BG, position: 'relative' }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={src} alt={alt} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+        <img src={src} alt={alt} style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
         <span
           aria-hidden="true"
           style={{
@@ -86,7 +88,9 @@ function HeroShots({ alt }: { alt: string }) {
           alt={alt}
           style={{
             position: 'absolute', inset: 0, zIndex: 0, opacity: 0.72,
-            transform: 'translate(13%, -6%) scale(0.92)',
+            // 8 % y no más: a 13 % el teléfono de atrás se salía del ancho de
+            // la página en tablet (768 px) y sacaba scroll lateral.
+            transform: 'translate(8%, -6%) scale(0.92)',
           }}
         />
       )}
