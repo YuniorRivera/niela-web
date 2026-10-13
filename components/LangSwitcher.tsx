@@ -10,7 +10,15 @@ export function LangSwitcher() {
   const changeLang = (newLocale: string) => {
     const cleanPath = pathname.replace(/^\/(en|it)/, '') || '/';
     const newPath = newLocale === 'es' ? cleanPath : `/${newLocale}${cleanPath === '/' ? '' : cleanPath}`;
+
+    // Sin esto no se podía volver al español: vive en "/" (sin prefijo), pero
+    // visitar /en o /it deja puesta la cookie NEXT_LOCALE y el middleware
+    // redirige "/" otra vez a /en o /it. Hay que cambiar la cookie, no solo
+    // la URL.
+    document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000; samesite=lax`;
+
     router.push(newPath);
+    router.refresh();
   };
 
   return (
