@@ -45,7 +45,8 @@ function AppStoreButton({ label }: { label: string }) {
 // alguien que lee la web en inglés desmiente lo que dice el texto. La primera
 // de cada par va delante (el curso) y la segunda detrás, desplazada.
 const HERO_SHOTS: Record<string, string[]> = {
-  es: ['/screens/es-curso.webp', '/screens/es-niela-ai.webp'],
+  // En español va delante Niela AI y detrás el curso.
+  es: ['/screens/es-niela-ai.webp', '/screens/es-curso.webp'],
   it: ['/screens/it-curso.webp', '/screens/it-diario.webp'],
   en: ['/screens/en-curso.webp', '/screens/en-diario.webp'],
 }
@@ -92,11 +93,12 @@ function HeroShots({ alt, locale }: { alt: string; locale: string }) {
           src={back}
           alt={alt}
           style={{
-            position: 'absolute', inset: 0, zIndex: 0, opacity: 0.8,
-            // Se asoma hacia la IZQUIERDA: a la derecha solo hay el margen de
-            // la página y a 13 % se salía en tablet (768 px). Hacia dentro hay
-            // sitio de sobra, así que se le ve de verdad.
-            transform: 'translate(-14%, -7%) scale(0.92)',
+            position: 'absolute', inset: 0, zIndex: 0, opacity: 0.9,
+            // Se asoma arriba y a la izquierda: a la derecha solo hay el margen
+            // de la página y por ahí sacaba scroll lateral en tablet. La
+            // mayor parte de lo que enseña la gana por arriba, donde sobra
+            // sitio y no se cruza con el titular.
+            transform: 'translate(-16%, -13%) scale(0.93)',
           }}
         />
       )}
@@ -161,7 +163,9 @@ export default async function Home({ params }: Props) {
       {/* ── 1. Inicio ── */}
       <section style={{ maxWidth: 820, margin: '0 auto', padding: '72px 24px 56px' }}>
         <div className="hero-grid" style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 44, alignItems: 'center' }}>
-          <div>
+          {/* Por encima de los móviles: el de atrás se asoma hacia el texto y,
+              en pantallas estrechas, llegaba a tapar el final del titular. */}
+          <div style={{ position: 'relative', zIndex: 2 }}>
             <h1 style={{ fontSize: 42, lineHeight: 1.12, fontWeight: 400, color: TEXT, margin: '0 0 20px', letterSpacing: '-1px' }}>
               {t('hero.title')}
             </h1>
@@ -303,7 +307,9 @@ export default async function Home({ params }: Props) {
           .nav-links { display: none !important; }
           h1 { font-size: 32px !important; }
           .hero-grid { grid-template-columns: 1fr !important; gap: 36px !important; }
-          .hero-phone { width: 260px !important; justify-self: center !important; }
+          /* El móvil de atrás se asoma por arriba y, en una sola columna, se
+             metía debajo de "Disponible para iPhone". */
+          .hero-phone { width: 260px !important; justify-self: center !important; margin-top: 56px !important; }
         }
       `}</style>
     </main>
