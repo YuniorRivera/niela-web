@@ -53,9 +53,10 @@ const HERO_SHOTS: Record<string, string[]> = {
 const HERO_FALLBACK = '/traditions/zen.webp'
 
 // Marco de iPhone: bisel, esquinas redondeadas y la isla dinámica.
-function PhoneFrame({ src, alt, style }: { src: string; alt: string; style?: React.CSSProperties }) {
+function PhoneFrame({ src, alt, style, className }: { src: string; alt: string; style?: React.CSSProperties; className?: string }) {
   return (
     <div
+      className={className}
       style={{
         position: 'relative', width: '100%', aspectRatio: '9 / 19.5',
         padding: 7, borderRadius: 42, background: '#1a1d22',
@@ -82,27 +83,20 @@ function PhoneFrame({ src, alt, style }: { src: string; alt: string; style?: Rea
   )
 }
 
-// Dos capturas superpuestas: el curso delante y la segunda pantalla detrás.
+// Dos móviles superpuestos que se turnan: cada uno pasa delante unos segundos.
+// Por mucho que se desplace el de atrás, el de delante siempre le tapa media
+// pantalla; turnándose se ven las dos enteras sin robarle sitio al titular.
+// El movimiento va en CSS (sin JavaScript) y se detiene si el sistema pide
+// menos animación.
 function HeroShots({ alt, locale }: { alt: string; locale: string }) {
-  const [front, back] = HERO_SHOTS[locale] ?? HERO_SHOTS.es ?? [HERO_FALLBACK]
+  const [primera, segunda] = HERO_SHOTS[locale] ?? HERO_SHOTS.es ?? [HERO_FALLBACK]
 
   return (
-    <div className="hero-phone" style={{ position: 'relative', width: 320, justifySelf: 'end' }}>
-      {back && (
-        <PhoneFrame
-          src={back}
-          alt={alt}
-          style={{
-            position: 'absolute', inset: 0, zIndex: 0, opacity: 0.9,
-            // Se asoma arriba y a la izquierda: a la derecha solo hay el margen
-            // de la página y por ahí sacaba scroll lateral en tablet. La
-            // mayor parte de lo que enseña la gana por arriba, donde sobra
-            // sitio y no se cruza con el titular.
-            transform: 'translate(-16%, -13%) scale(0.93)',
-          }}
-        />
+    <div className="hero-phone" style={{ position: 'relative', width: 320, aspectRatio: '9 / 19.5', justifySelf: 'end' }}>
+      <PhoneFrame className="hero-shot hero-shot--a" src={primera} alt={alt} style={{ position: 'absolute', inset: 0 }} />
+      {segunda && (
+        <PhoneFrame className="hero-shot hero-shot--b" src={segunda} alt={alt} style={{ position: 'absolute', inset: 0 }} />
       )}
-      <PhoneFrame src={front} alt={alt} style={{ position: 'relative', zIndex: 1 }} />
     </div>
   )
 }
@@ -302,6 +296,26 @@ export default async function Home({ params }: Props) {
 
       {/* En móvil: una columna de tradiciones y sin navegación de anclas. */}
       <style>{`
+        /* Los dos móviles del hero se turnan: 4,5 s delante cada uno, con una
+           transición de ~0,7 s. El segundo lleva medio ciclo de retraso, así
+           que cuando uno pasa delante el otro se va atrás. */
+        .hero-shot {
+          animation: heroTurno 9s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+          will-change: transform, opacity;
+        }
+        .hero-shot--b { animation-delay: -4.5s; }
+        @keyframes heroTurno {
+          0%, 42%   { transform: none; opacity: 1; z-index: 2; }
+          50%, 92%  { transform: translate(-16%, -13%) scale(0.93); opacity: 0.9; z-index: 1; }
+          100%      { transform: none; opacity: 1; z-index: 2; }
+        }
+        /* Sin animación: el primero delante y el segundo detrás, como antes. */
+        @media (prefers-reduced-motion: reduce) {
+          .hero-shot { animation: none; }
+          .hero-shot--a { z-index: 2; }
+          .hero-shot--b { transform: translate(-16%, -13%) scale(0.93); opacity: 0.9; z-index: 1; }
+        }
+
         @media (max-width: 680px) {
           .trad-grid { grid-template-columns: 1fr !important; }
           .nav-links { display: none !important; }
