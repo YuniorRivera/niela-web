@@ -40,10 +40,15 @@ function AppStoreButton({ label }: { label: string }) {
 
 // Capturas del hero. Mientras no lleguen las de la app real se enseña la
 // ilustración del Zen dentro del móvil, no un rectángulo gris vacío.
-// Para activar las reales: poner aquí sus rutas, la lección del curso primero
-// (va delante) y Niela AI después (va detrás, desplazada).
-// Orden: la primera va delante, la segunda detrás y desplazada.
-const HERO_SHOTS: string[] = ['/screens/curso.webp', '/screens/niela-ai.webp']
+//
+// Las capturas van en el idioma de la página: enseñar la app en español a
+// alguien que lee la web en inglés desmiente lo que dice el texto. La primera
+// de cada par va delante (el curso) y la segunda detrás, desplazada.
+const HERO_SHOTS: Record<string, string[]> = {
+  es: ['/screens/es-curso.webp', '/screens/es-niela-ai.webp'],
+  it: ['/screens/it-curso.webp', '/screens/it-diario.webp'],
+  en: ['/screens/en-curso.webp', '/screens/en-diario.webp'],
+}
 const HERO_FALLBACK = '/traditions/zen.webp'
 
 // Marco de iPhone: bisel, esquinas redondeadas y la isla dinámica.
@@ -76,9 +81,9 @@ function PhoneFrame({ src, alt, style }: { src: string; alt: string; style?: Rea
   )
 }
 
-// Una captura, o dos superpuestas: la del curso delante y Niela AI detrás.
-function HeroShots({ alt }: { alt: string }) {
-  const [front, back] = HERO_SHOTS.length > 0 ? HERO_SHOTS : [HERO_FALLBACK]
+// Dos capturas superpuestas: el curso delante y la segunda pantalla detrás.
+function HeroShots({ alt, locale }: { alt: string; locale: string }) {
+  const [front, back] = HERO_SHOTS[locale] ?? HERO_SHOTS.es ?? [HERO_FALLBACK]
 
   return (
     <div className="hero-phone" style={{ position: 'relative', width: 320, justifySelf: 'end' }}>
@@ -87,10 +92,11 @@ function HeroShots({ alt }: { alt: string }) {
           src={back}
           alt={alt}
           style={{
-            position: 'absolute', inset: 0, zIndex: 0, opacity: 0.72,
-            // 8 % y no más: a 13 % el teléfono de atrás se salía del ancho de
-            // la página en tablet (768 px) y sacaba scroll lateral.
-            transform: 'translate(8%, -6%) scale(0.92)',
+            position: 'absolute', inset: 0, zIndex: 0, opacity: 0.8,
+            // Se asoma hacia la IZQUIERDA: a la derecha solo hay el margen de
+            // la página y a 13 % se salía en tablet (768 px). Hacia dentro hay
+            // sitio de sobra, así que se le ve de verdad.
+            transform: 'translate(-14%, -7%) scale(0.92)',
           }}
         />
       )}
@@ -165,7 +171,7 @@ export default async function Home({ params }: Props) {
             <AppStoreButton label={t('hero.cta')} />
             <p style={{ fontSize: 13, color: FAINT, margin: '14px 0 0' }}>{t('hero.note')}</p>
           </div>
-          <HeroShots alt={t('hero.screenshotAlt')} />
+          <HeroShots alt={t('hero.screenshotAlt')} locale={locale} />
         </div>
       </section>
 
